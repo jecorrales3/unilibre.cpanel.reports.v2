@@ -1,0 +1,64 @@
+<div class="container h-100">
+  <div class="d-flex justify-content-center h-100">
+	 <div class="user_card">
+	   <div class="d-flex justify-content-center">
+  		 <div class="brand_logo_container">
+  		   <img src="./assets/img/unilibre/unilibre.png" class="brand_logo img-fluid" alt="Logo">
+  		 </div>
+	   </div>
+	   <div class="d-flex justify-content-center form_container">
+  		 <form [formGroup]="login_form" (ngSubmit)="loginForm()">
+  		   <div class="input-group mb-3 ">
+    			 <div class="input-group-append">
+    			   <span class="input-group-text"><i class="fas fa-user"></i></span>
+    			 </div>
+  			   <input type="text" class="form-control input_user" placeholder="Usuario" formControlName="user_email"
+                  [ngClass]="{ 'border-danger': submitted_login && ri.user_email.errors,
+                               'is-invalid': submitted_login && ri.user_email.errors
+                             }">
+           <div *ngIf="submitted_login && ri.user_email.errors" class="invalid-feedback">
+              <div *ngIf="ri.user_email.errors.required">El correo electrónico para iniciar sesión es necesario</div>
+              <div *ngIf="ri.user_email.errors.email">El correo debe coincidir con una dirección de correo electrónico válida</div>
+           </div>
+  		   </div>
+
+  		   <div class="input-group mb-2">
+    			 <div class="input-group-append">
+    			   <span class="input-group-text"><i class="fas fa-key"></i></span>
+    			 </div>
+  			   <input type="password" class="form-control input_pass" placeholder="Contraseña" formControlName="user_password"
+                  [ngClass]="{ 'border-danger': submitted_login &&  ri.user_password.errors,
+                               'is-invalid': submitted_login && ri.user_password.errors
+                             }">
+            <div *ngIf="submitted_login && ri.user_password.errors" class="invalid-feedback">
+              <div *ngIf="ri.user_password.errors.required">La contraseña para iniciar sesión es necesaria</div>
+              <div *ngIf="ri.user_password.errors.minlength">La contraseña debe tener minímo 5 caracteres</div>
+              <div *ngIf="ri.user_password.errors.maxlength">La contraseña debe tener máximo 25 caracteres</div>
+           </div>
+  		   </div>
+
+  		   <div class="form-group">
+  		     <div class="custom-control custom-checkbox">
+  			    <input type="checkbox" class="custom-control-input" id="customControlInline">
+  			    <label class="custom-control-label" for="customControlInline">Recordar contraseña</label>
+  		     </div>
+  		   </div>
+    	   <div class="d-flex justify-content-center mt-3">
+      		 <button type="submit" name="button" class="btn login_btn" [disabled]="button_form" *ngIf="!button_form">Ingresar</button>
+
+           <div  class="text-center" *ngIf="button_form">
+             <div class="spinner-border text-dark" role="status">
+                <span class="sr-only">Loading...</span>
+             </div>
+           </div>
+    	   </div>
+  		 </form>
+	   </div>
+	   <div class="mt-4 mb-3">
+  		 <div class="d-flex justify-content-center links">
+  		   <a [routerLink]="['/recover-password']">¿Has olvidado tu contraseña?</a>
+  		 </div>
+	   </div>
+	 </div>
+  </div>
+</div>

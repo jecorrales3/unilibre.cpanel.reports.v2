@@ -1,0 +1,71 @@
+<aside class="sidebar shadow-sm">
+
+  <div class="sidebar-profile d-flex flex-column justify-content-center pt-5 pb-3">
+    <div class="picture-wrapper mb-4">
+      <div class="user-picture m-auto">
+        <img src="./assets/img/unilibre/unilibre.png" class="img-fluid" alt="Unilibre Pereira">
+      </div>
+    </div>
+    <div class="profile-details text-center pb-4">
+      <p class="mb-0 text-uppercase name">{{username}}</p>
+      <small class="text-uppercase role">{{usertype}}</small>
+    </div>
+  </div>
+  <div class="sidebar-search pt-1 pb-1 pl-3 pr-3">
+    <input type="search" class="form-control rounded-pill" name="search" placeholder="Search ...">
+  </div>
+  <!-- LOADING DATA -->
+  <nav class="text-center pb-3" style="padding-top:60%" *ngIf="loading">
+    <div class="spinner-border text-dark" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </nav>
+  <!-- MENU LIST -->
+  <nav class="sidebar-menu" *ngFor="let header of menu">
+    <div class="menu-header mt-3 mb-2">
+      {{header.header_list}}
+    </div>
+    <ul class="menu-items">
+      <li *ngFor="let body of header.body_list">
+        <a href="#" [routerLink]="[body.route]" routerLinkActive="active">
+          <i class="{{body.icon}}"></i>
+          <span>{{body.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <div class="pb-4"></div>
+</aside>
+
+
+<!--
+<div class="menu-header mt-3 mb-2">
+  Components
+</div>
+<ul class="menu-items">
+  <li>
+    <a href="#" routerLink="/forms" routerLinkActive="active">
+      <i class="fas fa-gem"></i>
+      <span>Forms</span>
+    </a>
+  </li>
+  <li>
+    <a href="#" routerLink="/tables" routerLinkActive="active">
+      <i class="fa fa-table"></i>
+      <span>Tables</span>
+    </a>
+  </li>
+  <li>
+    <a href="#" routerLink="/typography" routerLinkActive="active">
+      <i class="fa fa-align-center"></i>
+      <span>Typography</span>
+    </a>
+  </li>
+  <li>
+    <a href="#" routerLink="/notifications" routerLinkActive="active">
+      <i class="fas fa-bell"></i>
+      <span>Notifications</span>
+    </a>
+  </li>
+</ul>
+-->

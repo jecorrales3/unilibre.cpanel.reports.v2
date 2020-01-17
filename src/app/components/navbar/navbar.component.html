@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-md fixed-top navbar-dark flex-fill">
+  <!-- header -->
+  <div class="navbar-header pl-2 pr-2 ml-3 text-center">
+    <a class="navbar-brand m-0 w-100">
+      <!-- <i class="fa fa-flash mr-1"></i> -->
+      <span class="ml-1">UNILIBRE SIGR</span>
+    </a>
+  </div>
+  <!-- sidebar toggler -->
+  <div class="sidebar-toggler ml-auto mr-3">
+    <a class="btn nav-link" (click)="toggleSidebar()" matTooltip="Barra lateral"><i class="fa fa-bars"></i></a>
+  </div>
+  <!-- right menu toggler -->
+  <div class="nav-toggler-right mr-4 d-md-none">
+    <button class="" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
+      <img src="./assets/img/unilibre/unilibre.png" class="img-fluid linkhand" matTooltip="Opciones">
+    </button>
+  </div>
+  <!-- left box -->
+  <ul class="navbar-nav flex-fill mt-1 align-items-center left-nav">
+    <li class="nav-item navicon">
+      <a class="btn nav-link" (click)="toggleSidebarPin()" matTooltip="Barra lateral"><i class="fa fa-bars"></i></a>
+    </li>
+  </ul>
+
+  <!-- right menu -->
+  <div class="collapse navbar-collapse right-nav" id="collapseBasic" [collapse]="isCollapsed">
+    <ul class="navbar-nav mr-4">
+      <li class="nav-item">
+        <a class="btn nav-link" matTooltip="Resoluciones" [matMenuTriggerFor]="menu">
+          <i class="far fa-file-alt"></i>
+          <span class="link-text">Resoluciones</span>
+        </a>
+        <mat-menu #menu="matMenu">
+        <button mat-menu-item>Año 2020 con el consecutivo 22</button>
+      </mat-menu>
+      </li>
+      <li class="nav-item">
+        <a class="btn nav-link" [routerLink]="['profile']" matTooltip="Perfil">
+          <i class="far fa-user"></i>
+          <span class="link-text">Perfil</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="btn nav-link linkhand" [routerLink]="['logout']" matTooltip="Cerrar Sesión">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="link-text">Salir</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
