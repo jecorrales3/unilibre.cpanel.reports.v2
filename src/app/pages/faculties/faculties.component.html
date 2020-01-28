@@ -47,7 +47,11 @@
               </tr>
               <tr *ngFor="let faculty of list_faculties | async, index as id">
                 <th class="text-center" scope="row">{{id+1}}</th>
-                <td class="text-left">{{faculty.nombre_facultad}}</td>
+                <td class="text-left linkhand">
+                  <span matTooltip="{{faculty.nombre_facultad}}">
+                    {{faculty.nombre_facultad | truncate: 40}}
+                  </span>
+                </td>
                 <td class="text-center">{{faculty.siglas_facultad}}</td>
                 <td class="text-center">{{faculty.nombre_ciudad}}, {{faculty.nombre_departamento}}</td>
                 <td class="text-center">{{faculty.fecha_registro_facultad}}</td>
@@ -99,19 +103,6 @@
               <div class="form-row">
 
                 <div class="form-group col-md-12">
-                  <label>Nombre</label>
-                  <input type="text" class="form-control rounded-0" placeholder="Nombre de la facultad" formControlName="faculty_name"
-                         [ngClass]="{ 'border-danger': submitted_form && rf.faculty_name.errors,
-                                      'is-invalid': submitted_form && rf.faculty_name.errors
-                                    }">
-                  <div *ngIf="submitted_form && rf.faculty_name.errors" class="invalid-feedback">
-                     <div *ngIf="rf.faculty_name.errors.required">El nombre de la facultad es necesario</div>
-                     <div *ngIf="rf.faculty_name.errors.maxlength">El campo solo acepta 120 caracteres</div>
-                     <div *ngIf="rf.faculty_name.errors.pattern">El campo solo acepta letras</div>
-                  </div>
-                </div>
-
-                <div class="form-group col-md-12">
                   <label>Siglas</label>
                   <input type="text" class="form-control rounded-0" placeholder="Siglas de la facultad" formControlName="faculty_acronym"
                          [ngClass]="{ 'border-danger': submitted_form && rf.faculty_acronym.errors,
@@ -136,6 +127,19 @@
                   </select>
                   <div *ngIf="submitted_form && rf.faculty_city.errors" class="invalid-feedback">
                      <div *ngIf="rf.faculty_city.errors.required">La ciudad de la facultad es necesario</div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                  <label>Nombre</label>
+                  <textarea rows="4" class="form-control rounded-0" placeholder="Nombre de la facultad" formControlName="faculty_name"
+                         [ngClass]="{ 'border-danger': submitted_form && rf.faculty_name.errors,
+                                      'is-invalid': submitted_form && rf.faculty_name.errors
+                                    }"></textarea>
+                  <div *ngIf="submitted_form && rf.faculty_name.errors" class="invalid-feedback">
+                     <div *ngIf="rf.faculty_name.errors.required">El nombre de la facultad es necesario</div>
+                     <div *ngIf="rf.faculty_name.errors.maxlength">El campo solo acepta 130 caracteres</div>
+                     <div *ngIf="rf.faculty_name.errors.pattern">El campo solo acepta letras</div>
                   </div>
                 </div>
 
@@ -181,19 +185,6 @@
           <div class="form-row">
 
             <div class="form-group col-md-12">
-              <label>Nombre</label>
-              <input type="text" class="form-control rounded-0" placeholder="Nombre de la facultad" formControlName="faculty_name"
-                     [ngClass]="{ 'border-danger': updated_form && uf.faculty_name.errors,
-                                  'is-invalid': updated_form && uf.faculty_name.errors
-                                }">
-              <div *ngIf="updated_form && uf.faculty_name.errors" class="invalid-feedback">
-                 <div *ngIf="uf.faculty_name.errors.required">El nombre de la facultad es necesario</div>
-                 <div *ngIf="uf.faculty_name.errors.maxlength">El campo solo acepta 120 caracteres</div>
-                 <div *ngIf="uf.faculty_name.errors.pattern">El campo solo acepta letras</div>
-              </div>
-            </div>
-
-            <div class="form-group col-md-12">
               <label>Siglas</label>
               <input type="text" class="form-control rounded-0" placeholder="Siglas de la facultad" formControlName="faculty_acronym"
                      [ngClass]="{ 'border-danger': updated_form && uf.faculty_acronym.errors,
@@ -218,6 +209,19 @@
               </select>
               <div *ngIf="updated_form && uf.faculty_city.errors" class="invalid-feedback">
                  <div *ngIf="uf.faculty_city.errors.required">La ciudad de la facultad es necesario</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Nombre</label>
+              <textarea rows="4" class="form-control rounded-0" placeholder="Nombre de la facultad" formControlName="faculty_name"
+                     [ngClass]="{ 'border-danger': updated_form && uf.faculty_name.errors,
+                                  'is-invalid': updated_form && uf.faculty_name.errors
+                                }"></textarea>
+              <div *ngIf="updated_form && uf.faculty_name.errors" class="invalid-feedback">
+                 <div *ngIf="uf.faculty_name.errors.required">El nombre de la facultad es necesario</div>
+                 <div *ngIf="uf.faculty_name.errors.maxlength">El campo solo acepta 130 caracteres</div>
+                 <div *ngIf="uf.faculty_name.errors.pattern">El campo solo acepta letras</div>
               </div>
             </div>
 

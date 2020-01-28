@@ -15,11 +15,11 @@ import { HttpClient } from '@angular/common/http';
 ******************************************************************************
 ******************************************************************************
 */
-import { Global }      from './../interfaces/global';
-import { Cities }      from './../interfaces/cities';
-import { MemberType }  from './../interfaces/member_type';
-import { UserType }    from './../interfaces/user_type';
-import { UserState }   from './../interfaces/user_state';
+import { Cities }          from './../interfaces/cities';
+import { MemberType }      from './../interfaces/member_type';
+import { UserType }        from './../interfaces/user_type';
+import { UserState }       from './../interfaces/user_state';
+import { MemberPosition }  from './../interfaces/member_position';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +88,22 @@ export class GlobalQueriesService
     //Path
     const path = this.api_localhost + 'getUserState.php';
     return this.http.get<UserState[]>(path);
+  };
+
+  //Method return the member position (for C1 y C3)
+  public getMemberPosition()
+  {
+    //Path
+    const path = this.api_localhost + 'getMemberPosition.php';
+    return this.http.get<MemberPosition[]>(path);
+  };
+
+  //Method return the member position (for C2)
+  public getMemberPosition2()
+  {
+    //Path
+    const path = this.api_localhost + 'getMemberPosition2.php';
+    return this.http.get<MemberPosition[]>(path);
   };
 
 }

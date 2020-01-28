@@ -46,9 +46,17 @@
               </tr>
               <tr *ngFor="let program of list_programs | async, index as id">
                 <th class="text-center" scope="row">{{id+1}}</th>
-                <td class="text-left">{{program.nombre_programa_facultad}}</td>
+                <td class="text-left linkhand">
+                  <span matTooltip="{{program.nombre_programa_facultad}}">
+                    {{program.nombre_programa_facultad | truncate: 40}}
+                  </span>
+                </td>
                 <td class="text-center">{{program.fecha_registro_programa_facultad}}</td>
-                <td class="text-center">{{program.nombre_facultad}}</td>
+                <td class="text-left linkhand">
+                  <span matTooltip="{{program.nombre_facultad}}">
+                    {{program.nombre_facultad | truncate: 40}}
+                  </span>
+                </td>
                 <td class="text-center">{{program.siglas_facultad}}</td>
                 <td class="text-center">
                   <button type="button" class="btn btn-lightning rounded-0 btn-sm"   data-toggle="modal" data-target="#modalDetail" (click)="loadDetail(program)">Detalle</button>

@@ -4,14 +4,14 @@
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
-  ** @description  The PHP document generate a report (C3)                   **
+  ** @description  The PHP document generate a report (C2)                   **
   ** @author       Johan Corrales | johan-corralesa@unilibre.edu.co          **
-  ** @created      The PHP document was create on 16/01/2020                 **
+  ** @created      The PHP document was create on 27/01/2020                 **
   ** @required     db_connection.php for anothers PHP documents              **
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
-  ** @modified   - The PHP document was created on 16/01/2020                **
+  ** @modified   - The PHP document was created on 27/01/2020                **
   ** @who        - Johan Corrales | johan-corralesa@unilibre.edu.co          **
   ** @why        - Creation                                                  **
   *****************************************************************************
@@ -32,11 +32,17 @@
   session_start();
 
   //Counters
-  $counter_members = 0;
-  $counter_members = 0;
+  $counter_researchers = 0;
+  $counter_pair        = 0;
+  $counter_students    = 0;
+  $counter_members     = 0;
 
   //$_GET
   $configuration_id = $_GET['configuration_id'];
+
+  //Conector text
+  $conector_researchers = "del investigador principal Doctor";
+  $conector_students    = "participa como Auxiliar de investigación el estudiante del programa de";
 
   if(isset($configuration_id))
 	{
@@ -46,11 +52,10 @@
       $user_id         = $_SESSION['user']['id_usuario'];
       $user_faculty_id = $_SESSION['user']['id_facultad_usuario'];
 
-
       //Object UTF8
       $mysqli->set_charset('utf8');
 
-      if (validateReportC3($user_faculty_id, $configuration_id))
+      if (validateReportC2($user_faculty_id, $configuration_id))
       {
         /*
         *****************************************************************************
@@ -80,6 +85,23 @@
                                                            WHEN 12 THEN 'Diciembre'
                                                       END mes_letras_reporte,
                                                       YEAR(conf.fecha_generacion_configuracion_reporte) AS year_reporte,
+                                                      DAY(conf.fecha_sustentacion_configuracion_reporte) AS dia_sustentacion_reporte,
+                                                      CASE MONTH(conf.fecha_sustentacion_configuracion_reporte)
+                                                           WHEN 1  THEN 'Enero'
+                                                           WHEN 2  THEN 'Febrero'
+                                                           WHEN 3  THEN 'Marzo'
+                                                           WHEN 4  THEN 'Abril'
+                                                           WHEN 5  THEN 'Mayo'
+                                                           WHEN 6  THEN 'Junio'
+                                                           WHEN 7  THEN 'Julio'
+                                                           WHEN 8  THEN 'Agosto'
+                                                           WHEN 9  THEN 'Septiembre'
+                                                           WHEN 10 THEN 'Octubre'
+                                                           WHEN 11 THEN 'Noviembre'
+                                                           WHEN 12 THEN 'Diciembre'
+                                                      END mes_sustentacion_letras_reporte,
+                                                      YEAR(conf.fecha_sustentacion_configuracion_reporte) AS year_sustentacion_reporte,
+                                                      TIME_FORMAT(conf.hora_sustentacion_configuracion_reporte, '%h:%i %p') hora_sustentacion_reporte,
                                       	              conf.titulo_configuracion_reporte,
                                                       rtdo.nombre_resultado_reporte
                                                  FROM configuracion_reporte conf
@@ -103,6 +125,10 @@
           $day_report                   = $row_configuration['dia_reporte'];
           $month_report                 = $row_configuration['mes_letras_reporte'];
           $year_report                  = $row_configuration['year_reporte'];
+          $support_day_report           = $row_configuration['dia_sustentacion_reporte'];
+          $support_month_report         = $row_configuration['mes_sustentacion_letras_reporte'];
+          $support_year_report          = $row_configuration['year_sustentacion_reporte'];
+          $support_time_report          = $row_configuration['hora_sustentacion_reporte'];
           $title_report                 = $row_configuration['titulo_configuracion_reporte'];
           $format_faculty_report_report = $row_configuration['nombre_resultado_reporte'];
           $consecutive_code_report      = $row_configuration['codigo_configuracion_reporte'];
@@ -121,6 +147,15 @@
         *****************************************************************************
         *****************************************************************************
         */
+        $query_students_list = $mysqli->query("SELECT edte.nombre_estudiante_reporte,
+  	                                                  edte.apellido_estudiante_reporte,
+                                                      edte.nota_numero_estudiante_reporte,
+                                                      edte.nota_letras_estudiante_reporte
+                                                 FROM estudiante_reporte edte
+                                               WHERE edte.id_configuracion_estudiante_reporte = '$configuration_id'
+                                               ORDER BY edte.apellido_estudiante_reporte ASC
+                                               LIMIT 3");
+
         $query_students = $mysqli->query("SELECT edte.nombre_estudiante_reporte,
   	                                             edte.apellido_estudiante_reporte
                                             FROM estudiante_reporte edte
@@ -129,6 +164,15 @@
                                            LIMIT 3");
 
         $data_students = array();
+
+        //Counting rows
+        $number_students = mysqli_num_rows($query_students);
+
+        if ($number_students > 1)
+        {
+          $conector_students = "participan como Auxiliares de investigación los estudiantes del programa de";
+        }
+
 
         /*
         *****************************************************************************
@@ -161,6 +205,57 @@
         /*
         *****************************************************************************
         *****************************************************************************
+        **********************     QUERY RESEARCHERS REPORT    **********************
+        *****************************************************************************
+        *****************************************************************************
+        */
+        $query_researchers = $mysqli->query("SELECT igte.nombre_integrante_reporte,
+      	                                            igte.apellido_integrante_reporte,
+                                                    tipo.id_tipo_cargo_reporte,
+                                                    tipo.nombre_tipo_cargo_reporte
+                                               FROM integrante_reporte igte
+                                             INNER JOIN tipo_cargo_reporte tipo
+                                             ON tipo.id_tipo_cargo_reporte = igte.id_tipo_cargo_integrante_reporte
+                                             WHERE igte.id_configuracion_integrante_reporte = '$configuration_id'
+                                             AND tipo.id_tipo_cargo_reporte = '3'");
+
+        $data_researchers = array();
+
+        //Counting rows
+        $number_researchers = mysqli_num_rows($query_researchers);
+
+        if ($number_researchers > 1)
+        {
+          $conector_researchers = "de los investigadores principales Doctores";
+        }
+
+
+        /*
+        *****************************************************************************
+        *****************************************************************************
+        ************************     QUERY JURIES REPORT    ************************
+        *****************************************************************************
+        *****************************************************************************
+        */
+        $query_evaluation_pair = $mysqli->query("SELECT igte.nombre_integrante_reporte,
+  	                                                    igte.apellido_integrante_reporte,
+                                                        tipo.id_tipo_cargo_reporte,
+                                                        tipo.nombre_tipo_cargo_reporte
+                                                   FROM integrante_reporte igte
+                                                 INNER JOIN tipo_cargo_reporte tipo
+                                                 ON tipo.id_tipo_cargo_reporte = igte.id_tipo_cargo_integrante_reporte
+                                                 WHERE igte.id_configuracion_integrante_reporte = '$configuration_id'
+                                                 AND tipo.id_tipo_cargo_reporte = '4'");
+
+        $data_evaluation_pair = array();
+
+        //Counting rows
+        $number_evaluation_pair = mysqli_num_rows($query_evaluation_pair);
+
+
+        /*
+        *****************************************************************************
+        *****************************************************************************
         ************************     QUERY MEMBERS REPORT    ************************
         *****************************************************************************
         *****************************************************************************
@@ -185,15 +280,15 @@
         *****************************************************************************
         */
         $query_main_members = $mysqli->query("SELECT frpt.nombre_decano_facultad_reporte,
-  	                                            frpt.apellido_decano_facultad_reporte,
-                                                frpt.nombre_director_facultad_reporte,
-                                                frpt.apellido_director_facultad_reporte
-                                           FROM configuracion_reporte conf
-                                         INNER JOIN facultad_reporte frpt
-                                         ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
-                                         WHERE conf.id_facultad_final_configuracion_reporte = '$user_faculty_id'
-                                         AND conf.id_configuracion_reporte = '$configuration_id'
-                                         LIMIT 2");
+      	                                             frpt.apellido_decano_facultad_reporte,
+                                                     frpt.nombre_director_facultad_reporte,
+                                                     frpt.apellido_director_facultad_reporte
+                                                FROM configuracion_reporte conf
+                                              INNER JOIN facultad_reporte frpt
+                                              ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
+                                              WHERE conf.id_facultad_final_configuracion_reporte = '$user_faculty_id'
+                                              AND conf.id_configuracion_reporte = '$configuration_id'
+                                              LIMIT 2");
 
         $data_main_members = array();
 
@@ -207,7 +302,6 @@
           $director_name_report     = $row_main_member['nombre_director_facultad_reporte'];
           $director_lastname_report = $row_main_member['apellido_director_facultad_reporte'];
         }
-
 
         /*
         *****************************************************************************
@@ -249,7 +343,7 @@
         ]);
 
         //Indicamos el titulo de la pagina
-        $mpdf->SetTitle("ACTA DE APROBACIÓN - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report);
+        $mpdf->SetTitle("HOMOLOGACIÓN AUXILIAR - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report);
 
         /*
         *****************************************************************************
@@ -273,90 +367,217 @@
         */
         $html = '
         <style>
-          table, th, td {
+          table, th, td
+          {
             border-collapse: collapse;
           }
-          th, td {
-             padding: 17px;
+
+          .th, .td
+          {
+             padding: 20px;
           }
+
           .text-center
           {
             text-align: center;
           }
+
+          .text-left
+          {
+            text-align: left;
+          }
+
           .text-justify
           {
             text-align: justify;
           }
         </style>
 
-        <div style="font-family: Times New Roman; font-size: 13px; padding-top:-50px;">
+        <div style="font-family: Times New Roman; font-size: 12px; padding-top:-60px;">
           <div class="text-center">
-            <p class="text-center">
             <h4>
-              <b>' . mb_strtoupper($faculty_name_report) .  '
+              <b>
                 <p>
-                   ACTA DE APROBACIÓN DE PROYECTO No. ' . $consecutive_code_report . ' de ' . $consecutive_year_report . '
+                   ' . mb_strtoupper($faculty_name_report) .  '
                    <br>
-                   ' . mb_strtoupper($program_name_report) .  '
+                   PROGRAMA DE ' . mb_strtoupper($program_name_report) .  '
+                   <br>
+                   HOMOLOGACIÓN AUXILIAR DE INVESTIGACIÓN
+                   <br>
+                   RESOLUCIÓN ' . $consecutive_code_report . '
                    <br>
                    (' . $day_report . ' de ' . $month_report . ' de ' . $year_report . ')
                  </p>
                </b>
              </h4>
           </div>
+          <p class="text-justify" style="padding-top:-20px;">
+            <i>
+              Con base en lo establecido en el Acuerdo No. 06 del 25 de octubre de 2006, Reglamento de investigaciones en su artículo 29 numeral 5,
+              en donde señala homologar el trabajo de grado, previo el cumplimiento de las tareas e informes asignados como auxiliares por el término
+              de un año, artículo 41 el trabajo realizado por los auxiliares de investigación debe ser debidamente sustentado y aprobado ante el director
+              del Centro de Investigaciones y el investigador principal, previo concepto emitido por los pares designados y podrá aceptarse como requisito
+              de trabajo de grado.
+            </i>
+          </p>
           <p class="text-justify">
-            En la ciudad de Pereira, el día <b>' . $day_report . ' de ' . $month_report . ' de ' . $year_report . '</b>, en la Sala de Juntas de la oficina de la Dirección de Investigaciones de la
-            Universidad Libre Seccional Pereira – Sede Belmonte, se reunieron los doctores; <b>' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '</b>,
-            Director(a) del Centro de Investigaciones de la ' . $format_faculty_report . ', y el (la) doctor (a) <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . ', como Asesor (es)</b>,
+            Resuelve que, al Centro de Investigaciones de la ' . substr($format_faculty_report, 0, 87) . ', se presentó por parte ' . $conector_researchers . '
+            ';
 
-            del siguiente trabajo de investigación, con el fin de aprobar el proyecto de investigación:
+              while ($row_investigator = $query_researchers->fetch_assoc())
+              {
+                //Counter row
+                $counter_researchers++;
+                //Array
+                $data_researchers[] = $row_investigator;
+
+                if (--$number_researchers != 0)
+                {
+                  $html .=
+                  '
+                  <span>
+                    <b> ' . mb_strtoupper($row_investigator['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_investigator['apellido_integrante_reporte']) . '</b>
+                  </span>
+                  ';
+                }
+                else
+                {
+                  $conector   = (count($data_researchers) > 1) ? "y" : "";
+                  $html .=
+                  '
+                  <span>
+                     <b> ' . $conector . ' ' . mb_strtoupper($row_investigator['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_investigator['apellido_integrante_reporte']) . ',</b>
+                  </span>
+                  ';
+                }
+
+              }
+              $counter_researchers = 0;
+
+              $html .='
+              el trabajo titulado: <b>“' . mb_strtoupper($title_report) . '”</b> en el cual ' . $conector_students . '
+              <b>' . mb_strtoupper($program_name_report) .  ': </b>
+
+              ';
+
+                while ($row_student = $query_students->fetch_assoc())
+                {
+                  //Counter row
+                  $counter_students++;
+                  //Array
+                  $data_students[] = $row_student;
+
+                  $conector_comma   = (count($data_students) > 2) ? "" : ",";
+                  if (--$number_students != 0)
+                  {
+                    $html .=
+                    '
+                    <span>
+                      <b> ' . mb_strtoupper($row_student['nombre_estudiante_reporte']) . ' ' . mb_strtoupper($row_student['apellido_estudiante_reporte']) . $conector_comma . '</b>
+                    </span>
+                    ';
+                  }
+                  else
+                  {
+                    $conector   = (count($data_students) > 1) ? "y" : "";
+                    $html .=
+                    '
+                    <span>
+                       <b> ' . $conector . ' ' . mb_strtoupper($row_student['nombre_estudiante_reporte']) . ' ' . mb_strtoupper($row_student['apellido_estudiante_reporte']) . '.</b>
+                    </span>
+                    ';
+                  }
+
+                }
+                $counter_students = 0;
+
+              $html .='
+          </p>
+          <p class="text-justify">
+            El trabajo fue sometido a evaluación del par
+            ';
+
+              while ($row_evaluation_pair = $query_evaluation_pair->fetch_assoc())
+              {
+                //Counter row
+                $counter_pair++;
+                //Array
+                $data_evaluation_pair[] = $row_evaluation_pair;
+
+                if (--$number_evaluation_pair != 0)
+                {
+                  $html .=
+                  '
+                  <span>
+                    <b> ' . mb_strtoupper($row_evaluation_pair['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_evaluation_pair['apellido_integrante_reporte']) . '</b>
+                  </span>
+                  ';
+                }
+                else
+                {
+                  $conector   = (count($data_evaluation_pair) > 1) ? "y" : "";
+                  $html .=
+                  '
+                  <span>
+                     <b> ' . $conector . ' ' . mb_strtoupper($row_evaluation_pair['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_evaluation_pair['apellido_integrante_reporte']) . ',</b>
+                  </span>
+                  ';
+                }
+
+              }
+              $counter_pair = 0;
+
+              $conector_evaluation_pair = (count($data_evaluation_pair) > 1) ? "quienes emitieron el respectivo concepto <b>Favorable.</b>" : "quien emitió el respectivo concepto <b>Favorable.</b>";
+              $html .=
+              '
+                ' . $conector_evaluation_pair . '
+              ';
+
+              $html .='
+          </p>
+          <p class="text-justify">
+            El Centro de Investigaciones programó Socialización del trabajo de investigación para el día <b>' . $support_day_report . ' de ' . $support_month_report . ' de ' . $support_year_report . '</b>
+            a las <b>' . $support_time_report .  ',</b> en presencia de los investigadores principales y de (la) Director(a) del Centro de Investigaciones de la ' . substr($format_faculty_report, 0, 87) . '.
           </p>
         </div>
 
-        <div>
-         <p>
-           <b>
-             <u>NOMBRE DEL TRABAJO:</u>
-           </b>
-         </p>
-         <p class="text-justify">
-           <b>
-             ' . mb_strtoupper($title_report) . '
-           </b>
-         </p>
+        <table style="width:100%">
+          <tr>
+             <th class="text-left" style="width:60%">
+               <br>
 
-         <p>
-           <b>
-             <u>NOMBRE DE LOS ESTUDIANTES:</u>
-           </b>
-         </p>
-         <p style="line-height: 1em;"></p>
-         ';
+             </th>
+             <th class="text-left" style="width:40%">
+               <i>CONCEPTO</i>
+               <br>
+             </th>
+          </tr>
+          ';
+            while ($row_student_list = $query_students_list->fetch_assoc())
+            {
+              //Array
+              $data_students_list[] = $row_student_list;
 
-           while ($row_student = $query_students->fetch_assoc())
-           {
-             //Array
-             $data_students[]         = $row_student;
-             $html .=
-              '
-             <p style="line-height: -4em;">
-               <b>
-                 ' . mb_strtoupper($row_student['nombre_estudiante_reporte']) . ' ' . mb_strtoupper($row_student['apellido_estudiante_reporte']) . '
-               </b>
-             </p>';
-           }
+              $html .=
+               '
+               <tr>
+                  <th class="text-left" style="width:60%">
+                    <b>' . mb_strtoupper($row_student_list['nombre_estudiante_reporte']) . ' ' . mb_strtoupper($row_student_list['apellido_estudiante_reporte']) . '</b>
+                  </th>
+                  <th class="text-left" style="width:40%">
+                    <i>APROBADO</i>
+                  </th>
+               </tr>';
+            }
 
-         $html .='
-        </div>
+          $html .='
 
-        <p class="text-justify">
-          Después de terminada la reunión se dio el resultado de: <u>' . strtoupper($format_faculty_report_report)  . '</u>
-        </p>
+        </table>
+
         <p class="text-justify">
           Para constancia se firma en Pereira a los ' . $day_report . ' días del mes de ' . $month_report . ' de ' . $year_report . '.
         </p>
         <br>
-
         <div>
           <table style="width:100%">
             <tr>
@@ -373,10 +594,12 @@
                 {
                   $html .=
                   '
-                  <th class="text-center" style="width:50%">
+                  <th class="text-center th" style="width:50%">
                     ' . mb_strtoupper($row_member['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_member['apellido_integrante_reporte']) . '
                     <br>
-                    ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                    <span style="font-size: 12px;font-weight: normal;">
+                      <i>' . ucwords($row_member['nombre_tipo_cargo_reporte']) . '</i>
+                    </span>
                   </th>
                   ';
                 }
@@ -385,10 +608,12 @@
                   $html .=
                   '
                   <tr>
-                    <th class="text-center" colspan="2">
+                    <th class="text-center th" colspan="2">
                       ' . mb_strtoupper($row_member['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_member['apellido_integrante_reporte']) . '
                       <br>
-                      ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                      <span style="font-size: 12px;font-weight: normal;">
+                        <i>' . ucwords($row_member['nombre_tipo_cargo_reporte']) . '</i>
+                      </span>
                     </th>
                   </tr>
                   ';
@@ -400,8 +625,8 @@
                 $html .=
                 '
                 <tr>
-                  <th class="text-center" colspan="2">
-                    <br>
+                  <th class="text-center th" colspan="2">
+                    <br><br>
                   </th>
                 </tr>
                 ';
@@ -413,12 +638,16 @@
               <th class="text-center" style="width:50%">
                 ' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '
                 <br>
-                Decano ' . $format_faculty_report . '
+                <span style="font-size: 12px;font-weight: normal;">
+                  <i>Decano ' . $format_faculty_report . '</i>
+                </span>
               </th>
               <th class="text-center" style="width:50%">
                 ' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '
                 <br>
-                Director(a) Centro de Investigaciones
+                <span style="font-size: 12px;font-weight: normal;">
+                  <i>Director(a) Centro de Investigaciones</i>
+                </span>
               </th>
             </tr>
           </table>
@@ -460,7 +689,7 @@
         *****************************************************************************
         */
 
-        $mpdf->Output("ACTA DE APROBACIÓN - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report . ".pdf", "I");
+        $mpdf->Output("HOMOLOGACIÓN AUXILIAR - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report . ".pdf", "I");
       }
       else
       {
@@ -471,6 +700,7 @@
     {
       echo getMessageAccessError();
     }
+
 	}
   else
   {

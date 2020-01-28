@@ -5,6 +5,9 @@ import { MatStepperModule,
          MatTooltipModule,
          MatPaginatorModule,
          MatMenuModule,
+         MatDatepickerModule,
+         MatNativeDateModule,
+         MatFormFieldModule,
        } from '@angular/material';
 
 @NgModule({
@@ -14,6 +17,9 @@ import { MatStepperModule,
     MatTooltipModule,
     MatPaginatorModule,
     MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
   ],
   exports:[
     MatStepperModule,
@@ -21,6 +27,9 @@ import { MatStepperModule,
     MatTooltipModule,
     MatPaginatorModule,
     MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
   ]
 })
 

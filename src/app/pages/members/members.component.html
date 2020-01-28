@@ -51,8 +51,20 @@
                 <td class="text-center" *ngIf="member.correo_integrante == undefined">N/A</td>
                 <td class="text-center" *ngIf="member.correo_integrante != undefined">{{member.correo_integrante}}</td>
                 <td class="text-right">{{member.cedula_integrante}}</td>
-                <td class="text-center">{{member.nombre_facultad}}</td>
-                <td class="text-center">{{member.nombre_tipo_integrante}}</td>
+                <td class="text-left linkhand">
+                  <span matTooltip="{{member.nombre_facultad}}">
+                    {{member.nombre_facultad | truncate: 30}}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <i class="fas linkhand" matTooltip="{{member.nombre_tipo_integrante}}"
+                     [ngClass]="{
+                                 'fa-user-tie': member.id_tipo_integrante == 1,
+                                 'fa-book-reader': member.id_tipo_integrante == 2,
+                                 'fa-chalkboard-teacher': member.id_tipo_integrante == 3
+                                }">
+                  </i>
+                </td>
                 <td class="text-center">
                   <button type="button" class="btn btn-lightning rounded-0 btn-sm"   data-toggle="modal" data-target="#modalDetail" (click)="loadDetail(member)">Detalle</button>
                   <button type="button" class="btn btn-danger rounded-0 ml-1 btn-sm" data-toggle="modal" data-target="#modalDelete" (click)="loadDetail(member)">Eliminar</button>
@@ -260,7 +272,22 @@
               </div>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
+              <label>Tipo del Integrante</label>
+              <select class="form-control rounded-0" formControlName="member_type"
+                  [ngClass]="{ 'border-danger': updated_form && um.member_type.errors,
+                               'is-invalid': updated_form && um.member_type.errors
+                             }" >
+                <option *ngFor="let type of list_member_type" [value]="type.id_tipo_integrante">
+                  {{type.nombre_tipo_integrante}}
+                </option>
+              </select>
+              <div *ngIf="updated_form && um.member_type.errors" class="invalid-feedback">
+                <div *ngIf="um.member_type.errors.required">El tipo de integrante es necesario</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
               <label>Facultad</label>
               <select class="form-control rounded-0" formControlName="member_faculty"
                   [ngClass]="{ 'border-danger': updated_form && um.member_faculty.errors,
@@ -273,20 +300,6 @@
               </select>
               <div *ngIf="updated_form && um.member_faculty.errors" class="invalid-feedback">
                 <div *ngIf="um.member_faculty.errors.required">La facultad del integrante es necesaria</div>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label>Tipo del Integrante</label>
-              <select class="form-control rounded-0" formControlName="member_type"
-                  [ngClass]="{ 'border-danger': updated_form && um.member_type.errors,
-                               'is-invalid': updated_form && um.member_type.errors
-                             }" >
-                <option *ngFor="let type of list_member_type" [value]="type.id_tipo_integrante">
-                  {{type.nombre_tipo_integrante}}
-                </option>
-              </select>
-              <div *ngIf="updated_form && um.member_type.errors" class="invalid-feedback">
-                <div *ngIf="um.member_type.errors.required">El tipo de integrante es necesario</div>
               </div>
             </div>
 

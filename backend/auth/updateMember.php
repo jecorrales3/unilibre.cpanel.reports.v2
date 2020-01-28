@@ -30,9 +30,8 @@
   $_POST = json_decode($inputJSON, TRUE);
 
   //Check for Mandatory parameters
-  if(isset($_POST['member_id'])    && isset($_POST['member_name'])     && isset($_POST['member_lastname']) &&
-     isset($_POST['member_email']) && isset($_POST['member_document']) && isset($_POST['member_faculty'])  &&
-     isset($_POST['member_type']))
+  if(isset($_POST['member_id'])       && isset($_POST['member_name'])     && isset($_POST['member_lastname']) &&
+     isset($_POST['member_document']) && isset($_POST['member_faculty'])  && isset($_POST['member_type']))
   {
     //Object UTF8
     $mysqli->set_charset('utf8');

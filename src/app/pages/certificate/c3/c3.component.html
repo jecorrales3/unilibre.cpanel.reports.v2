@@ -1,3 +1,4 @@
+<!-- FORMULARIO ACTA DE APROBACION -->
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
   <h4 class="text-muted">Acta de Aprobación</h4>
 </div>
@@ -30,21 +31,6 @@
             </div>
 
             <div class="form-group col-md-12">
-              <label>Asesor(a) del Trabajo</label>
-              <select class="form-control rounded-0" formControlName="adviser_report"
-                  [ngClass]="{ 'border-danger': submitted_first_form && rff.adviser_report.errors,
-                               'is-invalid': submitted_first_form && rff.adviser_report.errors
-                             }" >
-                <option *ngFor="let adviser of list_advisors" [value]="adviser.id_integrante">
-                  {{adviser.nombre_integrante}} {{adviser.apellido_integrante}} | {{adviser.nombre_tipo_integrante}}
-                </option>
-              </select>
-              <div *ngIf="submitted_first_form && rff.adviser_report.errors" class="invalid-feedback">
-                <div *ngIf="rff.adviser_report.errors.required">El asesor del reporte es necesario</div>
-              </div>
-            </div>
-
-            <div class="form-group col-md-12">
               <label>Título del Trabajo</label>
               <textarea rows="4" class="form-control rounded-0" placeholder="Nombre del trabajo" formControlName="title_report"
                      [ngClass]="{ 'border-danger': submitted_first_form && rff.title_report.errors,
@@ -73,10 +59,12 @@
 
     </form>
   </mat-step>
+
+
   <mat-step [stepControl]="secondFormGroup">
 
     <form [formGroup]="secondFormGroup" (ngSubmit)="registerStudent()">
-      <ng-template matStepLabel>Datos del Estudiante</ng-template>
+      <ng-template matStepLabel>Estudiantes</ng-template>
 
       <div class="form-row">
         <div class="col-md-3"></div>
@@ -143,7 +131,7 @@
                     No se han asociado estudiantes al reporte
                   </div>
                 </div>
-                <div class="media text-muted pt-3" *ngFor="let student of report_students, index as id">
+                <div class="media text-muted pt-3" *ngFor="let student of report_students_c3, index as id">
                   <img src="./assets/img/unilibre/unilibre.png" width="32" height="32">
                   <div class="media-body pl-1 pb-3 mb-0 small lh-125 border-bottom border-gray">
                     <div class="d-flex justify-content-between align-items-center w-100">
@@ -162,6 +150,7 @@
 
               </div>
             </div>
+
           </div>
         </div>
         <div class="col-md-3"></div>
@@ -169,10 +158,11 @@
     </form>
 
   </mat-step>
+
   <mat-step>
 
-    <form [formGroup]="thirdFormGroup" (ngSubmit)="registerJury()">
-      <ng-template matStepLabel>Jurado</ng-template>
+    <form [formGroup]="thirdFormGroup" (ngSubmit)="registerMember()">
+      <ng-template matStepLabel>Integrantes</ng-template>
 
       <div class="form-row">
         <div class="col-md-3"></div>
@@ -180,17 +170,33 @@
           <div class="form-row pt-3">
 
             <div class="form-group col-md-12">
-              <label>Jurado</label>
-              <select class="form-control rounded-0" formControlName="report_jury"
-                  [ngClass]="{ 'border-danger': submitted_third_form && rjf.report_jury.errors,
-                               'is-invalid': submitted_third_form && rjf.report_jury.errors
+              <label>Integrante</label>
+              <select class="form-control rounded-0" formControlName="report_member"
+                  [ngClass]="{ 'border-danger': submitted_third_form && rmf.report_member.errors,
+                               'is-invalid': submitted_third_form && rmf.report_member.errors
                              }" >
-                <option *ngFor="let jury of list_juries" [ngValue]="jury">
-                  {{jury.nombre_integrante}} {{jury.apellido_integrante}} | {{jury.nombre_tipo_integrante}}
+                <option *ngFor="let member of list_members" [ngValue]="member">
+                  {{member.nombre_integrante}} {{member.apellido_integrante}} | {{member.nombre_tipo_integrante}}
+                </option>
+                <option *ngIf="messageListMembersForm">No se han registrado integrantes en el sistema</option>
+              </select>
+              <div *ngIf="submitted_third_form && rmf.report_member.errors" class="invalid-feedback">
+                <div *ngIf="rmf.report_member.errors.required">El integrante del reporte es necesario</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Cargo</label>
+              <select class="form-control rounded-0" formControlName="report_member_position"
+                  [ngClass]="{ 'border-danger': submitted_third_form && rmf.report_member_position.errors,
+                               'is-invalid': submitted_third_form && rmf.report_member_position.errors
+                             }" >
+                <option *ngFor="let position of list_member_position" [ngValue]="position">
+                  {{position.nombre_tipo_cargo_reporte}}
                 </option>
               </select>
-              <div *ngIf="submitted_third_form && rjf.report_jury.errors" class="invalid-feedback">
-                <div *ngIf="rjf.report_jury.errors.required">El jurado del reporte es necesario</div>
+              <div *ngIf="submitted_third_form && rmf.report_member_position.errors" class="invalid-feedback">
+                <div *ngIf="rmf.report_member_position.errors.required">El cargo del integrante del reporte es necesario</div>
               </div>
             </div>
 
@@ -208,31 +214,32 @@
 
             <div class="col-md-12">
               <div class="my-3 p-3 bg-white rounded shadow-sm">
-                <h6 class="border-bottom border-gray pb-2 mb-0">Listado de Jurados</h6>
-                <div class="pt-3" *ngIf="messageListJuries">
+                <h6 class="border-bottom border-gray pb-2 mb-0">Listado de Integrantes</h6>
+                <div class="pt-3" *ngIf="messageListMembers">
                   <div class="alert alert-info" role="alert">
-                    No se han asociado jurados al reporte
+                    No se han asociado integrantes al reporte
                   </div>
                 </div>
-                <div class="media text-muted pt-3" *ngFor="let jury of report_juries, index as id">
+                <div class="media text-muted pt-3" *ngFor="let member of report_members_c3, index as id">
                   <img src="./assets/img/unilibre/unilibre.png" width="32" height="32">
                   <div class="media-body pl-1 pb-3 mb-0 small lh-125 border-bottom border-gray">
                     <div class="d-flex justify-content-between align-items-center w-100">
-                      <strong class="text-gray-dark">{{jury.nombre_integrante}} {{jury.apellido_integrante}}</strong>
-                      <a class="btn-trash linkhand" (click)="deleteJury(id)">
+                      <strong class="text-gray-dark">{{member.nombre_integrante}} {{member.apellido_integrante}}</strong>
+                      <a class="btn-trash linkhand" (click)="deleteMember(id)">
                         Eliminar
                       </a>
                     </div>
-                    <span class="d-block">{{jury.nombre_tipo_integrante}}</span>
+                    <span class="d-block">{{member.nombre_tipo_cargo_reporte}} - {{member.nombre_tipo_integrante}}</span>
                   </div>
                 </div>
 
-                <small class="d-block text-right mt-3" *ngIf="!messageListJuries">
-                  <button type="button" class="btn btn-outline-danger rounded-0 btn-sm" (click)="removeJuries()">Cancelar</button>
+                <small class="d-block text-right mt-3" *ngIf="!messageListMembers">
+                  <button type="button" class="btn btn-outline-danger rounded-0 btn-sm" (click)="removeMembers()">Cancelar</button>
                 </small>
 
               </div>
             </div>
+
           </div>
         </div>
         <div class="col-md-3"></div>
@@ -240,6 +247,7 @@
     </form>
 
   </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Finalizar</ng-template>
     <div class="pt-3">

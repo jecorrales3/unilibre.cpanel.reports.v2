@@ -4,14 +4,14 @@
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
-  ** @description  The PHP document generate a report (C3)                   **
+  ** @description  The PHP document generate a report (C4)                   **
   ** @author       Johan Corrales | johan-corralesa@unilibre.edu.co          **
-  ** @created      The PHP document was create on 16/01/2020                 **
+  ** @created      The PHP document was create on 28/01/2020                 **
   ** @required     db_connection.php for anothers PHP documents              **
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
-  ** @modified   - The PHP document was created on 16/01/2020                **
+  ** @modified   - The PHP document was created on 28/01/2020                **
   ** @who        - Johan Corrales | johan-corralesa@unilibre.edu.co          **
   ** @why        - Creation                                                  **
   *****************************************************************************
@@ -249,7 +249,7 @@
         ]);
 
         //Indicamos el titulo de la pagina
-        $mpdf->SetTitle("ACTA DE APROBACIÓN - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report);
+        $mpdf->SetTitle("ACTA DE INICIO - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report);
 
         /*
         *****************************************************************************
@@ -260,9 +260,33 @@
         */
         // Define the Header/Footer before writing anything so they appear on the first page
         $mpdf->SetHTMLHeader('
-        <div>
-          <img src="../class/PDF/images/unilibre_header.png" class="img-fluid" style="height: 120px; width: 1170px;" alt="Responsive image">
-        </div>');
+        <table class="text-center border" style="font-family:arial;" width="100%">
+        	<tr>
+        		<td rowspan="3" width="30%">
+              <img src="../class/PDF/images/unilibre_logo.png" style="height: 95px;">
+            </td>
+        		<td rowspan="3" width="50%" class="bl br text-f19">
+              <b>
+                ACTA DE INICIO DE PROYECTOS
+                <br>
+                DE INVESTIGACIÓN
+              </b>
+            </td>
+        		<td width="30%" class="bb text-f13">
+              <b>ST-INV-02-P-02-F04</b>
+            </td>
+        	</tr>
+        	<tr>
+        		<td width="30%" class="bb text-f13">
+              <b>VERSIÓN 1</b>
+            </td>
+        	</tr>
+        	<tr>
+        		<td width="30%" class="text-f13">
+              <b>16/01/2018</b>
+            </td>
+        	</tr>
+        </table>');
 
         /*
         *****************************************************************************
@@ -273,11 +297,12 @@
         */
         $html = '
         <style>
-          table, th, td {
+          table, th, td
+          {
             border-collapse: collapse;
           }
           th, td {
-             padding: 17px;
+             padding: 5px;
           }
           .text-center
           {
@@ -287,142 +312,109 @@
           {
             text-align: justify;
           }
+
+          .text-f19
+          {
+            font-size:19px;
+          }
+
+          .text-f13
+          {
+            font-size:13px;
+          }
+
+          .border
+          {
+            border: 1px solid #141414;
+          }
+          .bl
+          {
+            border-left: 1px solid #141414;
+          }
+          .bt
+          {
+            border-top: 1px solid #141414;
+          }
+          .br
+          {
+            border-right: 1px solid #141414;
+          }
+          .bb
+          {
+            border-bottom: 1px solid #141414;
+          }
+
+          .bg-header
+          {
+            background-color: rgb(217, 217, 217);
+          }
         </style>
 
-        <div style="font-family: Times New Roman; font-size: 13px; padding-top:-50px;">
-          <div class="text-center">
-            <p class="text-center">
-            <h4>
-              <b>' . mb_strtoupper($faculty_name_report) .  '
-                <p>
-                   ACTA DE APROBACIÓN DE PROYECTO No. ' . $consecutive_code_report . ' de ' . $consecutive_year_report . '
-                   <br>
-                   ' . mb_strtoupper($program_name_report) .  '
-                   <br>
-                   (' . $day_report . ' de ' . $month_report . ' de ' . $year_report . ')
-                 </p>
-               </b>
-             </h4>
-          </div>
+        <div style="font-family: Times New Roman; font-size: 13px; padding-top:10px;">
           <p class="text-justify">
-            En la ciudad de Pereira, el día <b>' . $day_report . ' de ' . $month_report . ' de ' . $year_report . '</b>, en la Sala de Juntas de la oficina de la Dirección de Investigaciones de la
-            Universidad Libre Seccional Pereira – Sede Belmonte, se reunieron los doctores; <b>' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '</b>,
-            Director(a) del Centro de Investigaciones de la ' . $format_faculty_report . ', y el (la) doctor (a) <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . ', como Asesor (es)</b>,
-
-            del siguiente trabajo de investigación, con el fin de aprobar el proyecto de investigación:
+            <i>
+              De conformidad con lo aprobado por el Consejo Seccional de Investigación, en la reunión de fecha _____________________,
+              al proyecto de investigación Titulado “_______________________________________” y vinculado al grupo de Investigación ______________
+              por un monto de $_________________, presentado por el Investigador Principal _____________________________________ identificado con
+              el documento de identidad Nº. ___________________, adscrito a la Facultad _____________________________, de la Seccional _____________;
+              se compromete con los términos descritos a continuación:
+            </i>
           </p>
         </div>
 
-        <div>
-         <p>
-           <b>
-             <u>NOMBRE DEL TRABAJO:</u>
-           </b>
-         </p>
-         <p class="text-justify">
-           <b>
-             ' . mb_strtoupper($title_report) . '
-           </b>
-         </p>
-
-         <p>
-           <b>
-             <u>NOMBRE DE LOS ESTUDIANTES:</u>
-           </b>
-         </p>
-         <p style="line-height: 1em;"></p>
-         ';
-
-           while ($row_student = $query_students->fetch_assoc())
-           {
-             //Array
-             $data_students[]         = $row_student;
-             $html .=
-              '
-             <p style="line-height: -4em;">
-               <b>
-                 ' . mb_strtoupper($row_student['nombre_estudiante_reporte']) . ' ' . mb_strtoupper($row_student['apellido_estudiante_reporte']) . '
-               </b>
-             </p>';
-           }
-
-         $html .='
-        </div>
-
-        <p class="text-justify">
-          Después de terminada la reunión se dio el resultado de: <u>' . strtoupper($format_faculty_report_report)  . '</u>
-        </p>
-        <p class="text-justify">
-          Para constancia se firma en Pereira a los ' . $day_report . ' días del mes de ' . $month_report . ' de ' . $year_report . '.
-        </p>
+        <ul class="text-justify">
+         <li>
+           Cumplir con los objetivos generales y específicos del proyecto
+         </li>
+         <li>
+           Presentar al Centro de investigación  informes de avances Semestrales, información adicional  requerida por el centro de investigaciones de la facultad y un informe final al terminar la ejecución del proyecto, de acuerdo a los formatos establecidos, enfatizando sobre los productos académicos, los resultados y la incidencia del proyecto
+         </li>
+         <li>
+           Cumplir con las condiciones de financiamiento aprobadas en la propuesta de investigación
+         </li>
+         <li>
+           Fecha de finalización del proyecto: ____________________
+         </li>
+         <li>
+           Fecha de informe (es) parcial (es)  y final del proyecto:
+         </li>
+        </ul>
         <br>
-
-        <div>
-          <table style="width:100%">
-            <tr>
-            ';
-
-              while ($row_member = $query_members->fetch_assoc())
-              {
-                //Counter row
-                $counter_members++;
-                //Array
-                $data_members[] = $row_member;
-
-                if ($counter_members <= 2)
-                {
-                  $html .=
-                  '
-                  <th class="text-center" style="width:50%">
-                    ' . mb_strtoupper($row_member['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_member['apellido_integrante_reporte']) . '
-                    <br>
-                    ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
-                  </th>
-                  ';
-                }
-                else
-                {
-                  $html .=
-                  '
-                  <tr>
-                    <th class="text-center" colspan="2">
-                      ' . mb_strtoupper($row_member['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_member['apellido_integrante_reporte']) . '
-                      <br>
-                      ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
-                    </th>
-                  </tr>
-                  ';
-                }
-              }
-
-              if (count($data_members) == 2)
-              {
-                $html .=
-                '
-                <tr>
-                  <th class="text-center" colspan="2">
-                    <br>
-                  </th>
-                </tr>
-                ';
-              }
-
-            $html .='
-            </tr>
-            <tr>
-              <th class="text-center" style="width:50%">
-                ' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '
-                <br>
-                Decano ' . $format_faculty_report . '
-              </th>
-              <th class="text-center" style="width:50%">
-                ' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '
-                <br>
-                Director(a) Centro de Investigaciones
-              </th>
-            </tr>
-          </table>
-        </div>';
+        <table class="text-center" align="center" width="55%">
+          <tr>
+            <th class="border bg-header" width="50%">Informes de Avance</th>
+            <th class="border bg-header" width="50%">Fecha de Entrega</th>
+          </tr>
+          <tr>
+            <td class="border">  I Informe de Avance</td>
+            <td class="border"></td>
+          </tr>
+          <tr>
+            <td class="border">  II Informe de Avance</td>
+            <td class="border"></td>
+          </tr>
+          <tr>
+            <td class="border"> III Informe de Avance</td>
+            <td class="border"></td>
+          </tr>
+          <tr>
+            <td class="border">Informe Final</td>
+            <td class="border"></td>
+          </tr>
+        </table>
+        <br>
+        <ul class="text-justify">
+         <li>
+           Una vez proporcionados los resultados del proyecto de investigación a la Universidad Libre, esta decidirá sobre la conveniencia de solicitar la protección legal sobre los derechos patrimoniales a los que haya lugar.
+         </li>
+         <li>
+           Cumplir con la reglamentación interna y la legislación vigente relacionada con propiedad intelectual y demás normas complementarias que regulen esta materia.
+         </li>
+         <li>
+           Cumplir con los resultados y compromisos relacionados.
+         </li>
+        </ul>
+        ';
 
         /*
         *****************************************************************************
@@ -460,7 +452,7 @@
         *****************************************************************************
         */
 
-        $mpdf->Output("ACTA DE APROBACIÓN - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report . ".pdf", "I");
+        $mpdf->Output("ACTA DE INICIO - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report . ".pdf", "I");
       }
       else
       {

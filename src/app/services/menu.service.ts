@@ -177,14 +177,19 @@ export class MenuService
       route: '../certificate/c3',
     },
     {
-      name: 'Paz y Salvo',
-      icon: 'fas fa-file-signature',
+      name: 'Acta de Inicio',
+      icon: 'fas fa-file-alt',
       route: '../certificate/c4',
     },
     {
-      name: 'Acta de Inicio',
-      icon: 'fas fa-file-alt',
+      name: 'Paz y Salvo',
+      icon: 'fas fa-file-signature',
       route: '../certificate/c5',
+    },
+    {
+      name: 'Designar Asesor (pending)',
+      icon: 'fas fa-paste',
+      route: '../certificate/c6',
     },
   ];
   /*

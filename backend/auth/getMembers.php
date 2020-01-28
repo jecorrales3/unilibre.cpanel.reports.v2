@@ -44,8 +44,9 @@
                                    ON fctd.id_facultad = itgt.id_facultad_integrante
                                    WHERE itgt.id_funcionalidad_integrante = '1'
                                    ORDER BY fctd.nombre_facultad ASC,
-                                            itgt.nombre_integrante ASC,
-                                            itgt.apellido_integrante ASC");
+                                            tint.id_tipo_integrante ASC,
+                                            itgt.apellido_integrante ASC,                                   
+                                            itgt.nombre_integrante ASC");
     $data = array();
     while ($row = $queryResult->fetch_assoc())
     {

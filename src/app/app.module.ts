@@ -4,6 +4,8 @@ import { NgModule }                         from '@angular/core';
 import { CommonModule }                     from '@angular/common';
 import { HttpClientModule }                 from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+//Importacion de pipes
+import { TruncatePipe }                     from './pipes/truncate.pipe';
 //Bootstrap design
 import { BrowserAnimationsModule }          from '@angular/platform-browser/animations';
 import { CollapseModule }                   from 'ngx-bootstrap/collapse';
@@ -62,6 +64,8 @@ import { HistoryReportsComponent }          from './pages/history-reports/histor
     TypographyComponent,
     MapsComponent,
     NotificationsComponent,
+    //Declaracion de Pipes
+    TruncatePipe,
     //Pages
     DashboardComponent,
     LoginComponent,

@@ -1,0 +1,209 @@
+<!-- FORMULARIO HOMOLOGACION AUXILIAR -->
+
+<div class="formulario-homologacion-auxiliar" *ngIf="form_2">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-1 mb-1">
+    <h4 class="text-muted"><strong>HOMOLOGACIÓN AUXILIAR</strong></h4>
+  </div>
+  <mat-horizontal-stepper class="p-5" [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <ng-template matStepLabel>Configuración</ng-template>
+
+      <div class="form-row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="form-row pt-3">
+
+             <div class="form-group col-md-12">
+              <label>Facultad</label>
+              <select class="form-control rounded-0">
+                <option>
+                  Facultad de ingeniería
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Programa</label>
+              <select class="form-control rounded-0">
+                <option>
+                  Ingeniería de Sistemas
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Nombre del proyecto</label>
+              <input type="text" class="form-control rounded-0" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre del proyecto">
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-lightning rounded-0 mb-2 mr-2">Guardar</button>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <ng-template matStepLabel>Datos del Estudiante</ng-template>
+
+      <div class="form-row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="form-row pt-3">
+
+            <div class="form-group col-md-6">
+              <label>Nombre</label>
+              <input type="text" class="form-control rounded-0" id="exampleInputEmail1" placeholder="Nombre del estudiante">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Apellido</label>
+              <input type="text" class="form-control rounded-0" id="exampleInputEmail1" placeholder="Apellido del estudiante">
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-lightning rounded-0 mb-2 mr-2">Agregar</button>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Juan Diego Castaño Franco
+                  <span class="badge badge-primary badge-pill">1088025076</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Johan Esteban Corrales Aguirre
+                  <span class="badge badge-primary badge-pill">1088025076</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Evaluador</ng-template>
+
+      <div class="form-row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="form-row pt-3">
+
+            <div class="form-group col-md-12">
+              <label>Evaluador(es)</label>
+              <select class="form-control rounded-0">
+                <option>
+                  Luz Andrea Parra
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-lightning rounded-0 mb-2 mr-2">Agregar</button>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Juan Diego Castaño Franco
+                  <span class="badge badge-primary badge-pill">1088025076</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Johan Esteban Corrales Aguirre
+                  <span class="badge badge-primary badge-pill">1088025076</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-3"></div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Investigador</ng-template>
+
+      <div class="form-row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="form-row pt-3">
+
+            <div class="form-group col-md-12">
+              <label>Investigador(es) principal(es)</label>
+              <select class="form-control rounded-0">
+                <option>
+                  Luz Andrea Parra
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-lightning rounded-0 mb-2 mr-2">Agregar</button>
+            </div>
+
+
+
+            <div class="col-md-12">
+
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Juan Diego Castaño Franco
+                  <span class="badge badge-primary badge-pill">1088025076</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Johan Esteban Corrales Aguirre
+                  <span class="badge badge-primary badge-pill">1088025076</span>
+                </li>
+              </ul>
+            </div>
+
+             <div class="col-md-12">
+              <hr>
+            </div>
+
+          </div>
+        </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary rounded-0 mb-2 mr-2">Finalizar</button>
+            </div>
+
+        <div class="col-md-3"></div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

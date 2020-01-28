@@ -124,14 +124,14 @@ export class FacultiesComponent implements OnInit, OnDestroy
 
     //Form builder group (Register)
     this.faculty_form = this.formBuilder.group({
-            faculty_name:     ['',  [Validators.required, Validators.maxLength(120), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
+            faculty_name:     ['',  [Validators.required, Validators.maxLength(130), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ,. ]+$')]],
             faculty_acronym:  ['',  [Validators.required, Validators.maxLength(10),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
             faculty_city:     ['1', [Validators.required]]
     });
 
     //Form builder group (Update)
     this.update_faculty_form = this.formBuilder.group({
-            faculty_name:     ['',  [Validators.required, Validators.maxLength(120), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
+            faculty_name:     ['',  [Validators.required, Validators.maxLength(130), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ,. ]+$')]],
             faculty_acronym:  ['',  [Validators.required, Validators.maxLength(10),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
             faculty_city:     [{value: '', disabled: true}]
     });

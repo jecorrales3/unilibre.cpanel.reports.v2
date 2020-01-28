@@ -45,7 +45,7 @@
     echo "City: " . $faculty_city;
     */
 
-    //Query to register new user
+    //Query to register new faculty
     $insertQuery  = "INSERT INTO `facultad`(`id_facultad`, `nombre_facultad`, `siglas_facultad`,
                                             `fecha_registro_facultad`, `id_ciudad_facultad`, `id_funcionalidad_facultad`)
                      VALUES (NULL, ?, ?, CURDATE(), ?, '1')";
