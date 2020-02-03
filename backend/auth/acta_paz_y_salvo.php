@@ -107,6 +107,15 @@
   */
   $mpdf->WriteHTML($html);
 
+
+  $mpdf->AddPageByArray(array(
+    'setAutoTopMargin' => 'stretch',
+    'autoMarginPadding' => 5,
+    'setAutoBottomMargin' => 'stretch',
+    'autoMarginPadding' => 7
+  ));
+  $mpdf->WriteHTML($html);
+
   /*
   *****************************************************************************
   *****************************************************************************

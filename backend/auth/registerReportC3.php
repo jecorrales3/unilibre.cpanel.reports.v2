@@ -43,13 +43,16 @@
     $title_report = $_POST['report_settings_c3'][0]['titulo_reporte'];
 
     //Get the final values
-    $program_name      = getProgramData($program_id);
+    $program_data      = getProgramData($program_id);
     $state_consecutive = validateConsecutiveC3($user_faculty_id);
-    $data_consecutive  = getConsecutiveDataC3($user_faculty_id);
+    $consecutive_data  = getConsecutiveDataC3($user_faculty_id);
 
     //Consecutive array
-    $consecutive_id      = $data_consecutive['consecutive_id'];
-    $current_consecutive = $data_consecutive['current_consecutive'];
+    $consecutive_id      = $consecutive_data['consecutive_id'];
+    $current_consecutive = $consecutive_data['current_consecutive'];
+
+    //Program array
+    $program_name      = $program_data['program_name'];
 
     //Counter
     $count = 0;
@@ -175,8 +178,9 @@
           $insertQueryConfiguration  = "INSERT INTO `configuracion_reporte`
                                                    (`id_configuracion_reporte`, `titulo_configuracion_reporte`, `fecha_generacion_configuracion_reporte`,
                                                     `id_facultad_configuracion_reporte`, `id_resultado_configuracion_reporte`, `id_usuario_configuracion_reporte`,
-                                                    `id_funcionalidad_configuracion_reporte`, `id_consecutivo_configuracion_reporte`, `id_facultad_final_configuracion_reporte`)
-                                        VALUES (NULL, ?, CURDATE(), ?, '1', ?, '1', ?, ?)";
+                                                    `id_funcionalidad_configuracion_reporte`, `id_consecutivo_configuracion_reporte`, `id_facultad_final_configuracion_reporte`,
+                                                    `id_tipo_reporte_configuracion_reporte`)
+                                        VALUES (NULL, ?, CURDATE(), ?, '1', ?, '1', ?, ?, '3')";
           //Prepared query
           $inserted_configuration = $mysqli->prepare($insertQueryConfiguration);
           //Parameters

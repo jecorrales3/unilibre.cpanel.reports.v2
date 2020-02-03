@@ -6,12 +6,12 @@
   *****************************************************************************
   ** @description  The PHP document generate a report (C4)                   **
   ** @author       Johan Corrales | johan-corralesa@unilibre.edu.co          **
-  ** @created      The PHP document was create on 28/01/2020                 **
+  ** @created      The PHP document was create on 31/01/2020                 **
   ** @required     db_connection.php for anothers PHP documents              **
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
-  ** @modified   - The PHP document was created on 28/01/2020                **
+  ** @modified   - The PHP document was created on 31/01/2020                **
   ** @who        - Johan Corrales | johan-corralesa@unilibre.edu.co          **
   ** @why        - Creation                                                  **
   *****************************************************************************
@@ -50,7 +50,7 @@
       //Object UTF8
       $mysqli->set_charset('utf8');
 
-      if (validateReportC3($user_faculty_id, $configuration_id))
+      if (validateReportC4($user_faculty_id, $configuration_id))
       {
         /*
         *****************************************************************************
@@ -62,8 +62,7 @@
         $query_configuration = $mysqli->query("SELECT frpt.nombre_facultad_reporte,
                                       	              conf.codigo_configuracion_reporte,
                                                       ctvo.year_consecutivo_reporte,
-                                                      frpt.nombre_programa_facultad_reporte,
-                                                      conf.fecha_generacion_configuracion_reporte,
+                                                      DATE_FORMAT(conf.fecha_generacion_configuracion_reporte, '%d/%m/%Y') AS fecha_generacion_configuracion_reporte,
                                                       DAY(conf.fecha_generacion_configuracion_reporte) AS dia_reporte,
                                                       CASE MONTH(conf.fecha_generacion_configuracion_reporte)
                                                            WHEN 1  THEN 'Enero'
@@ -81,7 +80,11 @@
                                                       END mes_letras_reporte,
                                                       YEAR(conf.fecha_generacion_configuracion_reporte) AS year_reporte,
                                       	              conf.titulo_configuracion_reporte,
-                                                      rtdo.nombre_resultado_reporte
+                                                      DATE_FORMAT(conf.fecha_sustentacion_configuracion_reporte, '%d/%m/%Y') AS fecha_sustentacion_configuracion_reporte,
+                                                      DATE_FORMAT(conf.fecha_iniciacion_configuracion_reporte, '%d/%m/%Y') AS fecha_iniciacion_configuracion_reporte,
+                                                      DATE_FORMAT(conf.fecha_finalizacion_configuracion_reporte, '%d/%m/%Y') AS fecha_finalizacion_configuracion_reporte,
+                                                      conf.presupuesto_configuracion_reporte,
+                                                      conf.nombre_grupo_investigacion_configuracion_reporte
                                                  FROM configuracion_reporte conf
                                                INNER JOIN facultad_reporte frpt
                                                ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -97,15 +100,20 @@
         {
           $data_configuration[]         = $row_configuration;
           $faculty_name_report          = $row_configuration['nombre_facultad_reporte'];
+          $consecutive_code_report      = $row_configuration['codigo_configuracion_reporte'];
           $consecutive_year_report      = $row_configuration['year_consecutivo_reporte'];
-          $program_name_report          = $row_configuration['nombre_programa_facultad_reporte'];
           $date_report                  = $row_configuration['fecha_generacion_configuracion_reporte'];
           $day_report                   = $row_configuration['dia_reporte'];
           $month_report                 = $row_configuration['mes_letras_reporte'];
           $year_report                  = $row_configuration['year_reporte'];
           $title_report                 = $row_configuration['titulo_configuracion_reporte'];
-          $format_faculty_report_report = $row_configuration['nombre_resultado_reporte'];
-          $consecutive_code_report      = $row_configuration['codigo_configuracion_reporte'];
+
+          $date_support_report          = $row_configuration['fecha_sustentacion_configuracion_reporte'];
+          $initial_date_report          = $row_configuration['fecha_iniciacion_configuracion_reporte'];
+          $final_date_report            = $row_configuration['fecha_finalizacion_configuracion_reporte'];
+          $budget_report                = $row_configuration['presupuesto_configuracion_reporte'];
+          $investigation_group_report   = $row_configuration['nombre_grupo_investigacion_configuracion_reporte'];
+
 
           //Format value
           if ($consecutive_code_report <= 9)
@@ -114,21 +122,6 @@
           }
         }
 
-        /*
-        *****************************************************************************
-        *****************************************************************************
-        **********************     QUERY STUDENTS REPORT      ***********************
-        *****************************************************************************
-        *****************************************************************************
-        */
-        $query_students = $mysqli->query("SELECT edte.nombre_estudiante_reporte,
-  	                                             edte.apellido_estudiante_reporte
-                                            FROM estudiante_reporte edte
-                                           WHERE edte.id_configuracion_estudiante_reporte = '$configuration_id'
-                                           ORDER BY edte.apellido_estudiante_reporte ASC
-                                           LIMIT 3");
-
-        $data_students = array();
 
         /*
         *****************************************************************************
@@ -137,24 +130,26 @@
         *****************************************************************************
         *****************************************************************************
         */
-        $query_advisors = $mysqli->query("SELECT igte.nombre_integrante_reporte,
-  	                                             igte.apellido_integrante_reporte
+        $query_investigator = $mysqli->query("SELECT igte.nombre_integrante_reporte,
+  	                                                 igte.apellido_integrante_reporte,
+                                                     igte.cedula_integrante_reporte
                                             FROM integrante_reporte igte
                                           INNER JOIN tipo_cargo_reporte tipo
                                           ON tipo.id_tipo_cargo_reporte = igte.id_tipo_cargo_integrante_reporte
                                           WHERE igte.id_configuracion_integrante_reporte = '$configuration_id'
-                                          AND tipo.id_tipo_cargo_reporte = '1'
+                                          AND tipo.id_tipo_cargo_reporte = '3'
                                           LIMIT 1");
 
-        $data_advisors = array();
+        $data_investigator = array();
 
-        while ($row_adviser = $query_advisors->fetch_assoc())
+        while ($row_investigator = $query_investigator->fetch_assoc())
         {
           //Array
-          $data_advisors[]  = $row_adviser;
+          $data_investigator[]  = $row_investigator;
           //Query rows
-          $adviser_name     = $row_adviser['nombre_integrante_reporte'];
-          $adviser_lastname = $row_adviser['apellido_integrante_reporte'];
+          $investigator_name     = $row_investigator['nombre_integrante_reporte'];
+          $investigator_lastname = $row_investigator['apellido_integrante_reporte'];
+          $investigator_document = $row_investigator['cedula_integrante_reporte'];
         }
 
 
@@ -283,7 +278,7 @@
         	</tr>
         	<tr>
         		<td width="30%" class="text-f13">
-              <b>16/01/2018</b>
+              <b>' . $date_report . '</b>
             </td>
         	</tr>
         </table>');
@@ -313,14 +308,19 @@
             text-align: justify;
           }
 
-          .text-f19
-          {
-            font-size:19px;
-          }
-
           .text-f13
           {
             font-size:13px;
+          }
+
+          .text-f14
+          {
+            font-size:14px;
+          }
+
+          .text-f19
+          {
+            font-size:19px;
           }
 
           .border
@@ -350,71 +350,91 @@
           }
         </style>
 
-        <div style="font-family: Times New Roman; font-size: 13px; padding-top:10px;">
+        <div class="text-f14" style="font-family: Times New Roman; padding-top:10px;">
           <p class="text-justify">
             <i>
-              De conformidad con lo aprobado por el Consejo Seccional de Investigación, en la reunión de fecha _____________________,
-              al proyecto de investigación Titulado “_______________________________________” y vinculado al grupo de Investigación ______________
-              por un monto de $_________________, presentado por el Investigador Principal _____________________________________ identificado con
-              el documento de identidad Nº. ___________________, adscrito a la Facultad _____________________________, de la Seccional _____________;
+              De conformidad con lo aprobado por el Consejo Seccional de Investigación, en la reunión de fecha <b>' . $date_support_report . '</b>,
+              al proyecto de investigación Titulado <b>“' . mb_strtoupper($title_report) . '”</b> y vinculado al grupo de Investigación <b>' . mb_strtoupper($investigation_group_report) . '</b>
+              por un monto de <b>$' . number_format($budget_report) . '</b>, presentado por el (la) Investigador(a) Principal <b>' . mb_strtoupper($investigator_name) . ' ' . mb_strtoupper($investigator_lastname) . '</b> identificado(a) con
+              el documento de identidad Nº. <b>' . number_format($investigator_document, 0, '.', '.') . '</b>, adscrito a la Facultad ' . substr($format_faculty_report, 0, 61) . ', de la Seccional Pereira;
               se compromete con los términos descritos a continuación:
             </i>
           </p>
         </div>
 
-        <ul class="text-justify">
-         <li>
-           Cumplir con los objetivos generales y específicos del proyecto
-         </li>
-         <li>
-           Presentar al Centro de investigación  informes de avances Semestrales, información adicional  requerida por el centro de investigaciones de la facultad y un informe final al terminar la ejecución del proyecto, de acuerdo a los formatos establecidos, enfatizando sobre los productos académicos, los resultados y la incidencia del proyecto
-         </li>
-         <li>
-           Cumplir con las condiciones de financiamiento aprobadas en la propuesta de investigación
-         </li>
-         <li>
-           Fecha de finalización del proyecto: ____________________
-         </li>
-         <li>
-           Fecha de informe (es) parcial (es)  y final del proyecto:
-         </li>
-        </ul>
-        <br>
-        <table class="text-center" align="center" width="55%">
-          <tr>
-            <th class="border bg-header" width="50%">Informes de Avance</th>
-            <th class="border bg-header" width="50%">Fecha de Entrega</th>
-          </tr>
-          <tr>
-            <td class="border">  I Informe de Avance</td>
-            <td class="border"></td>
-          </tr>
-          <tr>
-            <td class="border">  II Informe de Avance</td>
-            <td class="border"></td>
-          </tr>
-          <tr>
-            <td class="border"> III Informe de Avance</td>
-            <td class="border"></td>
-          </tr>
-          <tr>
-            <td class="border">Informe Final</td>
-            <td class="border"></td>
-          </tr>
-        </table>
-        <br>
-        <ul class="text-justify">
-         <li>
-           Una vez proporcionados los resultados del proyecto de investigación a la Universidad Libre, esta decidirá sobre la conveniencia de solicitar la protección legal sobre los derechos patrimoniales a los que haya lugar.
-         </li>
-         <li>
-           Cumplir con la reglamentación interna y la legislación vigente relacionada con propiedad intelectual y demás normas complementarias que regulen esta materia.
-         </li>
-         <li>
-           Cumplir con los resultados y compromisos relacionados.
-         </li>
-        </ul>
-        ';
+        <div class="text-f14">
+          <ul class="text-justify">
+           <li>
+             Cumplir con los objetivos generales y específicos del proyecto
+           </li>
+           <li>
+             Presentar al <i>Centro de investigación</i>  informes de avances Semestrales, información adicional  requerida por el centro de investigaciones de la facultad y un informe final al terminar la ejecución del proyecto, de acuerdo a los formatos establecidos, enfatizando sobre los productos académicos, los resultados y la incidencia del proyecto
+           </li>
+           <li>
+             Cumplir con las condiciones de financiamiento aprobadas en la propuesta de investigación
+           </li>
+           <li>
+             Fecha de iniciación del proyecto:   <b>' . $initial_date_report . '</b>
+           </li>
+           <li>
+             Fecha de finalización del proyecto: <b>' . $final_date_report . '</b>
+           </li>
+           <li>
+             Fecha de informe (es) parcial (es)  y final del proyecto:
+           </li>
+          </ul>
+          <br>
+          <table class="text-center" align="center" width="55%">
+            <tr>
+              <th class="border bg-header" width="50%">Informes de Avance</th>
+              <th class="border bg-header" width="50%">Fecha de Entrega</th>
+            </tr>
+            <tr>
+              <td class="border">  I Informe de Avance</td>
+              <td class="border"></td>
+            </tr>
+            <tr>
+              <td class="border">  II Informe de Avance</td>
+              <td class="border"></td>
+            </tr>
+            <tr>
+              <td class="border"> III Informe de Avance</td>
+              <td class="border"></td>
+            </tr>
+            <tr>
+              <td class="border">Informe Final</td>
+              <td class="border"></td>
+            </tr>
+          </table>
+          <br>
+          <ul class="text-justify">
+           <li>
+             Una vez proporcionados los resultados del proyecto de investigación a la Universidad Libre, esta decidirá sobre la conveniencia de solicitar la protección legal sobre los derechos patrimoniales a los que haya lugar.
+           </li>
+           <li>
+             Cumplir con la reglamentación interna y la legislación vigente relacionada con propiedad intelectual y demás normas complementarias que regulen esta materia.
+           </li>
+           <li>
+             Cumplir con los resultados y compromisos relacionados.
+           </li>
+          </ul>
+          <br>
+          <br>
+          <table style="width:100%">
+            <tr>
+              <th class="text-center" style="width:50%">
+                ______________________________________
+                <br>
+                Investigador Principal
+              </th>
+              <th class="text-center" style="width:50%">
+                ______________________________________
+                <br>
+                Dir. Centro de Investigación Facultad
+              </th>
+            </tr>
+          </table>
+        </div>';
 
         /*
         *****************************************************************************

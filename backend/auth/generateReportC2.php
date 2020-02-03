@@ -102,8 +102,7 @@
                                                       END mes_sustentacion_letras_reporte,
                                                       YEAR(conf.fecha_sustentacion_configuracion_reporte) AS year_sustentacion_reporte,
                                                       TIME_FORMAT(conf.hora_sustentacion_configuracion_reporte, '%h:%i %p') hora_sustentacion_reporte,
-                                      	              conf.titulo_configuracion_reporte,
-                                                      rtdo.nombre_resultado_reporte
+                                      	              conf.titulo_configuracion_reporte
                                                  FROM configuracion_reporte conf
                                                INNER JOIN facultad_reporte frpt
                                                ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -130,7 +129,6 @@
           $support_year_report          = $row_configuration['year_sustentacion_reporte'];
           $support_time_report          = $row_configuration['hora_sustentacion_reporte'];
           $title_report                 = $row_configuration['titulo_configuracion_reporte'];
-          $format_faculty_report_report = $row_configuration['nombre_resultado_reporte'];
           $consecutive_code_report      = $row_configuration['codigo_configuracion_reporte'];
 
           //Format value
@@ -421,7 +419,7 @@
             </i>
           </p>
           <p class="text-justify">
-            Resuelve que, al Centro de Investigaciones de la ' . substr($format_faculty_report, 0, 87) . ', se presentó por parte ' . $conector_researchers . '
+            Resuelve que, al Centro de Investigaciones de la ' . substr($format_faculty_report, 0, 61) . ', se presentó por parte ' . $conector_researchers . '
             ';
 
               while ($row_investigator = $query_researchers->fetch_assoc())

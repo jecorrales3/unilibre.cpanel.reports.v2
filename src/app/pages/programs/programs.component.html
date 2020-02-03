@@ -114,6 +114,19 @@
                 </div>
 
                 <div class="form-group col-md-12">
+                  <label>Título</label>
+                  <input type="text" class="form-control rounded-0" placeholder="Título del programa" formControlName="program_title_name"
+                         [ngClass]="{ 'border-danger': submitted_form && rp.program_title_name.errors,
+                                      'is-invalid': submitted_form && rp.program_title_name.errors
+                                    }">
+                  <div *ngIf="submitted_form && rp.program_title_name.errors" class="invalid-feedback">
+                     <div *ngIf="rp.program_title_name.errors.required">El título del programa es necesario</div>
+                     <div *ngIf="rp.program_title_name.errors.maxlength">El campo sólo acepta 120 caracteres</div>
+                     <div *ngIf="rp.program_title_name.errors.pattern">El campo sólo acepta letras</div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-12">
                   <label>Facultad</label>
                   <select class="form-control rounded-0" formControlName="program_faculty"
                       [ngClass]="{ 'border-danger': submitted_form && rp.program_faculty.errors,
@@ -180,6 +193,19 @@
                  <div *ngIf="up.program_name.errors.required">El nombre del programa es necesario</div>
                  <div *ngIf="up.program_name.errors.maxlength">El campo sólo acepta 120 caracteres</div>
                  <div *ngIf="up.program_name.errors.pattern">El campo sólo acepta letras</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Título</label>
+              <input type="text" class="form-control rounded-0" placeholder="Título del programa" formControlName="program_title_name"
+                     [ngClass]="{ 'border-danger': updated_form && up.program_title_name.errors,
+                                  'is-invalid': updated_form && up.program_title_name.errors
+                                }">
+              <div *ngIf="updated_form && up.program_title_name.errors" class="invalid-feedback">
+                 <div *ngIf="up.program_title_name.errors.required">El título del programa es necesario</div>
+                 <div *ngIf="up.program_title_name.errors.maxlength">El campo sólo acepta 120 caracteres</div>
+                 <div *ngIf="up.program_title_name.errors.pattern">El campo sólo acepta letras</div>
               </div>
             </div>
 

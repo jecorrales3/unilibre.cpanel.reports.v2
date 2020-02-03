@@ -525,7 +525,6 @@ export class C1Component implements OnInit
     //Get values
     let report_settings_c1 = JSON.parse(localStorage.getItem("report_settings_c1"));
     let report_students_c1 = JSON.parse(localStorage.getItem("report_students_c1"));
-    let report_juries_c1   = JSON.parse(localStorage.getItem("report_juries_c1"));
     let report_members_c1  = JSON.parse(localStorage.getItem("report_members_c1"));
 
     this._controlService.registerReportC1(report_settings_c1, report_students_c1, report_members_c1)

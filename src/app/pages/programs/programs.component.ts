@@ -63,6 +63,7 @@ export class ProgramsComponent implements OnInit, OnDestroy
   //Detail data
   detail_program_id:number;
   detail_program_name:string;
+  detail_program_title_name:string;
   detail_program_faculty:number;
 
   //Message
@@ -122,14 +123,16 @@ export class ProgramsComponent implements OnInit, OnDestroy
 
     //Form builder group (Register)
     this.program_form = this.formBuilder.group({
-            program_name:     ['',  [Validators.required, Validators.maxLength(120), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
-            program_faculty:  ['',  [Validators.required]]
+            program_name:       ['',  [Validators.required, Validators.maxLength(120), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
+            program_title_name: ['',  [Validators.required, Validators.maxLength(120), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
+            program_faculty:    ['',  [Validators.required]]
     });
 
     //Form builder group (Update)
     this.update_program_form = this.formBuilder.group({
-            program_name:     ['',  [Validators.required, Validators.maxLength(120), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
-            program_faculty:  ['',  [Validators.required]]
+            program_name:       ['',  [Validators.required, Validators.maxLength(120), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
+            program_title_name: ['',  [Validators.required, Validators.maxLength(120), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
+            program_faculty:    ['',  [Validators.required]]
     });
 
     this.changeDetectorRef.detectChanges();
@@ -194,7 +197,7 @@ export class ProgramsComponent implements OnInit, OnDestroy
     if (this.list_programs_aux.filteredData.length == 0)
     {
       this.messageFilterResult = true;
-      this.messageListPrograms  = false;
+      this.messageListPrograms = false;
     }
     else
     {
@@ -251,15 +254,17 @@ export class ProgramsComponent implements OnInit, OnDestroy
   ******************************************************************************
   ******************************************************************************
   */
-  loadDetail(program: { id_programa_facultad: number; nombre_programa_facultad: string; id_facultad: number; })
+  loadDetail(program: { id_programa_facultad: number; nombre_programa_facultad: string; titulo_programa_facultad: string; id_facultad: number; })
   {
-    this.detail_program_id = program.id_programa_facultad;
-    this.detail_program_name = program.nombre_programa_facultad;
-    this.detail_program_faculty = program.id_facultad;
+    this.detail_program_id         = program.id_programa_facultad;
+    this.detail_program_name       = program.nombre_programa_facultad;
+    this.detail_program_title_name = program.titulo_programa_facultad;
+    this.detail_program_faculty    = program.id_facultad;
 
     //Set the values
     this.update_program_form.setValue({
         program_name: this.detail_program_name,
+        program_title_name: this.detail_program_title_name,
         program_faculty: this.detail_program_faculty
     });
   };
@@ -290,10 +295,11 @@ export class ProgramsComponent implements OnInit, OnDestroy
     }
 
      //Form values
-    const program_name    = this.program_form.get('program_name').value;
-    const program_faculty = this.program_form.get('program_faculty').value;
+    const program_name       = this.program_form.get('program_name').value;
+    const program_title_name = this.program_form.get('program_title_name').value;
+    const program_faculty    = this.program_form.get('program_faculty').value;
 
-    this._universityService.registerProgram(program_name, program_faculty)
+    this._universityService.registerProgram(program_name, program_title_name, program_faculty)
     .subscribe(data=>
     {
       if (data.message == 'Programa registrado.')
@@ -309,6 +315,7 @@ export class ProgramsComponent implements OnInit, OnDestroy
         //Set the values to null
         this.program_form.setValue({
           program_name: null,
+          program_title_name: null,
           program_faculty: null
         });
 
@@ -350,11 +357,13 @@ export class ProgramsComponent implements OnInit, OnDestroy
     }
 
     //Form values
-    const program_id      = this.detail_program_id;
-    const program_name    = this.update_program_form.get('program_name').value;
-    const program_faculty = this.update_program_form.get('program_faculty').value;
+    const program_id         = this.detail_program_id;
+    const program_name       = this.update_program_form.get('program_name').value;
+    const program_title_name = this.update_program_form.get('program_title_name').value;
+    const program_faculty    = this.update_program_form.get('program_faculty').value;
 
-    this._universityService.updateProgram(program_id, program_name, program_faculty)
+    this._universityService.updateProgram(program_id, program_name, program_title_name,
+                                          program_faculty)
     .subscribe(data=>
     {
       if (data.message == 'Programa actualizado.')

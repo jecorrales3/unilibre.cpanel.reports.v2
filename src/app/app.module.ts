@@ -6,6 +6,7 @@ import { HttpClientModule }                 from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Importacion de pipes
 import { TruncatePipe }                     from './pipes/truncate.pipe';
+import { NgxCurrencyModule }                from "ngx-currency";
 //Bootstrap design
 import { BrowserAnimationsModule }          from '@angular/platform-browser/animations';
 import { CollapseModule }                   from 'ngx-bootstrap/collapse';
@@ -42,12 +43,13 @@ import { UsersComponent }                   from './pages/users/users.component'
 import { ProgramsComponent }                from './pages/programs/programs.component';
 import { GeneratorComponent }               from './pages/generator/generator.component';
 import { StudentsComponent }                from './pages/students/students.component';
+import { HistoryReportsComponent }          from './pages/history-reports/history-reports.component';
 import { C1Component }                      from './pages/certificate/c1/c1.component';
 import { C2Component }                      from './pages/certificate/c2/c2.component';
 import { C3Component }                      from './pages/certificate/c3/c3.component';
 import { C4Component }                      from './pages/certificate/c4/c4.component';
 import { C5Component }                      from './pages/certificate/c5/c5.component';
-import { HistoryReportsComponent }          from './pages/history-reports/history-reports.component';
+import { C6Component }                      from './pages/certificate/c6/c6.component';
 
 @NgModule({
   declarations: [
@@ -81,13 +83,14 @@ import { HistoryReportsComponent }          from './pages/history-reports/histor
     ProgramsComponent,
     GeneratorComponent,
     StudentsComponent,
+    HistoryReportsComponent,
     //Certificates list
     C1Component,
     C2Component,
     C3Component,
     C4Component,
     C5Component,
-    HistoryReportsComponent
+    C6Component
   ],
   imports: [
     //Angular
@@ -104,6 +107,7 @@ import { HistoryReportsComponent }          from './pages/history-reports/histor
     ReactiveFormsModule,
     //Request HTTP
     HttpClientModule,
+    NgxCurrencyModule,
     ],
   providers:
   [

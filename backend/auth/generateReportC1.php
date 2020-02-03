@@ -84,8 +84,7 @@
                                                            WHEN 12 THEN 'Diciembre'
                                                       END mes_letras_reporte,
                                                       YEAR(conf.fecha_generacion_configuracion_reporte) AS year_reporte,
-                                      	              conf.titulo_configuracion_reporte,
-                                                      rtdo.nombre_resultado_reporte
+                                      	              conf.titulo_configuracion_reporte
                                                  FROM configuracion_reporte conf
                                                INNER JOIN facultad_reporte frpt
                                                ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -108,7 +107,6 @@
           $month_report                 = $row_configuration['mes_letras_reporte'];
           $year_report                  = $row_configuration['year_reporte'];
           $title_report                 = $row_configuration['titulo_configuracion_reporte'];
-          $format_faculty_report_report = $row_configuration['nombre_resultado_reporte'];
           $consecutive_code_report      = $row_configuration['codigo_configuracion_reporte'];
 
           //Format value
@@ -354,7 +352,7 @@
               <b>
                 UNIVERSIDAD LIBRE SECCIONAL PEREIRA
                 <br>
-                ' . mb_strtoupper($faculty_name_report) .  '
+                ' . mb_strtoupper($faculty_name_report) .  ' CENTRO DE INVESTIGACIONES
                 <p>
                    ACTA DE SUSTENTACIÓN DE PROYECTO No. ' . $consecutive_code_report . ' de ' . $consecutive_year_report . '
                    <br>
@@ -401,8 +399,8 @@
 
             $html .='
             Asesor, <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . ',</b>
-            el Decano de la ' . substr($format_faculty_report, 0, 87) . ', <b>' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '</b>
-            y el (la) Director(a) del Centro de Investigaciones de la  ' . substr($format_faculty_report, 0, 87) . ' de la Universidad Libre Seccional Pereira
+            el Decano de la ' . substr($format_faculty_report, 0, 61) . ', <b>' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '</b>
+            y el (la) Director(a) del Centro de Investigaciones de la  ' . substr($format_faculty_report, 0, 61) . ' de la Universidad Libre Seccional Pereira
             <b>' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '.</b>
           </p>
           <p class="text-justify">
@@ -570,7 +568,9 @@
                   <th class="text-center th" style="width:50%">
                     ' . mb_strtoupper($row_member['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_member['apellido_integrante_reporte']) . '
                     <br>
-                    ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                    <span style="font-size: 12px;font-weight: normal;">
+                      ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                    </span>
                   </th>
                   ';
                 }
@@ -582,7 +582,9 @@
                     <th class="text-center th" colspan="2">
                       ' . mb_strtoupper($row_member['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_member['apellido_integrante_reporte']) . '
                       <br>
-                      ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                      <span style="font-size: 12px;font-weight: normal;">
+                        ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                      </span>
                     </th>
                   </tr>
                   ';
@@ -607,12 +609,16 @@
               <th class="text-center" style="width:50%">
                 ' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '
                 <br>
-                Decano ' . $format_faculty_report . '
+                <span style="font-size: 12px;font-weight: normal;">
+                  Decano ' . $format_faculty_report . '
+                </span>
               </th>
               <th class="text-center" style="width:50%">
                 ' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '
                 <br>
-                Director(a) Centro de Investigaciones
+                <span style="font-size: 12px;font-weight: normal;">
+                  Director(a) Centro de Investigaciones
+                </span>
               </th>
             </tr>
           </table>

@@ -14,6 +14,11 @@
   ** @modified   - The PHP document was created on 11/01/2019                **
   ** @who        - Juan Castaño | juand-castanof@unilibre.edu.co             **
   ** @why        - Creation                                                  **
+
+  ** @modified   - The PHP document was created on 01/02/2020                **
+  ** @who        - Johan Corrales | johan-corralesa@unilibre.edu.co          **
+  ** @why        - a variable is added to the program registry               **
+  **               (program title)                                           **
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
@@ -30,27 +35,30 @@
   $_POST = json_decode($inputJSON, TRUE);
 
   //Check for Mandatory parameters
-  if(isset($_POST['program_name']) && isset($_POST['program_faculty']))
+  if(isset($_POST['program_name']) && isset($_POST['program_title_name']) && isset($_POST['program_faculty']))
   {
     //Object UTF8
     $mysqli->set_charset('utf8');
     //Post variables
-    $program_name     = ucfirst($_POST['program_name']);
-  	$program_faculty  = $_POST['program_faculty'];
-    
+    $program_name       = ucfirst($_POST['program_name']);
+    $program_title_name = ucfirst($_POST['program_title_name']);
+  	$program_faculty    = $_POST['program_faculty'];
+
     /*
     echo "Name: " . $program_name;
+    echo "Title: " . $program_title_name;
     echo "Faculty: " . $program_faculty;
     */
 
     //Query to register new user
-    $insertQuery  = "INSERT INTO `programa_facultad`(`id_programa_facultad`, `nombre_programa_facultad`, `fecha_registro_programa_facultad`,
-                                                     `id_facultad_programa_facultad`, `id_funcionalidad_programa_facultad`)
-                     VALUES (NULL, ?, CURDATE(), ?, '1')";
+    $insertQuery  = "INSERT INTO `programa_facultad`
+                                (`id_programa_facultad`, `nombre_programa_facultad`, `titulo_programa_facultad`,
+                                 `fecha_registro_programa_facultad`, `id_facultad_programa_facultad`, `id_funcionalidad_programa_facultad`)
+                     VALUES (NULL, ?, ?, CURDATE(), ?, '1')";
     //Prepared query
     $stmt = $mysqli->prepare($insertQuery);
     //Parameters
-    $stmt->bind_param("si", $program_name, $program_faculty);
+    $stmt->bind_param("ssi", $program_name, $program_title_name, $program_faculty);
     //Evaluate if the query was executed
     if($stmt->execute())
     {

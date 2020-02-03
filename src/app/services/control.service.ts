@@ -123,4 +123,44 @@ export class ControlService
     })
   };
 
+  /*
+  ******************************************************************************
+  ******************************************************************************
+                         FUNCTIONS SERVICE (CERTIFICATE 4)
+  ******************************************************************************
+  ******************************************************************************
+  */
+  //Method post that register a report (C4)
+  registerReportC4(report_settings_c4: any,
+                   report_groups_c4: any,
+                   report_members_c4: any)
+  {
+    return this.http.post<Certificate>(this.api_localhost + 'registerReportC4.php',
+    {
+      report_settings_c4,
+      report_groups_c4,
+      report_members_c4
+    })
+  };
+
+  /*
+  ******************************************************************************
+  ******************************************************************************
+                         FUNCTIONS SERVICE (CERTIFICATE 5)
+  ******************************************************************************
+  ******************************************************************************
+  */
+  //Method post that register a report (C5)
+  registerReportC5(report_settings_c5: any,
+                   report_students_c5: any,
+                   report_members_c5: any)
+  {
+    return this.http.post<Certificate>(this.api_localhost + 'registerReportC5.php',
+    {
+      report_settings_c5,
+      report_students_c5,
+      report_members_c5
+    })
+  };
+
 }

@@ -68,7 +68,7 @@
     {
       if (validateUser($user_id, $user_email))
       {
-        $response["message"] = "El usuario ya se encuentra registrado; inténtalo de nuevo.";
+        $response["message"] = "El usuario (correo) ya se encuentra registrado; inténtalo de nuevo.";
       }
       else
       {

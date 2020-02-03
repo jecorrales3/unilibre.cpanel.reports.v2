@@ -121,11 +121,13 @@ export class UniversityService
 
   //Method post that register a program
   registerProgram(program_name:string,
+                  program_title_name:string,
                   program_faculty:string)
   {
     return this.http.post<Global>(this.api_localhost + 'registerProgram.php',
     {
       program_name,
+      program_title_name,
       program_faculty
     })
   };
@@ -133,12 +135,14 @@ export class UniversityService
   //Method post that update a program
   updateProgram(program_id:number,
                 program_name:string,
+                program_title_name:string,
                 program_faculty:string)
   {
     return this.http.post<Global>(this.api_localhost + 'updateProgram.php',
     {
       program_id,
       program_name,
+      program_title_name,
       program_faculty
     })
   };

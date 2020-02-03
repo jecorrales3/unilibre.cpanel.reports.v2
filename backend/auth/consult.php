@@ -80,7 +80,8 @@
   	$query = "SELECT id_usuario
               FROM usuario usro
               WHERE correo_usuario = ?
-              AND id_usuario       != ?";
+              AND id_usuario       != ?
+              AND id_funcionalidad_usuario = '1'";
     //Global connection variable
     global $mysqli;
 

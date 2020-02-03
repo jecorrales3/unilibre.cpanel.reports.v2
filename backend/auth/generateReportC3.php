@@ -33,7 +33,6 @@
 
   //Counters
   $counter_members = 0;
-  $counter_members = 0;
 
   //$_GET
   $configuration_id = $_GET['configuration_id'];
@@ -104,7 +103,7 @@
           $month_report                 = $row_configuration['mes_letras_reporte'];
           $year_report                  = $row_configuration['year_reporte'];
           $title_report                 = $row_configuration['titulo_configuracion_reporte'];
-          $format_faculty_report_report = $row_configuration['nombre_resultado_reporte'];
+          $result_report                = $row_configuration['nombre_resultado_reporte'];
           $consecutive_code_report      = $row_configuration['codigo_configuracion_reporte'];
 
           //Format value
@@ -293,7 +292,7 @@
           <div class="text-center">
             <p class="text-center">
             <h4>
-              <b>' . mb_strtoupper($faculty_name_report) .  '
+              <b>' . mb_strtoupper($faculty_name_report) .  ' CENTRO DE INVESTIGACIONES
                 <p>
                    ACTA DE APROBACIÓN DE PROYECTO No. ' . $consecutive_code_report . ' de ' . $consecutive_year_report . '
                    <br>
@@ -350,7 +349,7 @@
         </div>
 
         <p class="text-justify">
-          Después de terminada la reunión se dio el resultado de: <u>' . strtoupper($format_faculty_report_report)  . '</u>
+          Después de terminada la reunión se dio el resultado de: <u>' . strtoupper($result_report)  . '</u>
         </p>
         <p class="text-justify">
           Para constancia se firma en Pereira a los ' . $day_report . ' días del mes de ' . $month_report . ' de ' . $year_report . '.
@@ -376,7 +375,9 @@
                   <th class="text-center" style="width:50%">
                     ' . mb_strtoupper($row_member['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_member['apellido_integrante_reporte']) . '
                     <br>
-                    ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                    <span style="font-size: 12px;font-weight: normal;">
+                      ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                    </span>
                   </th>
                   ';
                 }
@@ -388,7 +389,9 @@
                     <th class="text-center" colspan="2">
                       ' . mb_strtoupper($row_member['nombre_integrante_reporte']) . ' ' . mb_strtoupper($row_member['apellido_integrante_reporte']) . '
                       <br>
-                      ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                      <span style="font-size: 12px;font-weight: normal;">
+                        ' . strtoupper($row_member['nombre_tipo_cargo_reporte']) . '
+                      </span>
                     </th>
                   </tr>
                   ';
@@ -413,12 +416,16 @@
               <th class="text-center" style="width:50%">
                 ' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '
                 <br>
-                Decano ' . $format_faculty_report . '
+                <span style="font-size: 12px;font-weight: normal;">
+                  Decano ' . $format_faculty_report . '
+                </span>
               </th>
               <th class="text-center" style="width:50%">
                 ' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '
                 <br>
-                Director(a) Centro de Investigaciones
+                <span style="font-size: 12px;font-weight: normal;">
+                  Director(a) Centro de Investigaciones
+                </span>
               </th>
             </tr>
           </table>

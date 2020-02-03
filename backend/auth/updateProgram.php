@@ -32,30 +32,34 @@
   $_POST = json_decode($inputJSON, TRUE);
 
   //Check for Mandatory parameters
-  if(isset($_POST['program_id'])    && isset($_POST['program_name'])     && isset($_POST['program_faculty']))
+  if(isset($_POST['program_id']) && isset($_POST['program_name']) && isset($_POST['program_faculty']) &&
+     isset($_POST['program_title_name']))
   {
     //Object UTF8
     $mysqli->set_charset('utf8');
     //Post variables
-    $program_id      = $_POST['program_id'];
-  	$program_name    = $_POST['program_name'];
-  	$program_faculty = $_POST['program_faculty'];
+    $program_id         = $_POST['program_id'];
+  	$program_name       = $_POST['program_name'];
+  	$program_title_name = $_POST['program_title_name'];
+  	$program_faculty    = $_POST['program_faculty'];
 
     /*
     echo "ID: " . $program_id;
     echo "Name: " . $program_name;
+    echo "Title: " . $program_title_name;
     echo "Faculty: " . $program_faculty;
     */
 
     //Query to update a program
     $insertQuery  = "UPDATE programa_facultad
                         SET nombre_programa_facultad      = ?,
+                            titulo_programa_facultad      = ?,
                             id_facultad_programa_facultad = ?
                       WHERE id_programa_facultad          = ?";
     //Prepared query
     $stmt = $mysqli->prepare($insertQuery);
     //Parameters
-    $stmt->bind_param("sii", $program_name, $program_faculty, $program_id);
+    $stmt->bind_param("ssii", $program_name, $program_title_name, $program_faculty, $program_id);
     //Evaluate if the query was executed
     if($stmt->execute())
     {

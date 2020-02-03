@@ -22,13 +22,15 @@ import { MembersComponent }         from './pages/members/members.component';
 import { UsersComponent }           from './pages/users/users.component';
 import { ProgramsComponent }        from './pages/programs/programs.component';
 import { GeneratorComponent }       from './pages/generator/generator.component';
+import { StudentsComponent }        from './pages/students/students.component';
+import { HistoryReportsComponent }  from './pages/history-reports/history-reports.component';
 //Certificates list
 import { C1Component }              from './pages/certificate/c1/c1.component';
 import { C2Component }              from './pages/certificate/c2/c2.component';
 import { C3Component }              from './pages/certificate/c3/c3.component';
 import { C4Component }              from './pages/certificate/c4/c4.component';
 import { C5Component }              from './pages/certificate/c5/c5.component';
-import { HistoryReportsComponent }  from './pages/history-reports/history-reports.component';
+import { C6Component }                      from './pages/certificate/c6/c6.component';
 
 //Guards
 import { AuthenticationGuard }     from './guards/authentication.guard';
@@ -61,6 +63,7 @@ const routes: Routes =
       {path: 'faculties',       component: FacultiesComponent},
       {path: 'members',         component: MembersComponent},
       {path: 'programs',        component: ProgramsComponent},
+      {path: 'students',        component: StudentsComponent},
       {path: 'users',           component: UsersComponent},
       {path: 'history-reports', component: HistoryReportsComponent},
       //Certificate list
@@ -69,9 +72,9 @@ const routes: Routes =
       {path: 'certificate/c3',  component: C3Component},
       {path: 'certificate/c4',  component: C4Component},
       {path: 'certificate/c5',  component: C5Component},
+      {path: 'certificate/c6',  component: C6Component},
       /*
-      {path: 'settings',        component: SettingsComponent},
-      {path: 'students',        component: StudentsComponent},*/
+      {path: 'settings',        component: SettingsComponent},*/
       {path: 'logout',          component: LogoutComponent},
       //Elements design
       {path: 'forms',           component: FormsComponent},

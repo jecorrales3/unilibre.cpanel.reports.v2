@@ -15,11 +15,13 @@ import { HttpClient } from '@angular/common/http';
 ******************************************************************************
 ******************************************************************************
 */
-import { Cities }          from './../interfaces/cities';
-import { MemberType }      from './../interfaces/member_type';
-import { UserType }        from './../interfaces/user_type';
-import { UserState }       from './../interfaces/user_state';
-import { MemberPosition }  from './../interfaces/member_position';
+import { Cities }              from './../interfaces/cities';
+import { MemberType }          from './../interfaces/member_type';
+import { UserType }            from './../interfaces/user_type';
+import { UserState }           from './../interfaces/user_state';
+import { MemberPosition }      from './../interfaces/member_position';
+import { InvestigationGroups } from './../interfaces/investigation_groups';
+import { CertificateTypes }    from './../interfaces/certificate_types';
 
 @Injectable({
   providedIn: 'root'
@@ -105,5 +107,22 @@ export class GlobalQueriesService
     const path = this.api_localhost + 'getMemberPosition2.php';
     return this.http.get<MemberPosition[]>(path);
   };
+
+  //Method return the investigation groups
+  public getInvestigationGroups()
+  {
+    //Path
+    const path = this.api_localhost + 'getInvestigationGroups.php';
+    return this.http.get<InvestigationGroups[]>(path);
+  };
+
+  //Method return the certificate types
+  public getCertificateTypes()
+  {
+    //Path
+    const path = this.api_localhost + 'getCertificateTypes.php';
+    return this.http.get<CertificateTypes[]>(path);
+  };
+
 
 }
