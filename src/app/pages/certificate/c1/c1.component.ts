@@ -681,7 +681,7 @@ export class C1Component implements OnInit
   */
   showReport(configuration_id: string | number)
   {
-    //Identificar factura
+    //C1 Report (Acta de Sustentacion)
     window.open(this.api_localhost + 'generateReportC1.php?configuration_id=' + configuration_id, '_blank');
   };
 

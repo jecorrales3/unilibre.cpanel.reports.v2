@@ -18,6 +18,8 @@ import { HttpClient } from '@angular/common/http';
 import { Global }      from './../interfaces/global';
 import { Faculties }   from './../interfaces/faculties';
 import { Members }     from './../interfaces/members';
+import { Students }    from './../interfaces/students';
+import { Report }      from './../interfaces/report';
 //import { University }  from './../interfaces/university';
 
 @Injectable({
@@ -231,6 +233,35 @@ export class UniversityService
     {
       member_id
     })
+  };
+
+
+
+  /*
+  ******************************************************************************
+  ******************************************************************************
+                         FUNCTIONS SERVICE (STUDENTS)
+  ******************************************************************************
+  ******************************************************************************
+  */
+  //Method return the students
+  public getStudents()
+  {
+    //Path
+    const path = this.api_localhost + 'getStudents.php';
+    return this.http.get<Students[]>(path);
+  };
+
+  //Method return the report list
+  public getDetailReportList(student_document: string | string[])
+  {
+    //Path
+    const path = this.api_localhost + 'getDetailReportList.php';
+    return this.http.get<Report[]>(path, {
+          params: {
+            student_document: student_document
+          }
+        });
   };
 
 }

@@ -18,15 +18,12 @@
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
   */
-  //Time
-  setlocale(LC_ALL,"es_ES");
-  date_default_timezone_set('America/Bogota');
-  $date = strftime("%e de %B de %Y");;
   //Include files
   include '../db/db_connection.php';
   include 'certificate_query.php';
   include 'message_error.php';
-  require_once __DIR__ . '../../class/PDF/vendor/autoload.php';
+  //mPDF class
+  require_once __DIR__ . '../../class/mPDF/vendor/autoload.php';
 
   //Session start
   session_start();
@@ -52,7 +49,7 @@
       $user_faculty_id = $_SESSION['user']['id_facultad_usuario'];
 
       //Object UTF8
-      $mysqli->set_charset('utf8');
+      //$mysqli->set_charset('utf8');
 
       if (validateReportC1($user_faculty_id, $configuration_id))
       {
@@ -319,6 +316,7 @@
         *****************************************************************************
         */
         $html = '
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <style>
           table, th, td
           {
@@ -399,8 +397,8 @@
 
             $html .='
             Asesor, <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . ',</b>
-            el Decano de la ' . substr($format_faculty_report, 0, 61) . ', <b>' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '</b>
-            y el (la) Director(a) del Centro de Investigaciones de la  ' . substr($format_faculty_report, 0, 61) . ' de la Universidad Libre Seccional Pereira
+            el Decano de la ' . $faculty_name_report . ', <b>' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '</b>
+            y el (la) Director(a) del Centro de Investigaciones de la  ' . $faculty_name_report . ' de la Universidad Libre Seccional Pereira
             <b>' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '.</b>
           </p>
           <p class="text-justify">
@@ -610,7 +608,7 @@
                 ' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '
                 <br>
                 <span style="font-size: 12px;font-weight: normal;">
-                  Decano ' . $format_faculty_report . '
+                  Decano ' . $faculty_name_report . '
                 </span>
               </th>
               <th class="text-center" style="width:50%">
@@ -631,7 +629,8 @@
         *****************************************************************************
         *****************************************************************************
         */
-        $mpdf->WriteHTML($html);
+        $PDFContent = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+        $mpdf->WriteHTML($PDFContent);
 
         /*
         *****************************************************************************

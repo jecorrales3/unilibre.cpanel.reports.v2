@@ -15,6 +15,7 @@ import { HttpClient } from '@angular/common/http';
 ******************************************************************************
 ******************************************************************************
 */
+import { Reports }     from './../interfaces/reports';
 import { Certificate } from './../interfaces/certificate';
 import { Profile }     from './../interfaces/profile';
 
@@ -45,6 +46,22 @@ export class ControlService
   constructor(private http: HttpClient)
   {
 
+  };
+
+
+  /*
+  ******************************************************************************
+  ******************************************************************************
+                         FUNCTIONS SERVICE (REPORTS)
+  ******************************************************************************
+  ******************************************************************************
+  */
+  //Method return the reports
+  public getReports()
+  {
+    //Path
+    const path = this.api_localhost + 'getReports.php';
+    return this.http.get<Reports[]>(path);
   };
 
 

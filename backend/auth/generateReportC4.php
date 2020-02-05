@@ -18,15 +18,12 @@
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
   */
-  //Time
-  setlocale(LC_ALL,"es_ES");
-  date_default_timezone_set('America/Bogota');
-  $date = strftime("%e de %B de %Y");;
   //Include files
   include '../db/db_connection.php';
   include 'certificate_query.php';
   include 'message_error.php';
-  require_once __DIR__ . '../../class/PDF/vendor/autoload.php';
+  //mPDF class
+  require_once __DIR__ . '../../class/mPDF/vendor/autoload.php';
 
   //Session start
   session_start();
@@ -356,7 +353,7 @@
               De conformidad con lo aprobado por el Consejo Seccional de Investigación, en la reunión de fecha <b>' . $date_support_report . '</b>,
               al proyecto de investigación Titulado <b>“' . mb_strtoupper($title_report) . '”</b> y vinculado al grupo de Investigación <b>' . mb_strtoupper($investigation_group_report) . '</b>
               por un monto de <b>$' . number_format($budget_report) . '</b>, presentado por el (la) Investigador(a) Principal <b>' . mb_strtoupper($investigator_name) . ' ' . mb_strtoupper($investigator_lastname) . '</b> identificado(a) con
-              el documento de identidad Nº. <b>' . number_format($investigator_document, 0, '.', '.') . '</b>, adscrito a la Facultad ' . substr($format_faculty_report, 0, 61) . ', de la Seccional Pereira;
+              el documento de identidad Nº. <b>' . number_format($investigator_document, 0, '.', '.') . '</b>, adscrito a la Facultad ' . $faculty_name_report . ', de la Seccional Pereira;
               se compromete con los términos descritos a continuación:
             </i>
           </p>
@@ -443,7 +440,8 @@
         *****************************************************************************
         *****************************************************************************
         */
-        $mpdf->WriteHTML($html);
+        $PDFContent = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+        $mpdf->WriteHTML($PDFContent);
 
         /*
         *****************************************************************************

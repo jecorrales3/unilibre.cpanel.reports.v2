@@ -4,7 +4,7 @@
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
-  ** @description  The PHP document allows the cities list                   **
+  ** @description  The PHP document allows the profile data                  **
   ** @author       Johan Corrales | johan-corralesa@unilibre.edu.co          **
   ** @created      The PHP document was create on 13/12/2019                 **
   ** @required     db_connection.php for anothers PHP documents              **

@@ -91,6 +91,11 @@ export class MenuService
           name:  'Usuarios',
           icon:  'fas fa-user-cog',
           route: 'users',
+        },
+        {
+          name:  'Consecutivo',
+          icon:  'far fa-file-alt',
+          route: 'consecutive',
         }
       ]
     },
@@ -153,6 +158,11 @@ export class MenuService
           name:  'Perfil',
           icon:  'fas fa-user-alt',
           route: 'profile',
+        },
+        {
+          name:  'Consecutivo',
+          icon:  'far fa-file-alt',
+          route: 'consecutive',
         }
       ]
     },
@@ -186,11 +196,12 @@ export class MenuService
       icon: 'fas fa-file-signature',
       route: '../certificate/c5',
     },
+    /*
     {
       name: 'Designar Asesor (pending)',
       icon: 'fas fa-paste',
       route: '../certificate/c6',
-    },
+    },*/
   ];
   /*
   ******************************************************************************

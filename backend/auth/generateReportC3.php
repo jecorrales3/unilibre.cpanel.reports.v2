@@ -18,15 +18,12 @@
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
   */
-  //Time
-  setlocale(LC_ALL,"es_ES");
-  date_default_timezone_set('America/Bogota');
-  $date = strftime("%e de %B de %Y");;
   //Include files
   include '../db/db_connection.php';
   include 'certificate_query.php';
   include 'message_error.php';
-  require_once __DIR__ . '../../class/PDF/vendor/autoload.php';
+  //mPDF class
+  require_once __DIR__ . '../../class/mPDF/vendor/autoload.php';
 
   //Session start
   session_start();
@@ -306,7 +303,7 @@
           <p class="text-justify">
             En la ciudad de Pereira, el día <b>' . $day_report . ' de ' . $month_report . ' de ' . $year_report . '</b>, en la Sala de Juntas de la oficina de la Dirección de Investigaciones de la
             Universidad Libre Seccional Pereira – Sede Belmonte, se reunieron los doctores; <b>' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '</b>,
-            Director(a) del Centro de Investigaciones de la ' . $format_faculty_report . ', y el (la) doctor (a) <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . ', como Asesor (es)</b>,
+            Director(a) del Centro de Investigaciones de la ' . $faculty_name_report . ', y el (la) doctor (a) <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . ', como Asesor (es)</b>,
 
             del siguiente trabajo de investigación, con el fin de aprobar el proyecto de investigación:
           </p>
@@ -417,7 +414,7 @@
                 ' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '
                 <br>
                 <span style="font-size: 12px;font-weight: normal;">
-                  Decano ' . $format_faculty_report . '
+                  Decano ' . $faculty_name_report . '
                 </span>
               </th>
               <th class="text-center" style="width:50%">
@@ -438,7 +435,8 @@
         *****************************************************************************
         *****************************************************************************
         */
-        $mpdf->WriteHTML($html);
+        $PDFContent = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+        $mpdf->WriteHTML($PDFContent);
 
         /*
         *****************************************************************************

@@ -18,15 +18,12 @@
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
   */
-  //Time
-  setlocale(LC_ALL,"es_ES");
-  date_default_timezone_set('America/Bogota');
-  $date = strftime("%e de %B de %Y");;
   //Include files
   include '../db/db_connection.php';
   include 'certificate_query.php';
   include 'message_error.php';
-  require_once __DIR__ . '../../class/PDF/vendor/autoload.php';
+  //mPDF class
+  require_once __DIR__ . '../../class/mPDF/vendor/autoload.php';
 
   //Session start
   session_start();
@@ -419,7 +416,7 @@
             </i>
           </p>
           <p class="text-justify">
-            Resuelve que, al Centro de Investigaciones de la ' . substr($format_faculty_report, 0, 61) . ', se presentó por parte ' . $conector_researchers . '
+            Resuelve que, al Centro de Investigaciones de la ' . $faculty_name_report . ', se presentó por parte ' . $conector_researchers . '
             ';
 
               while ($row_investigator = $query_researchers->fetch_assoc())
@@ -535,7 +532,7 @@
           </p>
           <p class="text-justify">
             El Centro de Investigaciones programó Socialización del trabajo de investigación para el día <b>' . $support_day_report . ' de ' . $support_month_report . ' de ' . $support_year_report . '</b>
-            a las <b>' . $support_time_report .  ',</b> en presencia de los investigadores principales y de (la) Director(a) del Centro de Investigaciones de la ' . substr($format_faculty_report, 0, 87) . '.
+            a las <b>' . $support_time_report .  ',</b> en presencia de los investigadores principales y de (la) Director(a) del Centro de Investigaciones de la ' . $faculty_name_report . '.
           </p>
         </div>
 
@@ -637,7 +634,7 @@
                 ' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '
                 <br>
                 <span style="font-size: 12px;font-weight: normal;">
-                  <i>Decano ' . $format_faculty_report . '</i>
+                  <i>Decano ' . $faculty_name_report . '</i>
                 </span>
               </th>
               <th class="text-center" style="width:50%">
@@ -658,7 +655,8 @@
         *****************************************************************************
         *****************************************************************************
         */
-        $mpdf->WriteHTML($html);
+        $PDFContent = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+        $mpdf->WriteHTML($PDFContent);
 
         /*
         *****************************************************************************

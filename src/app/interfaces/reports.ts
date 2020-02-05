@@ -1,0 +1,22 @@
+export interface Reports
+{
+  id_configuracion_reporte:number;
+  titulo_configuracion_reporte:string;
+  fecha_generacion_configuracion_reporte:Date;
+  fecha_sustentacion_configuracion_reporte:Date;
+  hora_sustentacion_reporte:string;
+  codigo_configuracion_reporte:string;
+  nombre_facultad:string;
+  siglas_facultad:string;
+  nombre_facultad_reporte:string;
+  nombre_programa_facultad_reporte:string;
+  nombre_resultado_reporte:string;
+  nombre_usuario:string;
+  apellido_usuario:string;
+  correo_usuario:string;
+  year_consecutivo_reporte:number;
+  id_tipo_reporte:number;
+  nombre_tipo_reporte:string;
+  id_funcionalidad:number;
+  nombre_funcionalidad:string;
+}

@@ -8,6 +8,7 @@ import { MatStepperModule,
          MatDatepickerModule,
          MatNativeDateModule,
          MatFormFieldModule,
+         MatExpansionModule,
        } from '@angular/material';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    MatExpansionModule,
   ],
   exports:[
     MatStepperModule,
@@ -30,6 +32,7 @@ import { MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    MatExpansionModule,
   ]
 })
 

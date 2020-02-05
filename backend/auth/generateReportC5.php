@@ -26,7 +26,8 @@
   include '../db/db_connection.php';
   include 'certificate_query.php';
   include 'message_error.php';
-  require_once __DIR__ . '../../class/PDF/vendor/autoload.php';
+  //mPDF class
+  require_once __DIR__ . '../../class/mPDF/vendor/autoload.php';
 
   //Session start
   session_start();
@@ -216,7 +217,7 @@
         *****************************************************************************
         *****************************************************************************
         */
-        $string = mb_convert_case($faculty_name_report, MB_CASE_TITLE, "UTF-8");
+        $string = mb_convert_case($faculty_name_report . "áéíóú", MB_CASE_TITLE, "UTF-8");
 
         $words = explode(" ", $string);
         $format_faculty_report = "";
@@ -367,7 +368,7 @@
                     ' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '
                     <br>
                     <span style="font-size: 12px;font-weight: normal;">
-                      Director(a) Centro de Investigación de la ' . $format_faculty_report . '
+                      Director(a) Centro de Investigación de la ' . $faculty_name_report . '
                     </span>
                   </th>
                   <th class="text-center" style="width:20%"></th>
@@ -390,7 +391,8 @@
           *****************************************************************************
           *****************************************************************************
           */
-          $mpdf->WriteHTML($html);
+          $PDFContent = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+          $mpdf->WriteHTML($PDFContent);
 
           /*
           *****************************************************************************

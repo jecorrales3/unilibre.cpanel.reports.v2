@@ -640,7 +640,7 @@ export class C4Component implements OnInit
   */
   showReport(configuration_id: string | number)
   {
-    //Identificar factura
+    //C4 Report (Acta de Inicio)
     window.open(this.api_localhost + 'generateReportC4.php?configuration_id=' + configuration_id, '_blank');
   };
 }

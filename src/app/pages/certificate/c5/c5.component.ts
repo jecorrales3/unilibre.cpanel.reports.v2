@@ -698,7 +698,7 @@ export class C5Component implements OnInit
   */
   showReport(configuration_id: string | number)
   {
-    //Identificar factura
+    //C5 Reports (Paz y Salvo)
     window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
   };
 

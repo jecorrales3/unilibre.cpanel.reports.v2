@@ -1,1 +1,177 @@
-<p>students works!</p>
+<div>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+    <h4 class="text-muted">Programas</h4>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link linkhand" [ngClass]="listClass" (click)="listSection()">Listado</a>
+      </li>
+      <!--
+      <li class="nav-item">
+        <a class="nav-link linkhand" [ngClass]="registerClass" (click)="registerSection()">Registro</a>
+      </li>
+      -->
+    </ul>
+  </div>
+
+  <!-- LIST SECTION -->
+  <div *ngIf="listForm">
+    <div class="card border-0 rounded-0 h-100">
+      <div class="card-title mb-1 p-3">
+        <h5>Listado</h5>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label>Filtro de búsqueda</label>
+          <input type="text" class="form-control rounded-0" placeholder="¿Qué quieres buscar?" (keyup)="applyFilter($event.target.value)">
+        </div>
+        <hr>
+        <div class="table-responsive">
+          <table class="table table-sm table-striped">
+            <caption>Listado de Estudiantes</caption>
+            <thead class="thead-dark">
+              <tr class="text-center">
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Documento</th>
+                <th scope="col">Facultad</th>
+                <th scope="col">Reportes</th>
+                <th scope="col">Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center" *ngIf="loading">
+                <td colspan="12">
+                  <div class="spinner-border text-primary mt-1 mb-1" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let student of list_students | async, index as id">
+                <th class="text-center" scope="row">{{id+1}}</th>
+                <td class="text-center">
+                  {{student.nombre_estudiante_reporte}} {{student.apellido_estudiante_reporte}}
+                </td>
+                <td class="text-center">{{student.documento_estudiante_reporte}}</td>
+                <td class="text-center linkhand">
+                  <span matTooltip="{{student.nombre_facultad}}">
+                    {{student.nombre_facultad | truncate: 40}}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <span class="badge badge-pill badge-dark linkhand" matTooltip="{{student.contador_reporte}} reportes asociados al estudiante">
+                    {{student.contador_reporte}}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-lightning rounded-0 btn-sm"  data-toggle="modal" data-target="#modalDetail" (click)="loadDetail(student)">Detalle</button>
+                </td>
+              </tr>
+              <tr class="text-center" *ngIf="messageListStudents">
+                <td colspan="12">
+                  <div class="alert alert-info mt-2" role="alert">
+                    No se han registrado estudiantes en el sistema
+                  </div>
+                </td>
+              </tr>
+              <tr class="text-center" *ngIf="messageFilterResult">
+                <td colspan="12">
+                  <div class="alert alert-primary mt-2" role="alert">
+                    No se han encontrado resultados para tu búsqueda
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTER SECTION -->
+  <!--
+  <div *ngIf="registerForm">
+    <div class="form-row">
+      <div class="col-md-3"></div>
+
+      <div class="col-md-6">
+        <div class="card border-0 rounded-0 h-100">
+          <div class="card-title mb-1 p-3">
+            <h5>Registro</h5>
+          </div>
+          <div class="card-body">
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3"></div>
+    </div>
+  </div>
+  -->
+
+</div>
+
+<!--
+********************************************************************************
+********************************************************************************
+******************************    MODAL WINDOW    ******************************
+********************************************************************************
+********************************************************************************
+-->
+
+<!-- Modal -->
+<div class="modal fade" id="modalDetail" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content rounded-0">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{ detail_student_name }} {{ detail_student_lastname }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="col-md-12 text-center" *ngIf="loading_modal">
+            <div class="spinner-border text-primary mt-1 mb-1" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div class="col-md-12 text-center" *ngIf="messageListReports">
+            <div class="alert alert-primary" role="alert">
+              No se han asociado reportes para el estudiante seleccionado
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="my-3 p-3 bg-white rounded shadow-sm" *ngFor="let type of list_reports">
+              <h6 class="border-bottom border-gray pb-2 mb-0">{{type.report_type}}</h6>
+              <div class="media text-muted pt-3" *ngFor="let config of type.report_list; let last = last;">
+                <img src="./assets/img/unilibre/unilibre.png" width="32" height="32">
+                <div class="media-body pl-1 pb-3 mb-0 small lh-125 border-bottom border-gray" [ngClass]="{'border-bottom': !last}">
+                  <div class="d-flex justify-content-between align-items-center w-100">
+                    <strong class="text-gray-dark text-justify">
+                      {{config.nombre_tipo_reporte}} - Fecha: {{config.fecha_generacion_configuracion_reporte}}
+                    </strong>
+                    <a class="btn-download linkhand" (click)="showReport(config)">
+                      Visualizar
+                    </a>
+                  </div>
+                  <span class="d-block">
+                    {{config.titulo_configuracion_reporte | uppercase | truncate: 50}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

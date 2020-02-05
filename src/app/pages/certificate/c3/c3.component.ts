@@ -671,7 +671,7 @@ export class C3Component implements OnInit
   */
   showReport(configuration_id: string | number)
   {
-    //Identificar factura
+    //C3 Report (Acta de Aprobacion)
     window.open(this.api_localhost + 'generateReportC3.php?configuration_id=' + configuration_id, '_blank');
   };
 

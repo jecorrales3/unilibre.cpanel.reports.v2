@@ -1,7 +1,7 @@
 <?php
 
   //Inclusion del archivo respectivo para la conexion con la BD
-  require_once __DIR__ . '../../class/PDF/vendor/autoload.php';
+  require_once __DIR__ . '../../class/mPDF/vendor/autoload.php';
 
   /*
   *****************************************************************************

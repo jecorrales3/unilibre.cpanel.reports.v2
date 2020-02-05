@@ -685,7 +685,7 @@ export class C2Component implements OnInit
   */
   showReport(configuration_id: string | number)
   {
-    //Identificar factura
+    //C2 Report (Homologacion Auxiliar)
     window.open(this.api_localhost + 'generateReportC2.php?configuration_id=' + configuration_id, '_blank');
   };
 
