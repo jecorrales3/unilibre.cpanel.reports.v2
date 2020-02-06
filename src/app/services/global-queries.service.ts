@@ -22,6 +22,7 @@ import { UserState }           from './../interfaces/user_state';
 import { MemberPosition }      from './../interfaces/member_position';
 import { InvestigationGroups } from './../interfaces/investigation_groups';
 import { CertificateTypes }    from './../interfaces/certificate_types';
+import { ConsecutiveTypes }    from './../interfaces/consecutive_types';
 
 @Injectable({
   providedIn: 'root'
@@ -122,6 +123,14 @@ export class GlobalQueriesService
     //Path
     const path = this.api_localhost + 'getCertificateTypes.php';
     return this.http.get<CertificateTypes[]>(path);
+  };
+
+  //Method return the consecutive types
+  public getConsecutiveTypes()
+  {
+    //Path
+    const path = this.api_localhost + 'getConsecutiveTypes.php';
+    return this.http.get<ConsecutiveTypes[]>(path);
   };
 
 

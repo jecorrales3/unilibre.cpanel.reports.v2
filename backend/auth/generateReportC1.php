@@ -81,7 +81,8 @@
                                                            WHEN 12 THEN 'Diciembre'
                                                       END mes_letras_reporte,
                                                       YEAR(conf.fecha_generacion_configuracion_reporte) AS year_reporte,
-                                      	              conf.titulo_configuracion_reporte
+                                      	              conf.titulo_configuracion_reporte,
+                                                      conf.id_funcionalidad_configuracion_reporte
                                                  FROM configuracion_reporte conf
                                                INNER JOIN facultad_reporte frpt
                                                ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -105,6 +106,7 @@
           $year_report                  = $row_configuration['year_reporte'];
           $title_report                 = $row_configuration['titulo_configuracion_reporte'];
           $consecutive_code_report      = $row_configuration['codigo_configuracion_reporte'];
+          $state_report                 = $row_configuration['id_funcionalidad_configuracion_reporte'];
 
           //Format value
           if ($consecutive_code_report <= 9)
@@ -341,7 +343,19 @@
           .text-justify
           {
             text-align: justify;
+          }';
+
+          if ($state_report == 3)
+          {
+            $html .= '
+              body
+              {
+                background-image: url(anulado.png);
+                background-image-resize:6;
+              }
+            ';
           }
+          $html .='
         </style>
 
         <div style="font-family: Times New Roman; font-size: 13px; padding-top:-50px;">

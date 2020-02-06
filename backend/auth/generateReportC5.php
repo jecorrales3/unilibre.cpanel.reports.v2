@@ -84,7 +84,8 @@
                                                       YEAR(conf.fecha_generacion_configuracion_reporte) AS year_reporte,
                                       	              conf.titulo_configuracion_reporte,
                                                       trte.id_tipo_reporte,
-                                                      trte.nombre_tipo_reporte
+                                                      trte.nombre_tipo_reporte,
+                                                      conf.id_funcionalidad_configuracion_reporte
                                                  FROM configuracion_reporte conf
                                                INNER JOIN facultad_reporte frpt
                                                ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -109,6 +110,7 @@
           $title_report                 = $row_configuration['titulo_configuracion_reporte'];
           $type_report                  = $row_configuration['id_tipo_reporte'];
           $file_name_report             = $row_configuration['nombre_tipo_reporte'];
+          $state_report                 = $row_configuration['id_funcionalidad_configuracion_reporte'];
         }
 
         /*
@@ -262,7 +264,7 @@
         // Define the Header/Footer before writing anything so they appear on the first page
         $mpdf->SetHTMLHeader('
         <div>
-          <img src="../class/PDF/images/unilibre_header.png" class="img-fluid" style="height: 120px; width: 1170px;" alt="Responsive image">
+          <img src="../class/mPDF/vendor/images/unilibre_header.png" class="img-fluid" style="height: 120px; width: 1170px;" alt="Responsive image">
         </div>
         <div style="font-family: Times New Roman; font-size: 13px; padding-top:-10px;">
           <div class="text-center">
@@ -309,7 +311,20 @@
             .text-justify
             {
               text-align: justify;
+            }';
+
+            if ($state_report == 3)
+            {
+              $html .= '
+                body
+                {
+                  background-image: url(anulado.png);
+                  background-image-resize:6;
+                }
+              ';
             }
+            $html .='
+
           </style>
           <div style="font-family: Times New Roman; font-size: 13px; padding-top:-50px;">
             ';
@@ -403,7 +418,7 @@
           */
           $html_footer = '
           <div>
-            <img src="../class/PDF/images/unilibre_footer.png" class="img-fluid" style="height: 70px; width: 1169px;" alt="Responsive image">
+            <img src="../class/mPDF/vendor/images/unilibre_footer.png" class="img-fluid" style="height: 70px; width: 1169px;" alt="Responsive image">
             <pre style="text-align:center; font-family: Times New Roman; font-size: 13px;">PEREIRA RISARALDA.
               Sede Centro Calle 40. No. 7-30 PBX (6) 3401081
               <br>

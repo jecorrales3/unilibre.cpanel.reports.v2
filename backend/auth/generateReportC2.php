@@ -99,7 +99,8 @@
                                                       END mes_sustentacion_letras_reporte,
                                                       YEAR(conf.fecha_sustentacion_configuracion_reporte) AS year_sustentacion_reporte,
                                                       TIME_FORMAT(conf.hora_sustentacion_configuracion_reporte, '%h:%i %p') hora_sustentacion_reporte,
-                                      	              conf.titulo_configuracion_reporte
+                                      	              conf.titulo_configuracion_reporte,
+                                                      conf.id_funcionalidad_configuracion_reporte
                                                  FROM configuracion_reporte conf
                                                INNER JOIN facultad_reporte frpt
                                                ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -127,6 +128,7 @@
           $support_time_report          = $row_configuration['hora_sustentacion_reporte'];
           $title_report                 = $row_configuration['titulo_configuracion_reporte'];
           $consecutive_code_report      = $row_configuration['codigo_configuracion_reporte'];
+          $state_report                 = $row_configuration['id_funcionalidad_configuracion_reporte'];
 
           //Format value
           if ($consecutive_code_report <= 9)

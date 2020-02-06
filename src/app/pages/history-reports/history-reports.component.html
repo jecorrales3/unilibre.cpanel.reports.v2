@@ -238,7 +238,10 @@
                 <mat-divider></mat-divider>
                 <div class="mt-2">
                   <p class="text-justify">
-                    El reporte se encuentra {{detail_configuration_state}}
+                    El reporte se encuentra
+                    <span [ngClass]="{ 'text-success': detail_configuration_state == 'Activo', 'text-danger': detail_configuration_state == 'Anulado'}">
+                      <strong>{{detail_configuration_state}}</strong>
+                    </span>
                   </p>
                 </div>
               </mat-expansion-panel>

@@ -17,6 +17,7 @@ import { HttpClient } from '@angular/common/http';
 */
 import { Global }      from './../interfaces/global';
 import { Profile }     from './../interfaces/profile';
+import { Consecutive } from './../interfaces/consecutive';
 import { Users }       from './../interfaces/users';
 
 @Injectable({
@@ -161,6 +162,22 @@ export class SettingsService
     {
       user_id
     })
+  };
+
+
+  /*
+  ******************************************************************************
+  ******************************************************************************
+                         FUNCTIONS SERVICE (CONSECUTIVE)
+  ******************************************************************************
+  ******************************************************************************
+  */
+  //Method return the consecutive
+  public getConsecutive()
+  {
+    //Path
+    const path = this.api_localhost + 'getConsecutive.php';
+    return this.http.get<Consecutive[]>(path);
   };
 
 }

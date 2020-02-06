@@ -58,7 +58,6 @@ export class FacultiesComponent implements OnInit, OnDestroy
   //List of services
   list_cities: any;
   list_faculties: any;
-  list_faculties_test: any;
   list_members = [];
 
   //Detail data

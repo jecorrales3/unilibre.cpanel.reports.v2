@@ -81,7 +81,8 @@
                                                       DATE_FORMAT(conf.fecha_iniciacion_configuracion_reporte, '%d/%m/%Y') AS fecha_iniciacion_configuracion_reporte,
                                                       DATE_FORMAT(conf.fecha_finalizacion_configuracion_reporte, '%d/%m/%Y') AS fecha_finalizacion_configuracion_reporte,
                                                       conf.presupuesto_configuracion_reporte,
-                                                      conf.nombre_grupo_investigacion_configuracion_reporte
+                                                      conf.nombre_grupo_investigacion_configuracion_reporte,
+                                                      conf.id_funcionalidad_configuracion_reporte
                                                  FROM configuracion_reporte conf
                                                INNER JOIN facultad_reporte frpt
                                                ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -110,6 +111,7 @@
           $final_date_report            = $row_configuration['fecha_finalizacion_configuracion_reporte'];
           $budget_report                = $row_configuration['presupuesto_configuracion_reporte'];
           $investigation_group_report   = $row_configuration['nombre_grupo_investigacion_configuracion_reporte'];
+          $state_report                 = $row_configuration['id_funcionalidad_configuracion_reporte'];
 
 
           //Format value
@@ -344,7 +346,19 @@
           .bg-header
           {
             background-color: rgb(217, 217, 217);
+          }';
+
+          if ($state_report == 3)
+          {
+            $html .= '
+              body
+              {
+                background-image: url(anulado.png);
+                background-image-resize:6;
+              }
+            ';
           }
+          $html .='
         </style>
 
         <div class="text-f14" style="font-family: Times New Roman; padding-top:10px;">
