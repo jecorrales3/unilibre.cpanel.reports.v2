@@ -34,8 +34,6 @@ export class SidebarComponent implements OnInit
   //Session variables
   username:String = "Loading...";
   usertype:String = "Loading...";
-  //loggedInStatus
-  private loggedInStatus = false;
   //List array
   menu:any = [];
   //Loading data
@@ -49,7 +47,7 @@ export class SidebarComponent implements OnInit
   ******************************************************************************
   ******************************************************************************
   */
-  constructor(public _menuService:MenuService,
+  constructor(public  _menuService:MenuService,
               private _serviceConsultAuth:ConsultAuthService)
   {
     //Method for authentication service
@@ -91,19 +89,6 @@ export class SidebarComponent implements OnInit
   ******************************************************************************
   */
   ngOnInit()
-  {
-
-  };
-
-
-  /*
-  ******************************************************************************
-  ******************************************************************************
-                               COMPONENT FUNCTIONS
-  ******************************************************************************
-  ******************************************************************************
-  */
-  evaluateMenu()
   {
 
   };

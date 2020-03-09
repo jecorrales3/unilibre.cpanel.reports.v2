@@ -17,7 +17,8 @@ import { ToastrService }                      from 'ngx-toastr';
 ******************************************************************************
 ******************************************************************************
 */
-import { AuthService } from './../../services/auth.service'
+import { AuthService }        from './../../services/auth.service';
+import { ConsultAuthService } from './../../services/consult-auth.service';
 
 
 @Component({
@@ -52,10 +53,12 @@ export class LoginComponent implements OnInit
   ******************************************************************************
   */
   constructor(private formBuilder:FormBuilder,
+              private _serviceConsultAuth:ConsultAuthService,
   			      private Auth:AuthService,
   			      private route:Router,
               private toastr: ToastrService)
   {
+
 
   };
 
@@ -68,6 +71,20 @@ export class LoginComponent implements OnInit
   */
   ngOnInit()
   {
+    //Method for authentication service
+    this._serviceConsultAuth.getService()
+    .subscribe(data => {
+      //Verify session status
+      if (!data.status)
+      {
+        localStorage.removeItem('loggedIn');
+      }
+      else
+      {
+        this.route.navigate(['administrator/dashboard']);
+      }
+    });
+
     //Form state
     this.evaluated_login = true;
     //Form builder group
@@ -131,7 +148,7 @@ export class LoginComponent implements OnInit
           timeOut: 2000,
           positionClass: 'toast-bottom-center'
         });
-        
+
         //Seteamos la autenticacion como valor true
         this.Auth.setLoggedIn(true);
 

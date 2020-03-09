@@ -1,4 +1,8 @@
 <?php
+  // C5 -> Paz y Salvos (Asesorado)
+  // C5 -> Paz y Salvos (Auxiliares de Investigación)
+  // C5 -> Paz y Salvos (Seminario Internacional)
+  // C5 -> Paz y Salvos (Semillero de Investigación)
 
   /*
   *****************************************************************************
@@ -28,6 +32,7 @@
   //User id
   $user_id         = $_SESSION['user']['id_usuario'];
   $user_faculty_id = $_SESSION['user']['id_facultad_usuario'];
+
   //Get the input request parameters
   $inputJSON = file_get_contents('php://input');
   //convert JSON into array
@@ -39,16 +44,26 @@
     $mysqli->set_charset('utf8');
 
     //Post variables (Settings)
-    $program_id   = $_POST['report_settings_c5'][0]['programa_reporte'];
-    $type_report  = $_POST['report_settings_c5'][0]['tipo_reporte'];
-    $title_report = $_POST['report_settings_c5'][0]['titulo_reporte'];
+    $program_id           = $_POST['report_settings_c5'][0]['programa_reporte'];
+    $type_report          = $_POST['report_settings_c5'][0]['tipo_reporte'];
+    $seminar_name_report  = $_POST['report_settings_c5'][0]['seminario_reporte'];
+    $university_report    = $_POST['report_settings_c5'][0]['colaboracion_reporte'];
+    //Validation title
+    if ($type_report == 8)
+    {
+      $title_report = "Reporte sin título (N/A)";
+    }
+    else
+    {
+      $title_report = $_POST['report_settings_c5'][0]['titulo_reporte'];
+    }
 
     //Get the final values
-    $program_data      = getProgramData($program_id);
+    $program_data         = getProgramData($program_id);
 
     //Program array
-    $program_name      = $program_data['program_name'];
-    $program_title     = $program_data['program_title'];
+    $program_name         = $program_data['program_name'];
+    $program_title        = $program_data['program_title'];
 
     //Counter
     $count = 0;
@@ -88,7 +103,8 @@
     */
     $query_members = $mysqli->query("SELECT itgt.id_integrante,
                                             itgt.nombre_integrante,
-                                            itgt.apellido_integrante
+                                            itgt.apellido_integrante,
+                                            itgt.https_firma_integrante
                                      FROM integrante itgt
                                      INNER JOIN tipo_integrante tint
                                      ON tint.id_tipo_integrante = itgt.id_tipo_integrante
@@ -111,8 +127,9 @@
               $dean_lastname = $row_member['apellido_integrante'];
               break;
           case 2:
-              $director_name     = $row_member['nombre_integrante'];
-              $director_lastname = $row_member['apellido_integrante'];
+              $director_name      = $row_member['nombre_integrante'];
+              $director_lastname  = $row_member['apellido_integrante'];
+              $director_signature = $row_member['https_firma_integrante'];
               break;
           default:
               $response["status"]  = false;
@@ -132,14 +149,15 @@
       $insertQueryFaculty  = "INSERT INTO `facultad_reporte`
                                          (`id_facultad_reporte`, `nombre_facultad_reporte`, `siglas_facultad_reporte`,
                                           `nombre_programa_facultad_reporte`, `titulo_programa_facultad_reporte`, `nombre_decano_facultad_reporte`,
-                                          `apellido_decano_facultad_reporte`, `nombre_director_facultad_reporte`, `apellido_director_facultad_reporte`)
-                              VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                          `apellido_decano_facultad_reporte`, `nombre_director_facultad_reporte`, `apellido_director_facultad_reporte`,
+                                          `https_firma_director_facultad_reporte`)
+                              VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       //Prepared query
       $inserted_faculty = $mysqli->prepare($insertQueryFaculty);
       //Parameters
-      $inserted_faculty->bind_param("ssssssss", $faculty_name,  $faculty_acronym, $program_name,
-                                                $program_title, $dean_name,       $dean_lastname,
-                                                $director_name, $director_lastname);
+      $inserted_faculty->bind_param("sssssssss", $faculty_name,  $faculty_acronym, $program_name,
+                                                 $program_title, $dean_name,       $dean_lastname,
+                                                 $director_name, $director_lastname, $director_signature);
       //Evaluate if the query was executed
       if($inserted_faculty->execute())
       {
@@ -164,13 +182,14 @@
         //Query to register new faculty report
         $insertQueryConfiguration  = "INSERT INTO `configuracion_reporte`
                                                  (`id_configuracion_reporte`, `titulo_configuracion_reporte`, `fecha_generacion_configuracion_reporte`,
+                                                  `marco_seminario_configuracion_reporte`, `universidad_seminario_configuracion_reporte`,
                                                   `id_facultad_configuracion_reporte`, `id_resultado_configuracion_reporte`, `id_usuario_configuracion_reporte`,
                                                   `id_funcionalidad_configuracion_reporte`, `id_facultad_final_configuracion_reporte`, `id_tipo_reporte_configuracion_reporte`)
-                                      VALUES (NULL, ?, CURDATE(), ?, '1', ?, '1', ?, ?)";
+                                      VALUES (NULL, ?, CURDATE(), ?, ?, ?, '1', ?, '1', ?, ?)";
         //Prepared query
         $inserted_configuration = $mysqli->prepare($insertQueryConfiguration);
         //Parameters
-        $inserted_configuration->bind_param("siiii", $title_report, $faculty_id, $user_id, $user_faculty_id, $type_report);
+        $inserted_configuration->bind_param("sssiiii", $title_report, $seminar_name_report, $university_report, $faculty_id, $user_id, $user_faculty_id, $type_report);
         //Evaluate if the query was executed
         if($inserted_configuration->execute())
         {
@@ -197,18 +216,17 @@
             $student_name     = $student['nombre_estudiante'];
             $student_lastname = $student['apellido_estudiante'];
             $student_document = $student['documento_estudiante'];
-            $student_city     = $student['id_ciudad_estudiante'];
 
             //Query to register new faculty report
             $insertQueryStudents  = "INSERT INTO `estudiante_reporte`
                                                 (`id_estudiante_reporte`, `nombre_estudiante_reporte`, `apellido_estudiante_reporte`,
-                                                 `documento_estudiante_reporte`, `id_ciudad_estudiante_reporte`, `id_configuracion_estudiante_reporte`)
-                                     VALUES (NULL, ?, ?, ?, ?, ?)";
+                                                 `documento_estudiante_reporte`, `id_configuracion_estudiante_reporte`)
+                                     VALUES (NULL, ?, ?, ?, ?)";
             //Prepared query
             $inserted_student = $mysqli->prepare($insertQueryStudents);
             //Parameters
-            $inserted_student->bind_param("sssii", $student_name, $student_lastname, $student_document,
-                                                   $student_city, $configuration_id);
+            $inserted_student->bind_param("sssi", $student_name, $student_lastname, $student_document,
+                                                  $configuration_id);
             //Evaluate if the query was executed
             if($inserted_student->execute())
             {
@@ -237,42 +255,45 @@
           *****************************************************************************
           *****************************************************************************
           */
-          //Get the members report
-          foreach ($_POST['report_members_c5'] as $member)
+          if (isset($_POST['report_members_c5']))
           {
-            $member_name     = $member['nombre_integrante'];
-            $member_lastname = $member['apellido_integrante'];
-            $member_document = $member['cedula_integrante'];
-            $member_type     = $member['id_tipo_integrante'];
-            $member_position = $member['id_tipo_cargo_integrante'];
-
-            //Query to register new faculty report
-            $insertQueryMembers  = "INSERT INTO `integrante_reporte`
-                                               (`id_integrante_reporte`, `nombre_integrante_reporte`, `apellido_integrante_reporte`,
-                                                `cedula_integrante_reporte`, `id_tipo_integrante_reporte`, `id_tipo_cargo_integrante_reporte`,
-                                                `id_configuracion_integrante_reporte`)
-                                     VALUES (NULL, ?, ?, ?, ?, ?, ?)";
-            //Prepared query
-            $inserted_member = $mysqli->prepare($insertQueryMembers);
-            //Parameters
-            $inserted_member->bind_param("sssiii", $member_name, $member_lastname, $member_document, $member_type, $member_position, $configuration_id);
-            //Evaluate if the query was executed
-            if($inserted_member->execute())
+            //Get the members report
+            foreach ($_POST['report_members_c5'] as $member)
             {
-              $inserted_data_member = $inserted_member->affected_rows;
+              $member_name     = $member['nombre_integrante'];
+              $member_lastname = $member['apellido_integrante'];
+              $member_document = $member['cedula_integrante'];
+              $member_type     = $member['id_tipo_integrante'];
+              $member_position = $member['id_tipo_cargo_integrante'];
 
-              if ($inserted_data_member > 0)
+              //Query to register new faculty report
+              $insertQueryMembers  = "INSERT INTO `integrante_reporte`
+                                                 (`id_integrante_reporte`, `nombre_integrante_reporte`, `apellido_integrante_reporte`,
+                                                  `cedula_integrante_reporte`, `id_tipo_integrante_reporte`, `id_tipo_cargo_integrante_reporte`,
+                                                  `id_configuracion_integrante_reporte`)
+                                       VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+              //Prepared query
+              $inserted_member = $mysqli->prepare($insertQueryMembers);
+              //Parameters
+              $inserted_member->bind_param("sssiii", $member_name, $member_lastname, $member_document, $member_type, $member_position, $configuration_id);
+              //Evaluate if the query was executed
+              if($inserted_member->execute())
               {
-                $response["status"]  = true;
+                $inserted_data_member = $inserted_member->affected_rows;
+
+                if ($inserted_data_member > 0)
+                {
+                  $response["status"]  = true;
+                }
+                else
+                {
+                  $response["status"]  = false;
+                }
               }
               else
               {
-                $response["status"]  = false;
+                $response['message_error'] = "Error (execute query in integrante_reporte): " . $inserted_member->error;
               }
-            }
-            else
-            {
-              $response['message_error'] = "Error (execute query in integrante_reporte): " . $inserted_member->error;
             }
           }
 

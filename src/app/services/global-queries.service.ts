@@ -23,6 +23,11 @@ import { MemberPosition }      from './../interfaces/member_position';
 import { InvestigationGroups } from './../interfaces/investigation_groups';
 import { CertificateTypes }    from './../interfaces/certificate_types';
 import { ConsecutiveTypes }    from './../interfaces/consecutive_types';
+import { ConsecutiveState }    from './../interfaces/consecutive_state';
+import { ConsecutiveYears }    from './../interfaces/consecutive_years';
+import { ReportState }         from './../interfaces/report_state';
+import { ReportTypes }         from './../interfaces/report_types';
+import { ConvocatoryTypes }    from './../interfaces/convocatory_types';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +46,58 @@ export class GlobalQueriesService
   //URL API for production server
   private api_production = 'backend/production/php/services/university/';
 
+  //Array list
+  list_months = [
+    {
+      id_month:"1",
+      month_name:"Enero"
+    },
+    {
+      id_month:"2",
+      month_name:"Febrero"
+    },
+    {
+      id_month:"3",
+      month_name:"Marzo"
+    },
+    {
+      id_month:"4",
+      month_name:"Abril"
+    },
+    {
+      id_month:"5",
+      month_name:"Mayo"
+    },
+    {
+      id_month:"6",
+      month_name:"Junio"
+    },
+    {
+      id_month:"7",
+      month_name:"Julio"
+    },
+    {
+      id_month:"8",
+      month_name:"Agosto"
+    },
+    {
+      id_month:"9",
+      month_name:"Septiembre"
+    },
+    {
+      id_month:"10",
+      month_name:"Octubre"
+    },
+    {
+      id_month:"11",
+      month_name:"Noviembre"
+    },
+    {
+      id_month:"12",
+      month_name:"Diciembre"
+    },
+  ];
+
   /*
   ******************************************************************************
   ******************************************************************************
@@ -53,6 +110,18 @@ export class GlobalQueriesService
 
   };
 
+  /*
+  ******************************************************************************
+  ******************************************************************************
+                         FUNCTIONS SERVICE (GLOBAL ARRAY)
+  ******************************************************************************
+  ******************************************************************************
+  */
+
+  getMonthList()
+  {
+    return this.list_months;
+  };
 
   /*
   ******************************************************************************
@@ -131,6 +200,46 @@ export class GlobalQueriesService
     //Path
     const path = this.api_localhost + 'getConsecutiveTypes.php';
     return this.http.get<ConsecutiveTypes[]>(path);
+  };
+
+  //Method return the consecutive state
+  public getConsecutiveState()
+  {
+    //Path
+    const path = this.api_localhost + 'getConsecutiveState.php';
+    return this.http.get<ConsecutiveState[]>(path);
+  };
+
+  //Method return the report status
+  public getReportState()
+  {
+    //Path
+    const path = this.api_localhost + 'getReportState.php';
+    return this.http.get<ReportState[]>(path);
+  };
+
+  //Method return the report types
+  public getReportTypes()
+  {
+    //Path
+    const path = this.api_localhost + 'getReportTypes.php';
+    return this.http.get<ReportTypes[]>(path);
+  };
+
+  //Method return the consecutive year (list)
+  public getConsecutiveYears()
+  {
+    //Path
+    const path = this.api_localhost + 'getConsecutiveYears.php';
+    return this.http.get<ConsecutiveYears[]>(path);
+  };
+
+  //Method return the convocatory types
+  public getConvocatoryTypes()
+  {
+    //Path
+    const path = this.api_localhost + 'getConvocatoryTypes.php';
+    return this.http.get<ConvocatoryTypes[]>(path);
   };
 
 

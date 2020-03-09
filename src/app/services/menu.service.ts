@@ -93,6 +93,11 @@ export class MenuService
           route: 'users',
         },
         {
+          name:  'Firmas',
+          icon:  'fas fa-signature',
+          route: 'signature',
+        },
+        {
           name:  'Consecutivo',
           icon:  'far fa-file-alt',
           route: 'consecutive',
@@ -158,11 +163,6 @@ export class MenuService
           name:  'Perfil',
           icon:  'fas fa-user-alt',
           route: 'profile',
-        },
-        {
-          name:  'Consecutivo',
-          icon:  'far fa-file-alt',
-          route: 'consecutive',
         }
       ]
     },
@@ -172,23 +172,24 @@ export class MenuService
   menu_reports =
   [
     {
-      name: 'Acta de Sustentación',
-      icon: 'fas fa-hands-helping',
+      name: 'Acta de Inicio',
+      icon: 'fas fa-file-alt',
       route: '../certificate/c1',
     },
     {
-      name: 'Homologación Auxiliar',
-      icon: 'fas fa-user-edit',
+      name: 'Nombramiento de Asesor',
+      icon: 'fas fa-user-plus',
       route: '../certificate/c2',
     },
     {
       name: 'Acta de Aprobación',
+      type: 'Posgrados',
       icon: 'fas fa-clipboard-check',
       route: '../certificate/c3',
     },
     {
-      name: 'Acta de Inicio',
-      icon: 'fas fa-file-alt',
+      name: 'Acta de Sustentación',
+      icon: 'fas fa-hands-helping',
       route: '../certificate/c4',
     },
     {
@@ -197,11 +198,13 @@ export class MenuService
       route: '../certificate/c5',
     },
     /*
+    Disabled report
     {
-      name: 'Designar Asesor (pending)',
-      icon: 'fas fa-paste',
+      name: 'Homologación Auxiliar (out)',
+      icon: 'fas fa-user-edit',
       route: '../certificate/c6',
-    },*/
+    },
+    */
   ];
   /*
   ******************************************************************************

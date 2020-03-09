@@ -25,6 +25,7 @@ import { GeneratorComponent }       from './pages/generator/generator.component'
 import { StudentsComponent }        from './pages/students/students.component';
 import { HistoryReportsComponent }  from './pages/history-reports/history-reports.component';
 import { ConsecutiveComponent }     from './pages/consecutive/consecutive.component';
+import { SignatureComponent }       from './pages/signature/signature.component';
 //Certificates list
 import { C1Component }              from './pages/certificate/c1/c1.component';
 import { C2Component }              from './pages/certificate/c2/c2.component';
@@ -67,6 +68,7 @@ const routes: Routes =
       {path: 'students',        component: StudentsComponent},
       {path: 'users',           component: UsersComponent},
       {path: 'history-reports', component: HistoryReportsComponent},
+      {path: 'signature',       component: SignatureComponent},
       {path: 'consecutive',     component: ConsecutiveComponent},
       //Certificate list
       {path: 'certificate/c1',  component: C1Component},
@@ -74,9 +76,7 @@ const routes: Routes =
       {path: 'certificate/c3',  component: C3Component},
       {path: 'certificate/c4',  component: C4Component},
       {path: 'certificate/c5',  component: C5Component},
-      {path: 'certificate/c6',  component: C6Component},
-      /*
-      {path: 'settings',        component: SettingsComponent},*/
+      //OUT --> {path: 'certificate/c6',  component: C6Component},
       {path: 'logout',          component: LogoutComponent},
       //Elements design
       {path: 'forms',           component: FormsComponent},
@@ -96,9 +96,17 @@ const routes: Routes =
       {path: '',   redirectTo: 'dashboard', pathMatch: 'full'},
       //Routes
       {path: 'dashboard',       component: DashboardComponent},
-      {path: 'profile',         component: ProfileComponent},
       {path: 'reports',         component: ReportsComponent},
-      {path: 'members',         component: MembersComponent},
+      {path: 'history-reports', component: HistoryReportsComponent},
+      {path: 'students',        component: StudentsComponent},
+      {path: 'members',         component: MembersComponent},      
+      {path: 'profile',         component: ProfileComponent},
+      //Certificate list
+      {path: 'certificate/c1',  component: C1Component},
+      {path: 'certificate/c2',  component: C2Component},
+      {path: 'certificate/c3',  component: C3Component},
+      {path: 'certificate/c4',  component: C4Component},
+      {path: 'certificate/c5',  component: C5Component},
       {path: 'logout',          component: LogoutComponent},
     ]
   },

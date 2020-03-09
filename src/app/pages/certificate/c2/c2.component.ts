@@ -87,7 +87,7 @@ export class C2Component implements OnInit
               private toastr: ToastrService)
   {
     //Get the programs
-    _globalService.getMemberPosition2()
+    _globalService.getMemberPosition()
     .subscribe(MemberPosition => {
       this.list_member_position = MemberPosition;
     });
@@ -119,9 +119,7 @@ export class C2Component implements OnInit
     //Form builder group (First)
     this.firstFormGroup = this.formBuilder.group({
             program_report:  ['',  [Validators.required]],
-            date_report:     ['',  [Validators.required]],
-            time_report:     ['',  [Validators.required]],
-            title_report:    ['',  [Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ.,:; ]+$')]]
+            title_report:    ['',  [Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ0-9().,:; ]+$')]]
     });
 
     //Form builder group (Second)
@@ -149,8 +147,6 @@ export class C2Component implements OnInit
         this.firstFormGroup.setValue({
             //Companys data
             program_report: element.programa_reporte,
-            date_report: element.fecha_reporte,
-            time_report: element.hora_reporte,
             title_report: element.titulo_reporte
         });
       });
@@ -241,8 +237,6 @@ export class C2Component implements OnInit
 
      //Form values
     const program_report = this.firstFormGroup.get('program_report').value;
-    const date_report    = this.firstFormGroup.get('date_report').value;
-    const time_report    = this.firstFormGroup.get('time_report').value;
     const title_report   = this.firstFormGroup.get('title_report').value;
 
     //Clear LocalStorage
@@ -253,8 +247,6 @@ export class C2Component implements OnInit
     this.data_settings.push(
     {
         programa_reporte:program_report,
-        fecha_reporte:date_report,
-        hora_reporte:time_report,
         titulo_reporte:title_report
     });
 
@@ -576,8 +568,6 @@ export class C2Component implements OnInit
         //Set the values to null
         this.firstFormGroup.setValue({
           program_report: null,
-          date_report: null,
-          time_report: null,
           title_report: null
         });
       }
@@ -634,8 +624,6 @@ export class C2Component implements OnInit
       //Set the values to null
       this.firstFormGroup.setValue({
         program_report: null,
-        date_report: null,
-        time_report: null,
         title_report: null
       });
 
@@ -662,8 +650,6 @@ export class C2Component implements OnInit
     //Set the values to null
     this.firstFormGroup.setValue({
       program_report: null,
-      date_report: null,
-      time_report: null,
       title_report: null
     });
 
@@ -685,8 +671,7 @@ export class C2Component implements OnInit
   */
   showReport(configuration_id: string | number)
   {
-    //C2 Report (Homologacion Auxiliar)
+    //C2 Report (Nombramiento de Asesor)
     window.open(this.api_localhost + 'generateReportC2.php?configuration_id=' + configuration_id, '_blank');
   };
-
 }

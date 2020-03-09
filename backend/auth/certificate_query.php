@@ -67,6 +67,7 @@
   *****************************************************************************
   */
 
+
   function getConsecutiveDataC1($user_faculty_id)
   {
     //TokyoTyrantQuery
@@ -226,7 +227,6 @@
   *****************************************************************************
   *****************************************************************************
   */
-
   function validateConsecutiveC1($user_faculty_id)
   {
     //TokyoTyrantQuery
@@ -366,6 +366,8 @@
 
   	return false;
   }
+
+
 
   /*
   *****************************************************************************
@@ -516,7 +518,40 @@
               WHERE conf.id_facultad_final_configuracion_reporte = ?
               AND conf.id_configuracion_reporte                  = ?
               AND conf.id_tipo_reporte_configuracion_reporte
-              BETWEEN 5 AND 7";
+              BETWEEN 5 AND 8";
+    //Global connection variable
+    global $mysqli;
+
+    //Prepare query (true)
+  	if($stmt = $mysqli->prepare($query))
+    {
+  		$stmt->bind_param("ii", $user_faculty_id, $configuration_id);
+  		$stmt->execute();
+  		$stmt->store_result();
+  		$stmt->fetch();
+
+  		if($stmt->num_rows == 1)
+      {
+  			$stmt->close();
+  			return true;
+  		}
+  		$stmt->close();
+  	}
+
+  	return false;
+  }
+
+  function validateReportC6($user_faculty_id, $configuration_id)
+  {
+    //TokyoTyrantQuery
+  	$query = "SELECT conf.id_configuracion_reporte,
+	                   conf.id_facultad_final_configuracion_reporte
+              FROM configuracion_reporte conf
+              INNER JOIN consecutivo_reporte ctvo
+              ON ctvo.id_consecutivo_reporte = conf.id_consecutivo_configuracion_reporte
+              WHERE conf.id_facultad_final_configuracion_reporte = ?
+              AND ctvo.id_tipo_consecutivo_reporte               = '6'
+              AND conf.id_configuracion_reporte                  = ?";
     //Global connection variable
     global $mysqli;
 

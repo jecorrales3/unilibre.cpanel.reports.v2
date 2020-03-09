@@ -119,7 +119,7 @@ export class C3Component implements OnInit
     //Form builder group (First)
     this.firstFormGroup = this.formBuilder.group({
             program_report:  ['',  [Validators.required]],
-            title_report:    ['',  [Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ.,:; ]+$')]]
+            title_report:    ['',  [Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ0-9().,:; ]+$')]]
     });
 
     //Form builder group (Second)

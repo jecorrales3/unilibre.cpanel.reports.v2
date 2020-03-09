@@ -231,16 +231,11 @@ export class ProgramsComponent implements OnInit, OnDestroy
     //Loading effect
     this.loading = false;
     //Length data
-    if (this.list_programs.length > 0)
+    if (this.list_programs_aux.filteredData.length > 0)
     {
       this.messageListPrograms = false;
     }
-    else if (this.list_programs.length == 0 && this.messageFilterResult)
-    {
-      this.messageListPrograms = true;
-      this.messageFilterResult = false;
-    }
-    else if (this.list_programs.length == 0 && !this.messageFilterResult)
+    else
     {
       this.messageListPrograms = true;
     }

@@ -17,6 +17,7 @@ import { HttpClient } from '@angular/common/http';
 */
 import { Global }      from './../interfaces/global';
 import { Profile }     from './../interfaces/profile';
+import { Members }     from './../interfaces/members';
 import { Consecutive } from './../interfaces/consecutive';
 import { Users }       from './../interfaces/users';
 
@@ -168,6 +169,22 @@ export class SettingsService
   /*
   ******************************************************************************
   ******************************************************************************
+                         FUNCTIONS SERVICE (SIGNATURE)
+  ******************************************************************************
+  ******************************************************************************
+  */
+  //Method return the member signature
+  public getMemberSignature()
+  {
+    //Path
+    const path = this.api_localhost + 'getMemberSignature.php';
+    return this.http.get<Members[]>(path);
+  };
+
+
+  /*
+  ******************************************************************************
+  ******************************************************************************
                          FUNCTIONS SERVICE (CONSECUTIVE)
   ******************************************************************************
   ******************************************************************************
@@ -178,6 +195,30 @@ export class SettingsService
     //Path
     const path = this.api_localhost + 'getConsecutive.php';
     return this.http.get<Consecutive[]>(path);
+  };
+
+  //Method post that register a consecutive
+  registerConsecutive(consecutive_current:string,
+                      consecutive_faculty:string,
+                      consecutive_type:number)
+  {
+    return this.http.post<Global>(this.api_localhost + 'registerConsecutive.php',
+    {
+      consecutive_current,
+      consecutive_faculty,
+      consecutive_type
+    })
+  };
+
+  //Method post that update a consecutive
+  updateConsecutive(consecutive_id:number,
+                    consecutive_state:string)
+  {
+    return this.http.post<Global>(this.api_localhost + 'updateConsecutive.php',
+    {
+      consecutive_id,
+      consecutive_state
+    })
   };
 
 }

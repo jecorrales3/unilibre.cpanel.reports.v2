@@ -30,7 +30,7 @@
     $queryResult = $mysqli->query("SELECT *
                                    FROM tipo_reporte trte
                                    WHERE trte.id_tipo_reporte
-                                   BETWEEN 5 AND 7");
+                                   BETWEEN 5 AND 8");
     $data = array();
     while ($row = $queryResult->fetch_assoc())
     {

@@ -316,16 +316,11 @@ export class UsersComponent implements OnInit, OnDestroy
     //Loading effect
     this.loading = false;
     //Length data
-    if (this.list_users.length > 0)
+    if (this.list_users_aux.filteredData.length > 0)
     {
       this.messageListUsers = false;
     }
-    else if (this.list_users.length == 0 && this.messageFilterResult)
-    {
-      this.messageListUsers    = true;
-      this.messageFilterResult = false;
-    }
-    else if (this.list_users.length == 0 && !this.messageFilterResult)
+    else
     {
       this.messageListUsers = true;
     }

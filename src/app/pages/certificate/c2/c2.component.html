@@ -1,6 +1,6 @@
-<!-- FORMULARIO HOMOLOGACION AUXILIAR -->
+<!-- FORMULARIO NOMBRAMIENTO DE ASESOR -->
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-  <h4 class="text-muted">Homologación Auxiliar</h4>
+  <h4 class="text-muted">Nombramiento de Asesor</h4>
 </div>
 
 <mat-horizontal-stepper class="p-5" [linear]="isLinear" #stepper>
@@ -27,33 +27,6 @@
               </select>
               <div *ngIf="submitted_first_form && rff.program_report.errors" class="invalid-feedback">
                 <div *ngIf="rff.program_report.errors.required">El programa del reporte es necesario</div>
-              </div>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Fecha de Socialización</label>
-              <input matInput [matDatepicker]="picker" class="form-control rounded-0" placeholder="Fecha de la Socialización" id="date" formControlName="date_report"
-                     [ngClass]="{ 'border-danger': submitted_first_form && rff.date_report.errors,
-                                  'is-invalid': submitted_first_form && rff.date_report.errors
-                                }">
-              <div *ngIf="submitted_first_form && rff.date_report.errors" class="invalid-feedback">
-                 <div *ngIf="rff.date_report.errors.required">La fecha de la sustentación es necesaria</div>
-              </div>
-              <input type="hidden" id="passeye-0">
-              <div class="date-icon">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </div>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Hora de Socialización</label>
-              <input type="time" class="form-control rounded-0" placeholder="Hora de la Socialización" formControlName="time_report"
-                     [ngClass]="{ 'border-danger': submitted_first_form && rff.time_report.errors,
-                                  'is-invalid': submitted_first_form && rff.time_report.errors
-                                }">
-              <div *ngIf="submitted_first_form && rff.time_report.errors" class="invalid-feedback">
-                 <div *ngIf="rff.time_report.errors.required">La hora de la sustentación es necesaria</div>
               </div>
             </div>
 

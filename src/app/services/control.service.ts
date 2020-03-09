@@ -18,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Reports }     from './../interfaces/reports';
 import { Certificate } from './../interfaces/certificate';
 import { Profile }     from './../interfaces/profile';
+import { Global }      from './../interfaces/global';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,31 @@ export class ControlService
     return this.http.get<Reports[]>(path);
   };
 
+  //Method return the members
+  public searchReports(type_report: any, year_report: any, month_report: any)
+  {
+    //Path
+    const path = this.api_localhost + 'getDetailReports.php';
+    return this.http.get<Reports[]>(path, {
+          params: {
+            type_report: type_report,
+            year_report: year_report,
+            month_report: month_report
+          }
+        });
+  };
+
+  //Method post that update a report state
+  updateReport(configuration_id: number,
+               report_state: number)
+  {
+    return this.http.post<Global>(this.api_localhost + 'updateReport.php',
+    {
+      configuration_id,
+      report_state
+    })
+  };
+
 
   /*
   ******************************************************************************
@@ -89,13 +115,13 @@ export class ControlService
   */
   //Method post that register a report (C1)
   registerReportC1(report_settings_c1: any,
-                   report_students_c1: any,
+                   report_groups_c1: any,
                    report_members_c1: any)
   {
     return this.http.post<Certificate>(this.api_localhost + 'registerReportC1.php',
     {
       report_settings_c1,
-      report_students_c1,
+      report_groups_c1,
       report_members_c1
     })
   };
@@ -149,13 +175,13 @@ export class ControlService
   */
   //Method post that register a report (C4)
   registerReportC4(report_settings_c4: any,
-                   report_groups_c4: any,
+                   report_students_c4: any,
                    report_members_c4: any)
   {
     return this.http.post<Certificate>(this.api_localhost + 'registerReportC4.php',
     {
       report_settings_c4,
-      report_groups_c4,
+      report_students_c4,
       report_members_c4
     })
   };
@@ -177,6 +203,29 @@ export class ControlService
       report_settings_c5,
       report_students_c5,
       report_members_c5
+    })
+  };
+
+  /*
+  ******************************************************************************
+  ******************************************************************************
+                         FUNCTIONS SERVICE (CERTIFICATE 6)
+  ******************************************************************************
+  ******************************************************************************
+                                DISABLED REPORT
+  ******************************************************************************
+  ******************************************************************************
+  */
+  //Method post that register a report (C6)
+  registerReportC6(report_settings_c6: any,
+                   report_students_c6: any,
+                   report_members_c6: any)
+  {
+    return this.http.post<Certificate>(this.api_localhost + 'registerReportC6.php',
+    {
+      report_settings_c6,
+      report_students_c6,
+      report_members_c6
     })
   };
 

@@ -1,4 +1,5 @@
 <?php
+  // C3 -> Acta de Aprobación (Posgrados)
 
   /*
   *****************************************************************************
@@ -247,7 +248,7 @@
         ]);
 
         //Indicamos el titulo de la pagina
-        $mpdf->SetTitle("ACTA DE APROBACIÓN - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report);
+        $mpdf->SetTitle("ACTA DE APROBACIÓN (POSGRADO) - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report);
 
         /*
         *****************************************************************************
@@ -318,7 +319,6 @@
             En la ciudad de Pereira, el día <b>' . $day_report . ' de ' . $month_report . ' de ' . $year_report . '</b>, en la Sala de Juntas de la oficina de la Dirección de Investigaciones de la
             Universidad Libre Seccional Pereira – Sede Belmonte, se reunieron los doctores; <b>' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '</b>,
             Director(a) del Centro de Investigaciones de la ' . $faculty_name_report . ', y el (la) doctor (a) <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . ', como Asesor (es)</b>,
-
             del siguiente trabajo de investigación, con el fin de aprobar el proyecto de investigación:
           </p>
         </div>
@@ -409,7 +409,7 @@
                 }
               }
 
-              if (count($data_members) == 2)
+              if (count($data_members) <= 2)
               {
                 $html .=
                 '
@@ -424,14 +424,7 @@
             $html .='
             </tr>
             <tr>
-              <th class="text-center" style="width:50%">
-                ' . mb_strtoupper($dean_name_report) . ' ' . mb_strtoupper($dean_lastname_report) . '
-                <br>
-                <span style="font-size: 12px;font-weight: normal;">
-                  Decano ' . $faculty_name_report . '
-                </span>
-              </th>
-              <th class="text-center" style="width:50%">
+              <th class="text-center" colspan="2">
                 ' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '
                 <br>
                 <span style="font-size: 12px;font-weight: normal;">
@@ -479,7 +472,7 @@
         *****************************************************************************
         */
 
-        $mpdf->Output("ACTA DE APROBACIÓN - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report . ".pdf", "I");
+        $mpdf->Output("ACTA DE APROBACIÓN (POSGRADO) - CONSECUTIVO " . $consecutive_code_report . " DE " . $year_report . ".pdf", "I");
       }
       else
       {

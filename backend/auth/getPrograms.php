@@ -24,16 +24,17 @@
   include '../db/db_connection.php';
   //Session start
   session_start();
-  //User id
-  $user_id = $_SESSION['user']['id_usuario'];
 
   //Evaluate connection with MySql
-  if ($mysqli)
+  if ($mysqli && isset($_SESSION['user']))
   {
     $mysqli->set_charset('utf8');
+    //User information
+    $user_faculty = $_SESSION['user']['id_facultad_usuario'];
+
     $queryResult = $mysqli->query("SELECT prgm.id_programa_facultad,
-                                  	      prgm.nombre_programa_facultad,
-                                  	      prgm.titulo_programa_facultad,
+                                          prgm.nombre_programa_facultad,
+                                          prgm.titulo_programa_facultad,
                                           prgm.fecha_registro_programa_facultad,
                                           fctd.id_facultad,
                                           fctd.nombre_facultad,
@@ -42,6 +43,7 @@
                                    INNER JOIN facultad fctd
                                    ON fctd.id_facultad = prgm.id_facultad_programa_facultad
                                    WHERE prgm.id_funcionalidad_programa_facultad = '1'
+                                   AND prgm.id_facultad_programa_facultad = '$user_faculty'
                                    ORDER BY prgm.nombre_programa_facultad ASC");
     $data = array();
     while ($row = $queryResult->fetch_assoc())

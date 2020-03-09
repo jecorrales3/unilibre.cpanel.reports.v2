@@ -62,7 +62,7 @@
                   </span>
                 </td>
                 <td class="text-center">
-                  <span class="badge badge-pill" [ngClass]="{ 'badge-success': consecutive.id_estado_consecutivo_reporte == '1', 'badge-danger': consecutive.id_estado_consecutivo_reporte == '2'}">
+                  <span class="badge badge-pill" [ngClass]="{ 'badge-success': consecutive.id_estado_consecutivo_reporte == '1', 'badge-warning': consecutive.id_estado_consecutivo_reporte == '2', 'badge-danger': consecutive.id_estado_consecutivo_reporte == '3'}">
                     {{consecutive.nombre_estado_consecutivo_reporte}}
                   </span>
                 </td>
@@ -109,8 +109,16 @@
 
                 <div class="col-md-12">
                   <div class="alert alert-primary" role="alert">
-                    Si el sistema encuentra otro consecutivo <strong>Activo</strong>
-                    este será registrado con estado <strong>Inactivo</strong>.
+                    <p class="text-justify">Debe tener en cuenta los siguientes puntos al momento de registrar un consecutivo:</p>
+                    <hr>
+                    <ul>
+                      <li>
+                        El sistema registra cada consecutivo de acuerdo al año actual.
+                      </li>
+                      <li>
+                        Si el sistema encuentra un tipo de consecutivo Activo este (nuevo consecutivo) será registrado con estado Inactivo.
+                      </li>
+                    </ul>
                   </div>
                 </div>
 
@@ -157,6 +165,14 @@
                   </div>
                 </div>
 
+                <div class="col-md-12">
+                  <hr>
+                </div>
+
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-lightning rounded-0 mb-2 mr-2">Registrar consecutivo</button>
+                </div>
+
               </div>
             </form>
           </div>
@@ -182,22 +198,62 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content rounded-0">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Detalle</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{detail_consecutive_type}} - {{detail_consecutive_faculty}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="form-row">
+      <form [formGroup]="update_consecutive_form" (ngSubmit)="updateConsecutive()">
+        <div class="modal-body">
+          <div class="form-row">
 
+            <div class="col-md-12">
+              <p class="text-justify">
+                El consecutivo para el tipo de reporte {{detail_consecutive_type}} tiene vigencia desde <strong>{{detail_consecutive_valid_since}}</strong> hasta el <strong>{{detail_consecutive_valid_until}}</strong>
+                con <strong>{{detail_consecutive_until}}</strong> consecutivos habilitados para la generación de reportes del año <strong>{{detail_consecutive_year}}</strong>.
+              </p>
+              <p class="text-justify" *ngIf="detail_consecutive_state_id != '3'">
+                El estado del reporte sólo se actualizará a estado Activo cuando NO haya otro consecutivo del mismo tipo con estado Activo.
+              </p>
+            </div>
 
+            <div class="col-md-12" *ngIf="detail_consecutive_state_id != 2 && detail_consecutive_state_id != 3 && messageConsecutive">
+              <div class="alert alert-danger text-justify" role="alert">
+                <p>Se debe finalizar el estado del consecutivo porque no cumple los parámetros necesarios para ser usado en la creación de reportes:</p>
+                <hr>
+                <ul>
+                  <li>El año registrado para el consecutivo no corresponde al año actual.</li>
+                  <li>El consecutivo ha cumplido el límite de reportes.</li>
+                </ul>
+              </div>
+            </div>
 
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Estado</label>
+              <select class="form-control rounded-0" formControlName="consecutive_state"
+                      [ngClass]="{ 'border-danger': updated_form && uc.consecutive_state.errors,
+                                   'is-invalid': updated_form && uc.consecutive_state.errors
+                                 }">
+                <option *ngFor="let state of list_consecutive_state" [value]="state.id_estado_consecutivo_reporte">
+                  {{state.nombre_estado_consecutivo_reporte}}
+                </option>
+              </select>
+              <div *ngIf="updated_form && uc.consecutive_state.errors" class="invalid-feedback">
+                 <div *ngIf="uc.consecutive_state.errors.required">El estado del consecutivo es necesario</div>
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary rounded-0">Actualizar</button>
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary rounded-0">Actualizar</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

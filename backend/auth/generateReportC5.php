@@ -1,4 +1,8 @@
 <?php
+  // C5 -> Paz y Salvos (Asesorado)
+  // C5 -> Paz y Salvos (Auxiliares de Investigación)
+  // C5 -> Paz y Salvos (Seminario Internacional)
+  // C5 -> Paz y Salvos (Semillero de Investigación)
 
   /*
   *****************************************************************************
@@ -85,7 +89,9 @@
                                       	              conf.titulo_configuracion_reporte,
                                                       trte.id_tipo_reporte,
                                                       trte.nombre_tipo_reporte,
-                                                      conf.id_funcionalidad_configuracion_reporte
+                                                      conf.id_funcionalidad_configuracion_reporte,
+                                                      conf.marco_seminario_configuracion_reporte,
+                                                      conf.universidad_seminario_configuracion_reporte
                                                  FROM configuracion_reporte conf
                                                INNER JOIN facultad_reporte frpt
                                                ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -111,6 +117,8 @@
           $type_report                  = $row_configuration['id_tipo_reporte'];
           $file_name_report             = $row_configuration['nombre_tipo_reporte'];
           $state_report                 = $row_configuration['id_funcionalidad_configuracion_reporte'];
+          $seminar_name_report          = $row_configuration['marco_seminario_configuracion_reporte'];
+          $university_report            = $row_configuration['universidad_seminario_configuracion_reporte'];
         }
 
         /*
@@ -122,11 +130,8 @@
         */
         $query_students = $mysqli->query("SELECT edte.nombre_estudiante_reporte,
   	                                             edte.apellido_estudiante_reporte,
-                                                 edte.documento_estudiante_reporte,
-                                                 cdad.nombre_ciudad
+                                                 edte.documento_estudiante_reporte
                                             FROM estudiante_reporte edte
-                                           INNER JOIN ciudad cdad
-                                           ON cdad.id_ciudad = edte.id_ciudad_estudiante_reporte
                                            WHERE edte.id_configuracion_estudiante_reporte = '$configuration_id'
                                            ORDER BY edte.apellido_estudiante_reporte ASC
                                            LIMIT 3");
@@ -142,11 +147,8 @@
         */
         $query_students_list= $mysqli->query("SELECT edte.nombre_estudiante_reporte,
   	                                             edte.apellido_estudiante_reporte,
-                                                 edte.documento_estudiante_reporte,
-                                                 cdad.nombre_ciudad
+                                                 edte.documento_estudiante_reporte
                                             FROM estudiante_reporte edte
-                                           INNER JOIN ciudad cdad
-                                           ON cdad.id_ciudad = edte.id_ciudad_estudiante_reporte
                                            WHERE edte.id_configuracion_estudiante_reporte = '$configuration_id'
                                            ORDER BY edte.apellido_estudiante_reporte ASC
                                            LIMIT 3");
@@ -192,7 +194,8 @@
         *****************************************************************************
         */
         $query_main_members = $mysqli->query("SELECT frpt.nombre_director_facultad_reporte,
-                                                     frpt.apellido_director_facultad_reporte
+                                                     frpt.apellido_director_facultad_reporte,
+                                                     frpt.https_firma_director_facultad_reporte
                                                 FROM configuracion_reporte conf
                                               INNER JOIN facultad_reporte frpt
                                               ON frpt.id_facultad_reporte = conf.id_facultad_configuracion_reporte
@@ -205,10 +208,39 @@
         while ($row_main_member = $query_main_members->fetch_assoc())
         {
           //Array
-          $data_main_members[]      = $row_main_member;
+          $data_main_members[]       = $row_main_member;
           //Query rows
-          $director_name_report     = $row_main_member['nombre_director_facultad_reporte'];
-          $director_lastname_report = $row_main_member['apellido_director_facultad_reporte'];
+          $director_name_report      = $row_main_member['nombre_director_facultad_reporte'];
+          $director_lastname_report  = $row_main_member['apellido_director_facultad_reporte'];
+          $director_signature_report = $row_main_member['https_firma_director_facultad_reporte'];
+        }
+
+
+        /*
+        *****************************************************************************
+        *****************************************************************************
+        ************************     QUERY JURIES REPORT     ************************
+        *****************************************************************************
+        *****************************************************************************
+        */
+        $query_advisors = $mysqli->query("SELECT igte.nombre_integrante_reporte,
+  	                                             igte.apellido_integrante_reporte
+                                            FROM integrante_reporte igte
+                                          INNER JOIN tipo_cargo_reporte tipo
+                                          ON tipo.id_tipo_cargo_reporte = igte.id_tipo_cargo_integrante_reporte
+                                          WHERE igte.id_configuracion_integrante_reporte = '$configuration_id'
+                                          AND tipo.id_tipo_cargo_reporte = '1'
+                                          LIMIT 1");
+
+        $data_advisors = array();
+
+        while ($row_adviser = $query_advisors->fetch_assoc())
+        {
+          //Array
+          $data_advisors[]  = $row_adviser;
+          //Query rows
+          $adviser_name     = $row_adviser['nombre_integrante_reporte'];
+          $adviser_lastname = $row_adviser['apellido_integrante_reporte'];
         }
 
 
@@ -270,8 +302,6 @@
           <div class="text-center">
             <h4>
               <b>
-                UNIVERSIDAD LIBRE SECCIONAL PEREIRA
-                <br>
                 ' . mb_strtoupper($faculty_name_report) .  '
                 <br>
                 CENTRO DE INVESTIGACIONES
@@ -330,8 +360,9 @@
             ';
             switch ($type_report)
             {
+              //Paz y Salvo (Asesorado)
               case 5:
-                $margin_top = "250px";
+                $margin_top = "50px";
                 $html .='
                 <p class="text-justify">
                   <b>POR CONCEPTO DE:</b> Aprobación de sustentación y entrega al Centro de Investigaciones del Trabajo de Investigación
@@ -339,8 +370,9 @@
                 </p>';
                 break;
 
-              case 6:
-                $margin_top = "200px";
+                //Paz y Salvo (Auxiliar de investigación)
+                case 6:
+                $margin_top = "30px";
                 $html .='
                 <p class="text-justify">
                   <b>POR CONCEPTO DE:</b> Aprobación, homologación, socialización y entrega al Centro de Investigaciones como <b>Auxiliares de Investigación</b> del trabajo de
@@ -349,14 +381,26 @@
                 </p>';
                 break;
 
-              case 7:
-                $margin_top = "200px";
+                //Paz y Salvo (Seminario Internacional)
+                case 7:
+                $margin_top = "10px";
                 $html .='
                 <p class="text-justify">
                   <b>POR CONCEPTO DE:</b> Aprobación, homologación, socialización y entrega al Centro de Investigaciones como <b>Auxiliares de Investigación</b> del trabajo de
-                  investigación denominado: <b>“' . mb_strtoupper($title_report) . '”</b> realizado bajo el marco del Seminario Internacional denominado Objetivos de Desarrollo Sostenible,
-                  desarrollado con la colaboración de la Universidad San Martín de Porres-Lima Perú, y cuya asesora principal es la docente: <b>LUZ ANDREA BEDOYA PARRA</b>, como requisito parcial
+                  investigación denominado: <b>“' . mb_strtoupper($title_report) . '”</b> realizado bajo el marco del Seminario Internacional denominado ' . $seminar_name_report . ',
+                  desarrollado con la colaboración de la Universidad ' . $university_report . ', y cuyo asesor(a) principal es el(la) docente: <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . '</b>, como requisito parcial
                   para optar al título de <b>' . mb_strtoupper($program_title_report) . '.</b>
+                </p>';
+                break;
+
+                //Paz y Salvo (Semillero de Investigación)
+                case 8:
+                $margin_top = "50px";
+                $html .='
+                <p class="text-justify">
+                  <b>POR CONCEPTO DE:</b> Aprobación, homologación, socialización y entrega al Centro de Investigaciones de productos investigativos derivados de la
+                  OPCIÓN DE INVESTIGACIÓN: <b>“SEMILLERO DE INVESTIGACIÓN” (Artículo 45 del acuerdo 01 de febrero de 2019),</b> como requisito parcial para optar
+                  al título de <b>' . mb_strtoupper($program_title_report) . '.</b>
                 </p>';
                 break;
             }
@@ -366,10 +410,10 @@
             <b>NOMBRE DEL EGRESADO(A): ' . mb_strtoupper($row_student['nombre_estudiante_reporte']) . ' ' . mb_strtoupper($row_student['apellido_estudiante_reporte']) . '</b>
             <br>
             <p class="text-justify">
-              Cédula de Ciudadanía No. ' . number_format($row_student['documento_estudiante_reporte'], 0, '.', '.') . ' expedida en ' . ucfirst($row_student['nombre_ciudad']) . '
+              Cédula de Ciudadanía No. ' . number_format($row_student['documento_estudiante_reporte'], 0, '.', '.') . '
             </p>
             <br>
-            <b>DEL PROGRAMA DE ADMINISTRACIÓN DE EMPRESAS</b>
+            <b>DEL PROGRAMA DE ' . mb_strtoupper($program_name_report) . '</b>
             <br>
             <br>
             <p class="text-justify">
@@ -380,6 +424,9 @@
                 <tr>
                   <th class="text-center" style="width:20%"></th>
                   <th class="text-center" style="width:60%">
+                    <!--<img src="' . $director_signature_report . '" height="200px" width="200px">-->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Signature_of_BTS%27_Jungkook.png" height="200px" width="200px">
+                    <br>
                     ' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '
                     <br>
                     <span style="font-size: 12px;font-weight: normal;">

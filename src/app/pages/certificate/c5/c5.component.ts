@@ -8,6 +8,8 @@
 import { Component, OnInit }                  from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService }                      from 'ngx-toastr';
+import { trigger, transition, style, animate,
+         query, stagger }                     from '@angular/animations';
 
 /*
 ******************************************************************************
@@ -21,10 +23,21 @@ import { ControlService }       from './../../../services/control.service';
 import { GlobalQueriesService } from './../../../services/global-queries.service';
 
 
+export const fadeAnimation = trigger('fadeAnimation',
+[
+  transition(':enter', [
+    style({ opacity: 0 }), animate('500ms', style({ opacity: 1 }))]
+  ),
+  transition(':leave',
+    [style({ opacity: 1 }), animate('300ms', style({ opacity: 0 }))]
+  )
+]);
+
 @Component({
   selector: 'app-c5',
   templateUrl: './c5.component.html',
-  styleUrls: ['./c5.component.scss']
+  styleUrls:  ['./c5.component.scss'],
+  animations: [fadeAnimation]
 })
 export class C5Component implements OnInit
 {
@@ -73,6 +86,10 @@ export class C5Component implements OnInit
   messageListMembersForm:boolean = false;
   messageListPrograms:boolean    = false;
   messageListStudents:boolean    = false;
+
+  //Hide forms
+  hide_form_gr7:boolean = true;
+  hide_form_gr8:boolean = true;
 
 
   /*
@@ -132,17 +149,18 @@ export class C5Component implements OnInit
   {
     //Form builder group (First)
     this.firstFormGroup = this.formBuilder.group({
-            program_report:  ['',  [Validators.required]],
-            type_report:     ['',  [Validators.required]],
-            title_report:    ['',  [Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ.,:; ]+$')]]
+            program_report:        ['',  [Validators.required]],
+            type_report:           ['',  [Validators.required]],
+            seminar_name_report:   [''],
+            university_report:     [''],
+            title_report:          ['',  [Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ0-9().,:; ]+$')]]
     });
 
     //Form builder group (Second)
     this.secondFormGroup = this.formBuilder.group({
             student_name:         ['',  [Validators.required, Validators.maxLength(40), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
             student_lastname:     ['',  [Validators.required, Validators.maxLength(40), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
-            student_document:     ['',  [Validators.required, Validators.minLength(8),  Validators.maxLength(12), Validators.pattern('^[0-9]+$')]],
-            student_city:         ['',  [Validators.required]]
+            student_document:     ['',  [Validators.required, Validators.minLength(8),  Validators.maxLength(12), Validators.pattern('^[0-9]+$')]]
     });
 
     //Form builder group (Third)
@@ -164,6 +182,8 @@ export class C5Component implements OnInit
             //Companys data
             program_report: element.programa_reporte,
             type_report: element.tipo_reporte,
+            seminar_name_report: element.seminario_reporte,
+            university_report: element.colaboracion_reporte,
             title_report: element.titulo_reporte
         });
       });
@@ -196,6 +216,61 @@ export class C5Component implements OnInit
       //Message
       this.messageListMembers = true;
     }
+
+    //Change the validators
+    this.setValidators();
+
+    if (this.firstFormGroup.get('type_report').value == '7')
+    {
+      this.hide_form_gr7 = false;
+    }
+    else if(this.firstFormGroup.get('type_report').value == '8')
+    {
+      this.hide_form_gr8 = false;
+    }
+  };
+
+  setValidators()
+  {
+    //Get the values
+    const title_report         = this.firstFormGroup.get('title_report');
+    const seminar_name_report  = this.firstFormGroup.get('seminar_name_report');
+    const university_report    = this.firstFormGroup.get('university_report');
+
+    //Suscribe to the values that have changed
+    this.firstFormGroup.get('type_report').valueChanges
+    .subscribe(type_report =>
+    {
+      //Evaluate type report
+      if (type_report === '7')
+      {
+        this.hide_form_gr7 = false;
+        seminar_name_report.setValidators([Validators.required, Validators.maxLength(80), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ0-9().,:; ]+$')]);
+        university_report.setValidators([Validators.required, Validators.maxLength(80), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ0-9().,:; ]+$')]);
+      }
+      else
+      {
+        this.hide_form_gr7 = true;
+        seminar_name_report.setValidators([]);
+        university_report.setValidators([]);
+      }
+
+      if (type_report === '8')
+      {
+        this.hide_form_gr8 = false;
+        title_report.setValidators([]);
+      }
+      else
+      {
+        this.hide_form_gr8 = true;
+        title_report.setValidators([Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ0-9().,:; ]+$')]);
+      }
+
+      //Update the values
+      title_report.updateValueAndValidity();
+      seminar_name_report.updateValueAndValidity();
+      university_report.updateValueAndValidity();
+    });
   };
 
 
@@ -253,9 +328,11 @@ export class C5Component implements OnInit
     }
 
      //Form values
-    const program_report = this.firstFormGroup.get('program_report').value;
-    const type_report    = this.firstFormGroup.get('type_report').value;
-    const title_report   = this.firstFormGroup.get('title_report').value;
+    const program_report       = this.firstFormGroup.get('program_report').value;
+    const type_report          = this.firstFormGroup.get('type_report').value;
+    const seminar_name_report  = this.firstFormGroup.get('seminar_name_report').value;
+    const university_report    = this.firstFormGroup.get('university_report').value;
+    const title_report         = this.firstFormGroup.get('title_report').value;
 
     //Clear LocalStorage
     localStorage.removeItem('report_settings_c5');
@@ -266,6 +343,8 @@ export class C5Component implements OnInit
     {
         programa_reporte:program_report,
         tipo_reporte:type_report,
+        seminario_reporte: seminar_name_report,
+        colaboracion_reporte: university_report,
         titulo_reporte:title_report
     });
 
@@ -305,7 +384,6 @@ export class C5Component implements OnInit
     const student_name     = this.secondFormGroup.get('student_name').value;
     const student_lastname = this.secondFormGroup.get('student_lastname').value;
     const student_document = this.secondFormGroup.get('student_document').value;
-    const student_city     = this.secondFormGroup.get('student_city').value;
 
     //Clear array
     this.data_students = [];
@@ -322,9 +400,7 @@ export class C5Component implements OnInit
     {
         nombre_estudiante:student_name,
         apellido_estudiante:student_lastname,
-        documento_estudiante:student_document,
-        id_ciudad_estudiante:student_city.id_ciudad,
-        nombre_ciudad_estudiante:student_city.nombre_ciudad
+        documento_estudiante:student_document
     });
 
     //Message
@@ -342,8 +418,7 @@ export class C5Component implements OnInit
     this.secondFormGroup.setValue({
       student_name: null,
       student_lastname: null,
-      student_document: null,
-      student_city: null
+      student_document: null
     });
 
     //Show the result of the action
@@ -528,13 +603,16 @@ export class C5Component implements OnInit
     }
     else if (this.report_members_c5.length == 0)
     {
-      //Show the result of the action
-      this.toastr.warning('Se necesita registrar al menos un integrante', 'WARNING', {
-        timeOut: 3000,
-        positionClass: 'toast-top-right',
-      });
-      //Finish process
-      return;
+      if (this.firstFormGroup.get('type_report').value == 7)
+      {
+        //Show the result of the action
+        this.toastr.warning('Se necesita registrar al menos un integrante para el Paz y Salvo (Seminario Internacional)', 'WARNING', {
+          timeOut: 3000,
+          positionClass: 'toast-top-right',
+        });
+        //Finish process
+        return;
+      }
     }
 
     //Get values
@@ -545,7 +623,6 @@ export class C5Component implements OnInit
     this._controlService.registerReportC5(report_settings_c5, report_students_c5, report_members_c5)
     .subscribe(data=>
     {
-      console.log("Data: ", data);
       if (data.message == 'Reporte generado.')
       {
         //Show the result of the action
@@ -593,6 +670,9 @@ export class C5Component implements OnInit
         //Set the values to null
         this.firstFormGroup.setValue({
           program_report: null,
+          type_report: null,
+          seminar_name_report: null,
+          university_report: null,
           title_report: null
         });
       }
@@ -650,6 +730,8 @@ export class C5Component implements OnInit
       this.firstFormGroup.setValue({
         program_report: null,
         type_report: null,
+        seminar_name_report: null,
+        university_report: null,
         title_report: null
       });
 
@@ -677,6 +759,8 @@ export class C5Component implements OnInit
     this.firstFormGroup.setValue({
       program_report: null,
       type_report: null,
+      seminar_name_report: null,
+      university_report: null,
       title_report: null
     });
 

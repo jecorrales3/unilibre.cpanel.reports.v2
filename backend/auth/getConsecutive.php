@@ -53,7 +53,8 @@
                                     ON tipo.id_tipo_consecutivo_reporte = ctvo.id_tipo_consecutivo_reporte
                                     INNER JOIN facultad fctd
                                     ON fctd.id_facultad = ctvo.id_facultad_consecutivo_reporte
-                                    ORDER BY etdo.id_estado_consecutivo_reporte ASC");
+                                    ORDER BY etdo.id_estado_consecutivo_reporte ASC,
+                                             ctvo.year_consecutivo_reporte DESC");
     $data = array();
     while ($row = $queryResult->fetch_assoc())
     {

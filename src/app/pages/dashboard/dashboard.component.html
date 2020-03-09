@@ -1,104 +1,47 @@
 <div>
-  <h4 class="mb-4 text-muted">Dashboard </h4>
+  <h4 class="mb-4 text-muted">Tablero</h4>
 
-  <div class="row">
-
-    <div class="col-md-6 col-lg-3 mb-4">
+  <div class="row scrollable-card-list" *ngIf="!messageReportCounters">
+    <div class="col-md-6 col-lg-3 mb-3" *ngFor="let card_report of report_counter">
       <div class="card border-0 rounded-0">
         <div class="card-body">
           <div class="card-innerBody d-flex align-items-center">
             <div class="card-icon text-light">
-              <i class="fas fa-dollar-sign" aria-hidden="true"></i>
+              <i class="fas" aria-hidden="true"
+                 [ngClass]="{
+                              'fa-file-alt': card_report.id_tipo_reporte        == 1,
+                              'fa-user-plus': card_report.id_tipo_reporte       == 2,
+                              'fa-clipboard-check': card_report.id_tipo_reporte == 3,
+                              'fa-hands-helping': card_report.id_tipo_reporte   == 4,
+                              'fa-file-signature': card_report.id_tipo_reporte  >= 5
+                            }"></i>
             </div>
             <div class="ml-auto">
-              <p class="card-label text-right text-muted">Revenue</p>
-              <h4 class="card-text text-right ">$ 199,099</h4>
+              <p class="card-label text-right text-muted linkhand" matTooltip="{{card_report.nombre_tipo_reporte}}">{{card_report.nombre_tipo_reporte | truncate:25}}</p>
+              <h4 class="card-text text-right">{{card_report.counter_report}}</h4>
             </div>
           </div>
         </div>
         <div class="card-footer d-flex ">
-          <small class="text-muted">Since last month</small>
+          <small class="text-muted">{{card_report.year_report}}</small>
           <small class="text-success ml-auto">
-            <i class="fa fa-caret-up" aria-hidden="true"></i>
-            5,35%
+            {{card_report.siglas_facultad}}
           </small>
         </div>
       </div>
     </div>
-
-    <div class="col-md-6 col-lg-3 mb-4">
-      <div class="card border-0 rounded-0">
-        <div class="card-body">
-          <div class="card-innerBody d-flex align-items-center">
-            <div class="card-icon text-light">
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </div>
-            <div class="ml-auto">
-              <p class="card-label text-right text-muted">Orders</p>
-              <h4 class="card-text text-right ">2,200</h4>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex ">
-          <small class="text-muted">Since last month</small>
-          <small class="text-success ml-auto">
-            <i class="fa fa-caret-up" aria-hidden="true"></i>
-            8,66%
-          </small>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-3 mb-4">
-      <div class="card border-0 rounded-0">
-        <div class="card-body">
-          <div class="card-innerBody d-flex align-items-center">
-            <div class="card-icon text-light">
-              <i class="fa fa-users" aria-hidden="true"></i>
-            </div>
-            <div class="ml-auto">
-              <p class="card-label text-right text-muted">Visitors</p>
-              <h4 class="card-text text-right ">702,258</h4>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex ">
-          <small class="text-muted">Since last month</small>
-          <small class="text-danger ml-auto">
-            <i class="fa fa-caret-down" aria-hidden="true"></i>
-            2,81%
-          </small>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-3 mb-4">
-      <div class="card border-0 rounded-0">
-        <div class="card-body">
-          <div class="card-innerBody d-flex align-items-center">
-            <div class="card-icon text-light">
-              <i class="fa fa-heartbeat" aria-hidden="true"></i>
-            </div>
-            <div class="ml-auto">
-              <p class="card-label text-right text-muted">Followers</p>
-              <h4 class="card-text text-right "> +50K</h4>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex ">
-          <small class="text-muted">Since last month</small>
-          <small class="text-success ml-auto">
-            <i class="fa fa-caret-up" aria-hidden="true"></i>
-            1,74%
-          </small>
-        </div>
-      </div>
-    </div>
-
   </div>
 
+  <div class="row" *ngIf="messageReportCounters">
+    <div class="col-md-12">
+      <div class="alert alert-info mt-2" role="alert">
+        No se han registrado reportes suficientes para generar las tarjetas con su respectiva información.
+      </div>
+    </div>
+  </div>
 
-  <div class="row">
+  <div class="row mt-3">
+    <!--
     <div class="col-12 col-xl-6 mb-4">
       <div class="card border-0 rounded-0">
         <div class="card-title mb-1 p-3 d-flex">
@@ -126,27 +69,30 @@
         </div>
       </div>
     </div>
+    -->
     <div class="col-12 col-xl-4 mb-4 align-items-stretch">
       <div class="card h-100 border-0 rounded-0">
         <div class="card-title mb-1 p-3 d-flex">
-          <h6>Chart Doughnut</h6>
-          <a class="btn ml-auto p-0 text-lightning"> <i class="fas fa-ellipsis-h"></i> </a>
+          <h6>Reportes (%)</h6>
+          <a class="btn ml-auto p-0 text-lightning" [matMenuTriggerFor]="doughnut_menu">
+            <i class="fas fa-ellipsis-h"></i>
+          </a>
+          <mat-menu #doughnut_menu="matMenu">
+            <button mat-menu-item *ngFor="let year of doughnut_year_menu" (click)="selectYear(year)">{{year}}</button>
+          </mat-menu>
         </div>
         <div class="card-body">
-          <div class="chart-container d-flex h-100 align-items-center justify-content-center" style="position: relative;">
+          <div class="chart-container d-flex h-100 align-items-center justify-content-center" style="position: relative;" *ngIf="!messageChartDoughnut">
             <canvas id="chart-doughnut" style="height:100%"></canvas>
           </div>
-        </div>
-        <div class="card-footer">
-          <div class="legend d-flex just">
-            <div class="flex-fill text-center"><span class="d-inline-block rounded-circle mr-2"
-                style="background: #5b6582;"></span><small>HTML</small></div>
-            <div class="flex-fill text-center"><span class="d-inline-block rounded-circle mr-2"
-                style="background: #98a4c7;"></span><small>CSS</small></div>
-            <div class="flex-fill text-center"><span class="d-inline-block rounded-circle mr-2"
-                style="background: #36a2eb;"></span><small>Javascript</small></div>
+          <div class="alert alert-info mt-2" role="alert" style="margin-top:10% !important;" *ngIf="messageChartDoughnut">
+            Sin referencias para generar la gráfica
           </div>
-
+        </div>
+        <div class="card-footer" *ngIf="!messageChartDoughnut">
+          <div class="legend d-flex just" *ngFor="let footer_chart of doughnut_footer_chart">
+            <div class="flex-fill text-left"><span class="d-inline-block rounded-circle mr-2" [ngStyle]="{'background-color': footer_chart.color_report}"></span><small>{{footer_chart.title_report}}</small></div>
+          </div>
         </div>
       </div>
     </div>
@@ -154,8 +100,7 @@
     <div class="col-12 col-xl-8 mb-4 align-items-stretch">
       <div class="card h-100 border-0 rounded-0">
         <div class="card-title mb-1 p-3 d-flex">
-          <h6>Purchases</h6>
-          <a class="btn ml-auto p-0 text-lightning"> <i class="fas fa-ellipsis-h"></i> </a>
+          <h6>Últimos Cinco Reportes</h6>
         </div>
         <div class="card-body">
           <div class="table-responsive-md">
@@ -163,48 +108,46 @@
               <table class="table ">
                 <thead>
                   <tr>
-                    <th style="width:40%;">Product</th>
-                    <th class="number">Price</th>
-                    <th style="width:20%;">Date</th>
-                    <th style="width:20%;">State</th>
-                    <th class="actions" style="width:5%;"></th>
+                    <th class="text-center" style="width:40%;">Reporte</th>
+                    <th class="number text-center">Estudiantes</th>
+                    <th class="text-center" style="width:20%;">Fecha</th>
+                    <th class="text-center" style="width:20%;">Estado</th>
+                    <th class="text-center" style="width:5%;">Opciones</th>
                   </tr>
                 </thead>
                 <tbody class="no-border-x">
-                  <tr>
-                    <td>Sony Xperia M4</td>
-                    <td class="number">$149</td>
-                    <td>Aug 23, 2018</td>
-                    <td class="text-success">Completed</td>
-                    <td class="actions"><a class="icon" href="#"><i class="mdi mdi-plus-circle-o"></i></a></td>
+                  <tr class="text-center" *ngIf="loading">
+                    <td colspan="12">
+                      <div class="spinner-border text-primary mt-1 mb-1" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </td>
                   </tr>
-                  <tr>
-                    <td>Apple iPhone 6</td>
-                    <td class="number">$535</td>
-                    <td>Aug 20, 2018</td>
-                    <td class="text-success">Completed</td>
-                    <td class="actions"><a class="icon" href="#"><i class="mdi mdi-plus-circle-o"></i></a></td>
+                  <tr *ngFor="let report of report_list">
+                    <td class="text-left">{{report.nombre_tipo_reporte}}</td>
+                    <td class="number text-center">
+                      <span class="badge badge-pill badge-dark linkhand" matTooltip="{{report.listado_estudiante}}">
+                        {{report.contador_estudiante}}
+                      </span>
+                    </td>
+                    <td class="text-center">
+                      {{report.fecha_generacion_configuracion_reporte}}
+                    </td>
+                    <td class="text-center" [ngClass]="{ 'text-success': report.id_funcionalidad == '1', 'text-danger': report.id_funcionalidad == '3'}">
+                      {{report.nombre_funcionalidad}}
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-danger btn-sm" (click)="showReport(report)" matTooltip="Visualizar reporte">
+                        <i class="far fa-file-pdf"></i>
+                      </button>
+                    </td>
                   </tr>
-                  <tr>
-                    <td>Samsung Galaxy S7</td>
-                    <td class="number">$583</td>
-                    <td>Aug 18, 2018</td>
-                    <td class="text-warning">Pending</td>
-                    <td class="actions"><a class="icon" href="#"><i class="mdi mdi-plus-circle-o"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>HTC One M9</td>
-                    <td class="number">$350</td>
-                    <td>Aug 15, 2018</td>
-                    <td class="text-warning">Pending</td>
-                    <td class="actions"><a class="icon" href="#"><i class="mdi mdi-plus-circle-o"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>Sony Xperia Z5</td>
-                    <td class="number">$495</td>
-                    <td>Aug 13, 2018</td>
-                    <td class="text-danger">Cancelled</td>
-                    <td class="actions"><a class="icon" href="#"><i class="mdi mdi-plus-circle-o"></i></a></td>
+                  <tr class="text-center" *ngIf="messageReportList">
+                    <td colspan="12">
+                      <div class="alert alert-info mt-2" role="alert">
+                        No se han registrado reportes en el sistema
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>

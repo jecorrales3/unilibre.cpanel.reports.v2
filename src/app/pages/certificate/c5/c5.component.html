@@ -45,7 +45,33 @@
               </div>
             </div>
 
-            <div class="form-group col-md-12">
+            <div @fadeAnimation class="form-group col-md-12" *ngIf="!hide_form_gr7">
+              <label>Marco del Seminario</label>
+              <input type="text" class="form-control rounded-0" placeholder="Ej: Objetivos de Desarrollo Sostenible" formControlName="seminar_name_report"
+                     [ngClass]="{ 'border-danger': submitted_first_form && rff.seminar_name_report.errors,
+                                  'is-invalid': submitted_first_form && rff.seminar_name_report.errors
+                                }">
+              <div *ngIf="submitted_first_form && rff.seminar_name_report.errors" class="invalid-feedback">
+                 <div *ngIf="rff.seminar_name_report.errors.required">El marco del seminario es necesario</div>
+                 <div *ngIf="rff.seminar_name_report.errors.maxlength">El campo debe contener máximo 80 caracteres</div>
+                 <div *ngIf="rff.seminar_name_report.errors.pattern">El campo sólo acepta letras</div>
+              </div>
+            </div>
+
+            <div @fadeAnimation class="form-group col-md-12" *ngIf="!hide_form_gr7">
+              <label>Colaboración con</label>
+              <input type="text" class="form-control rounded-0" placeholder="Ej: San Martín de Porres-Lima Perú" formControlName="university_report"
+                     [ngClass]="{ 'border-danger': submitted_first_form && rff.university_report.errors,
+                                  'is-invalid': submitted_first_form && rff.university_report.errors
+                                }">
+              <div *ngIf="submitted_first_form && rff.university_report.errors" class="invalid-feedback">
+                 <div *ngIf="rff.university_report.errors.required">El nombre de la entidad de colaboración es necesaria</div>
+                 <div *ngIf="rff.university_report.errors.maxlength">El campo debe contener máximo 80 caracteres</div>
+                 <div *ngIf="rff.university_report.errors.pattern">El campo sólo acepta letras</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12" @fadeAnimation class="form-group col-md-12" *ngIf="hide_form_gr8">
               <label>Título del Trabajo</label>
               <textarea rows="4" class="form-control rounded-0" placeholder="Nombre del trabajo" formControlName="title_report"
                      [ngClass]="{ 'border-danger': submitted_first_form && rff.title_report.errors,
@@ -124,21 +150,6 @@
               </div>
             </div>
 
-            <div class="form-group col-md-12">
-              <label>Ciudad</label>
-              <select class="form-control rounded-0" formControlName="student_city"
-                      [ngClass]="{ 'border-danger': submitted_second_form && rsf.student_city.errors,
-                                   'is-invalid': submitted_second_form && rsf.student_city.errors
-                                 }">
-                <option *ngFor="let ciudad of list_cities" [ngValue]="ciudad">
-                  {{ciudad.nombre_ciudad}}, {{ciudad.nombre_departamento}}.
-                </option>
-              </select>
-              <div *ngIf="submitted_second_form && rsf.student_city.errors" class="invalid-feedback">
-                 <div *ngIf="rsf.student_city.errors.required">La ciudad de la expedición del documento es necesaria</div>
-              </div>
-            </div>
-
             <div class="col-md-12">
               <hr>
             </div>
@@ -168,7 +179,7 @@
                         Eliminar
                       </a>
                     </div>
-                    <span class="d-block">{{student.documento_estudiante}} - Ciudad: {{student.nombre_ciudad_estudiante}}</span>
+                    <span class="d-block">{{student.documento_estudiante}}</span>
                   </div>
                 </div>
 

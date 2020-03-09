@@ -63,78 +63,43 @@
     echo "Confirm: " . $user_confirm_password;
     */
 
-    //Evaluate if user exists in db
-    if (userUpdateExists($user_id, $user_email))
+    if (validateUser($user_id, $user_email))
     {
-      if (validateUser($user_id, $user_email))
+      $response["message"] = "El usuario (correo) ya se encuentra asignado a otro usuario del sistema; inténtalo de nuevo.";
+    }
+    else
+    {
+      if (!empty($user_password))
       {
-        $response["message"] = "El usuario (correo) ya se encuentra registrado; inténtalo de nuevo.";
-      }
-      else
-      {
-        if (!empty($user_password))
+        if ($user_confirm_password == $user_password)
         {
-          if ($user_confirm_password == $user_password)
-          {
-            //The user doesn't exist, so, proceed to register
-            //Get a unique Salt
-            $salt         = getSalt();
+          //The user doesn't exist, so, proceed to register
+          //Get a unique Salt
+          $salt         = getSalt();
 
-            //Generate a unique password Hash
-            $passwordHash = password_hash(concatPasswordWithSalt($user_password, $salt),PASSWORD_DEFAULT);
+          //Generate a unique password Hash
+          $passwordHash = password_hash(concatPasswordWithSalt($user_password, $salt),PASSWORD_DEFAULT);
 
-            //Query to register new user
-            $updateQuery  = "UPDATE usuario
-                                SET nombre_usuario          = ?,
-                                    apellido_usuario        = ?,
-                                    correo_usuario          = ?,
-                                    id_facultad_usuario     = ?,
-                                    id_tipo_usuario         = ?,
-                                    id_estado_usuario       = ?,
-                                    contrasena_hash_usuario = ?,
-                                    salt_usuario            = ?
-                              WHERE id_usuario              = ?";
-            //Prepared query
-            $stmt = $mysqli->prepare($updateQuery);
-            //Parameters
-            $stmt->bind_param("sssiiissi", $user_name, $user_lastname, $user_email, $user_faculty, $user_type, $user_state, $passwordHash, $salt, $user_id);
-            //Evaluate if the query was executed
-            if($stmt->execute())
-            {
-              $updated_data = $stmt->affected_rows;
-              $message = ($updated_data > 0) ? "Usuario actualizado." : "No se ha detectado cambios en la información | (COD001)" . $stmt->error;
-              $response['message'] = $message;
-            }
-            else
-            {
-              $response['message'] = "Error (execute query): " . $stmt->error;
-            }
-          }
-          else
-          {
-            $response["message"] = "La contraseñas no coinciden; inténtalo de nuevo.";
-          }
-        }
-        else
-        {
           //Query to register new user
           $updateQuery  = "UPDATE usuario
-                              SET nombre_usuario      = ?,
-                                  apellido_usuario    = ?,
-                                  correo_usuario      = ?,
-                                  id_facultad_usuario = ?,
-                                  id_tipo_usuario     = ?,
-                                  id_estado_usuario   = ?
-                            WHERE id_usuario          = ?";
+                              SET nombre_usuario          = ?,
+                                  apellido_usuario        = ?,
+                                  correo_usuario          = ?,
+                                  id_facultad_usuario     = ?,
+                                  id_tipo_usuario         = ?,
+                                  id_estado_usuario       = ?,
+                                  contrasena_hash_usuario = ?,
+                                  salt_usuario            = ?
+                            WHERE id_usuario              = ?";
           //Prepared query
           $stmt = $mysqli->prepare($updateQuery);
           //Parameters
-          $stmt->bind_param("sssiiii", $user_name, $user_lastname, $user_email, $user_faculty, $user_type, $user_state, $user_id);
+          $stmt->bind_param("sssiiissi", $user_name, $user_lastname, $user_email, $user_faculty, $user_type, $user_state, $passwordHash, $salt, $user_id);
           //Evaluate if the query was executed
           if($stmt->execute())
           {
             $updated_data = $stmt->affected_rows;
-            $message = ($updated_data > 0) ? "Usuario actualizado." : "No se ha detectado cambios en la información | (COD002)" . $stmt->error;
+            $message = ($updated_data > 0) ? "Usuario actualizado." : "No se ha detectado cambios en la información | (COD001)" . $stmt->error;
             $response['message'] = $message;
           }
           else
@@ -142,11 +107,38 @@
             $response['message'] = "Error (execute query): " . $stmt->error;
           }
         }
+        else
+        {
+          $response["message"] = "La contraseñas no coinciden; inténtalo de nuevo.";
+        }
       }
-    }
-    else
-    {
-      $response["message"] = "Parámetros de usuario inválidos.";
+      else
+      {
+        //Query to register new user
+        $updateQuery  = "UPDATE usuario
+                            SET nombre_usuario      = ?,
+                                apellido_usuario    = ?,
+                                correo_usuario      = ?,
+                                id_facultad_usuario = ?,
+                                id_tipo_usuario     = ?,
+                                id_estado_usuario   = ?
+                          WHERE id_usuario          = ?";
+        //Prepared query
+        $stmt = $mysqli->prepare($updateQuery);
+        //Parameters
+        $stmt->bind_param("sssiiii", $user_name, $user_lastname, $user_email, $user_faculty, $user_type, $user_state, $user_id);
+        //Evaluate if the query was executed
+        if($stmt->execute())
+        {
+          $updated_data = $stmt->affected_rows;
+          $message = ($updated_data > 0) ? "Usuario actualizado." : "No se ha detectado cambios en la información | (COD002)" . $stmt->error;
+          $response['message'] = $message;
+        }
+        else
+        {
+          $response['message'] = "Error (execute query): " . $stmt->error;
+        }
+      }
     }
   }
   else

@@ -6,11 +6,8 @@
 ******************************************************************************
 */
 import { Component, OnInit }                  from '@angular/core';
-import { FormBuilder, FormGroup, Validators,
-         FormArray, ValidatorFn, FormControl,
-       } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService }                      from 'ngx-toastr';
-import { of }                                 from 'rxjs';
 
 /*
 ******************************************************************************
@@ -31,6 +28,7 @@ import { GlobalQueriesService } from './../../../services/global-queries.service
 })
 export class C4Component implements OnInit
 {
+
   /*
   ******************************************************************************
   ******************************************************************************
@@ -58,23 +56,23 @@ export class C4Component implements OnInit
   list_programs: any;
   list_member_position: any;
   list_members: any;
-  list_investigation_groups = [];
 
   //list of local_storage
   report_settings_c4 = [];
+  report_students_c4 = [];
   report_members_c4  = [];
 
   //List of data structure
   data_settings = [];
   data_students = [];
   data_members  = [];
-  ordersData    = [];
 
   //Message
   messageListMembers:boolean     = false;
   messageListMembersForm:boolean = false;
   messageListPrograms:boolean    = false;
   messageListStudents:boolean    = false;
+
 
   /*
   ******************************************************************************
@@ -89,54 +87,10 @@ export class C4Component implements OnInit
               public  _globalService:GlobalQueriesService,
               private toastr: ToastrService)
   {
-    //Get the member position
-    _globalService.getMemberPosition2()
+    //Get the programs
+    _globalService.getMemberPosition()
     .subscribe(MemberPosition => {
       this.list_member_position = MemberPosition;
-    });
-
-    //Get the investigation groups
-    _globalService.getInvestigationGroups()
-    .subscribe(InvestigationGroups => {
-      //this.list_investigation_groups = InvestigationGroups;
-
-      // Store JSON data from the service in 'data' variable.
-      let data = InvestigationGroups;
-
-      let groupsMap = new Map();
-
-      // Iterate over the data array.
-      data.forEach((element) => {
-
-        const groupName = element.nombre_facultad;
-
-        delete element.nombre_facultad;
-
-        let value;
-
-        // If group already exists in the map, get current value.
-        if (groupsMap.has(groupName))
-        {
-          value = groupsMap.get(groupName);
-        }
-        else
-        {
-          value = {
-             'faculty_name': groupName,
-             'investigation_group': []
-          };
-        }
-
-        // Add current element to the group's investigation_group list.
-        value.investigation_group.push(element);
-
-        // Add updated value to the map.
-        groupsMap.set(groupName, value);
-      });
-
-      groupsMap.forEach((value, key) => {
-         this.list_investigation_groups.push(value);
-      });
     });
 
     //Get the programs
@@ -146,7 +100,7 @@ export class C4Component implements OnInit
       this.getPrograms();
     });
 
-    //Get the members (members)
+    //Get the members (advisers)
     _universityService.getMembers()
     .subscribe(Members => {
       this.list_members = Members;
@@ -165,16 +119,17 @@ export class C4Component implements OnInit
   {
     //Form builder group (First)
     this.firstFormGroup = this.formBuilder.group({
-            date_report:         ['',  [Validators.required]],
-            initial_date_report: ['',  [Validators.required]],
-            end_date_report:     ['',  [Validators.required]],
-            budget_report:       ['0', [Validators.required]],
-            title_report:        ['',  [Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ.,:; ]+$')]]
+            program_report:  ['',  [Validators.required]],
+            title_report:    ['',  [Validators.required,   Validators.maxLength(300),  Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ0-9().,:; ]+$')]]
     });
 
     //Form builder group (Second)
     this.secondFormGroup = this.formBuilder.group({
-            checkArray: this.formBuilder.array([], [Validators.required])
+            student_name:         ['',  [Validators.required, Validators.maxLength(40), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
+            student_lastname:     ['',  [Validators.required, Validators.maxLength(40), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
+            student_document:     ['',  [Validators.required, Validators.minLength(8),  Validators.maxLength(12), Validators.pattern('^[0-9]+$')]],
+            student_note_number:  ['',  [Validators.required, Validators.minLength(1),  Validators.maxLength(3),  Validators.pattern('^([0-5])([.][0-9]{1})?$')]],
+            student_note_letters: ['',  [Validators.required, Validators.maxLength(30), Validators.pattern('^[A-Za-zñÑáéíóúÁÉÍÓÚ ]+$')]],
     });
 
     //Form builder group (Third)
@@ -182,8 +137,6 @@ export class C4Component implements OnInit
             report_member:           ['',  [Validators.required]],
             report_member_position:  ['',  [Validators.required]],
     });
-
-
 
     //Get value of local storage
     if (JSON.parse(localStorage.getItem("report_settings_c4")) != null)
@@ -196,13 +149,24 @@ export class C4Component implements OnInit
         //Igualamos los valores de cada objeto
         this.firstFormGroup.setValue({
             //Companys data
-            date_report: element.fecha_reporte,
-            initial_date_report: element.fecha_inicial_reporte,
-            end_date_report: element.fecha_final_reporte,
-            budget_report: element.presupuesto_reporte,
+            program_report: element.programa_reporte,
             title_report: element.titulo_reporte
         });
       });
+    }
+
+    //Get value of local storage
+    if (JSON.parse(localStorage.getItem("report_students_c4")) != null)
+    {
+      //Get the value of local storage
+      this.report_students_c4 = JSON.parse(localStorage.getItem("report_students_c4"));
+      //Message
+      this.messageListStudents = false;
+    }
+    else
+    {
+      //Message
+      this.messageListStudents = true;
     }
 
     //Get value of local storage
@@ -219,27 +183,6 @@ export class C4Component implements OnInit
       this.messageListMembers = true;
     }
   };
-
-  onCheckboxChange(e: any)
-  {
-    const checkArray: FormArray = this.secondFormGroup.get('checkArray') as FormArray;
-
-    if (e.target.checked)
-    {
-      checkArray.push(new FormControl(e.target.value));
-    }
-    else
-    {
-      let i: number = 0;
-      checkArray.controls.forEach((item: FormControl) => {
-        if (item.value == e.target.value) {
-          checkArray.removeAt(i);
-          return;
-        }
-        i++;
-      });
-    }
-  }
 
 
   /*
@@ -288,7 +231,6 @@ export class C4Component implements OnInit
   {
     //Submitted
     this.submitted_first_form = true;
-
     //Invalid value form
     if (this.firstFormGroup.invalid)
     {
@@ -297,11 +239,8 @@ export class C4Component implements OnInit
     }
 
      //Form values
-    const date_report         = this.firstFormGroup.get('date_report').value;
-    const initial_date_report = this.firstFormGroup.get('initial_date_report').value;
-    const end_date_report     = this.firstFormGroup.get('end_date_report').value;
-    const budget_report       = this.firstFormGroup.get('budget_report').value;
-    const title_report        = this.firstFormGroup.get('title_report').value;
+    const program_report = this.firstFormGroup.get('program_report').value;
+    const title_report   = this.firstFormGroup.get('title_report').value;
 
     //Clear LocalStorage
     localStorage.removeItem('report_settings_c4');
@@ -310,10 +249,7 @@ export class C4Component implements OnInit
     //Add new elements
     this.data_settings.push(
     {
-        fecha_reporte:date_report,
-        fecha_inicial_reporte:initial_date_report,
-        fecha_final_reporte:end_date_report,
-        presupuesto_reporte:budget_report,
+        programa_reporte:program_report,
         titulo_reporte:title_report
     });
 
@@ -332,11 +268,106 @@ export class C4Component implements OnInit
   /*
   ******************************************************************************
   ******************************************************************************
-                       REGISTER INVESTIGATION GROUP FORM
+                              REGISTER STUDENT FORM
   ******************************************************************************
   ******************************************************************************
   */
   get rsf() { return this.secondFormGroup.controls; }
+
+  registerStudent()
+  {
+    //Submitted
+    this.submitted_second_form = true;
+    //Invalid value form
+    if (this.secondFormGroup.invalid)
+    {
+      //Finish process
+      return;
+    }
+
+     //Form values
+    const student_name         = this.secondFormGroup.get('student_name').value;
+    const student_lastname     = this.secondFormGroup.get('student_lastname').value;
+    const student_document     = this.secondFormGroup.get('student_document').value;
+    const student_note_number  = this.secondFormGroup.get('student_note_number').value;
+    const student_note_letters = this.secondFormGroup.get('student_note_letters').value;
+
+    //Clear array
+    this.data_students = [];
+
+    //Evaluate if localstorage != null
+    if(JSON.parse(localStorage.getItem("report_students_c4")) != null)
+    {
+      //Push the object array
+      this.data_students = JSON.parse(localStorage.getItem("report_students_c4"));
+    }
+
+    //Add new elements
+    this.data_students.push(
+    {
+        nombre_estudiante:student_name,
+        apellido_estudiante:student_lastname,
+        documento_estudiante:student_document,
+        nota_numero_estudiante:student_note_number,
+        nota_letras_estudiante:student_note_letters
+    });
+
+    //Message
+    this.messageListStudents = false;
+
+    //Set item
+    localStorage.setItem("report_students_c4", JSON.stringify(this.data_students));
+    //Get Item
+    this.report_students_c4 = JSON.parse(localStorage.getItem("report_students_c4"));
+
+    //Submitted
+    this.submitted_second_form = false;
+
+    //Set the values to null
+    this.secondFormGroup.setValue({
+      student_name: null,
+      student_lastname: null,
+      student_document: null,
+      student_note_number: null,
+      student_note_letters: null
+    });
+
+    //Show the result of the action
+    this.toastr.success('Datos del estudiante grabados', 'OK', {
+      timeOut: 3000,
+      positionClass: 'toast-bottom-center',
+    });
+  };
+
+  deleteStudent(id)
+  {
+    var students = JSON.parse(localStorage.getItem("report_students_c4"));
+    for (var i = 0; i < students.length; i++)
+    {
+      if(i == id)
+      {
+        students.splice(i, 1);
+        break;  //exit loop since you found the person
+      }
+    }
+    localStorage.setItem("report_students_c4", JSON.stringify(students));
+    //Get the results
+    this.report_students_c4 = JSON.parse(localStorage.getItem("report_students_c4"));
+
+    //Get value of local storage
+    if (this.report_students_c4.length > 0)
+    {
+      //Message
+      this.messageListStudents = false;
+    }
+    else
+    {
+      //Message
+      this.messageListStudents = true;
+      //Clear LocalStorage
+      localStorage.removeItem('report_students_c4');
+    }
+  };
 
   /*
   ******************************************************************************
@@ -450,6 +481,7 @@ export class C4Component implements OnInit
     }
   };
 
+
   /*
   ******************************************************************************
   ******************************************************************************
@@ -470,10 +502,10 @@ export class C4Component implements OnInit
       //Finish process
       return;
     }
-    else if (this.secondFormGroup.get('checkArray').value.length == 0)
+    else if (this.report_students_c4.length == 0)
     {
       //Show the result of the action
-      this.toastr.warning('Se necesita registrar al menos un grupo de investigación', 'WARNING', {
+      this.toastr.warning('Se necesita registrar al menos un estudiante', 'WARNING', {
         timeOut: 3000,
         positionClass: 'toast-top-right',
       });
@@ -493,12 +525,13 @@ export class C4Component implements OnInit
 
     //Get values
     let report_settings_c4 = JSON.parse(localStorage.getItem("report_settings_c4"));
-    let report_groups_c4   = this.secondFormGroup.get('checkArray').value;
+    let report_students_c4 = JSON.parse(localStorage.getItem("report_students_c4"));
     let report_members_c4  = JSON.parse(localStorage.getItem("report_members_c4"));
 
-    this._controlService.registerReportC4(report_settings_c4, report_groups_c4, report_members_c4)
+    this._controlService.registerReportC4(report_settings_c4, report_students_c4, report_members_c4)
     .subscribe(data=>
     {
+      console.log("Data: ", data);
       if (data.message == 'Reporte generado.')
       {
         //Show the result of the action
@@ -545,12 +578,26 @@ export class C4Component implements OnInit
 
         //Set the values to null
         this.firstFormGroup.setValue({
-          date_report: null,
-          initial_date_report: null,
-          end_date_report: null,
-          budget_report: null,
+          program_report: null,
           title_report: null
         });
+      }
+    }
+  };
+
+  removeStudents()
+  {
+    //Evaluate if localstorage != null
+    if(JSON.parse(localStorage.getItem("report_students_c4")) != null)
+    {
+      if (confirm("¿Estás seguro de eliminar el listado de estudiantes asociados al reporte?"))
+      {
+        //Clear LocalStorage
+        localStorage.removeItem('report_students_c4');
+        //Message
+        this.messageListStudents = true;
+        //Data list
+        this.report_students_c4 = [];
       }
     }
   };
@@ -579,6 +626,7 @@ export class C4Component implements OnInit
     {
       //Clear LocalStorage
       localStorage.removeItem('report_settings_c4');
+      localStorage.removeItem('report_students_c4');
       localStorage.removeItem('report_members_c4');
 
       //Submitted
@@ -586,10 +634,7 @@ export class C4Component implements OnInit
 
       //Set the values to null
       this.firstFormGroup.setValue({
-        date_report: null,
-        initial_date_report: null,
-        end_date_report: null,
-        budget_report: null,
+        program_report: null,
         title_report: null
       });
 
@@ -598,7 +643,8 @@ export class C4Component implements OnInit
       this.messageListMembers  = true;
 
       //Data list
-      this.report_members_c4 = [];
+      this.report_students_c4 = [];
+      this.report_members_c4  = [];
     }
   };
 
@@ -606,6 +652,7 @@ export class C4Component implements OnInit
   {
     //Clear LocalStorage
     localStorage.removeItem('report_settings_c4');
+    localStorage.removeItem('report_students_c4');
     localStorage.removeItem('report_members_c4');
 
     //Submitted
@@ -613,22 +660,17 @@ export class C4Component implements OnInit
 
     //Set the values to null
     this.firstFormGroup.setValue({
-      date_report: null,
-      initial_date_report: null,
-      end_date_report: null,
-      budget_report: null,
+      program_report: null,
       title_report: null
     });
-
-    const checkArray: FormArray = this.secondFormGroup.get('checkArray') as FormArray;
-    checkArray.clear();
 
     //Message
     this.messageListStudents = true;
     this.messageListMembers  = true;
 
     //Data list
-    this.report_members_c4 = [];
+    this.report_students_c4 = [];
+    this.report_members_c4  = [];
   };
 
   /*
@@ -640,7 +682,7 @@ export class C4Component implements OnInit
   */
   showReport(configuration_id: string | number)
   {
-    //C4 Report (Acta de Inicio)
+    //C4 Report (Acta de Sustentacion)
     window.open(this.api_localhost + 'generateReportC4.php?configuration_id=' + configuration_id, '_blank');
   };
 }

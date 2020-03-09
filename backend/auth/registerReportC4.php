@@ -1,4 +1,5 @@
 <?php
+  // C4 -> Acta de Sustentación
 
   /*
   *****************************************************************************
@@ -6,12 +7,12 @@
   *****************************************************************************
   ** @description  The PHP document register a report (C4)                   **
   ** @author       Johan Corrales | johan-corralesa@unilibre.edu.co          **
-  ** @created      The PHP document was create on 31/01/2020                 **
+  ** @created      The PHP document was create on 24/01/2020                 **
   ** @required     db_connection.php for anothers PHP documents              **
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
-  ** @modified   - The PHP document was created on 31/01/2020                **
+  ** @modified   - The PHP document was created on 24/01/2020                **
   ** @who        - Johan Corrales | johan-corralesa@unilibre.edu.co          **
   ** @why        - Creation                                                  **
   *****************************************************************************
@@ -39,13 +40,11 @@
     $mysqli->set_charset('utf8');
 
     //Post variables (Settings)
-    $date_report         = $_POST['report_settings_c4'][0]['fecha_reporte'];
-    $initial_date_report = $_POST['report_settings_c4'][0]['fecha_inicial_reporte'];
-    $final_date_report   = $_POST['report_settings_c4'][0]['fecha_final_reporte'];
-    $budget_report       = $_POST['report_settings_c4'][0]['presupuesto_reporte'];
-    $title_report        = $_POST['report_settings_c4'][0]['titulo_reporte'];
+    $program_id   = $_POST['report_settings_c4'][0]['programa_reporte'];
+    $title_report = $_POST['report_settings_c4'][0]['titulo_reporte'];
 
     //Get the final values
+    $program_data      = getProgramData($program_id);
     $state_consecutive = validateConsecutiveC4($user_faculty_id);
     $consecutive_data  = getConsecutiveDataC4($user_faculty_id);
 
@@ -53,33 +52,18 @@
     $consecutive_id      = $consecutive_data['consecutive_id'];
     $current_consecutive = $consecutive_data['current_consecutive'];
 
+    //Program array
+    $program_name      = $program_data['program_name'];
+
     //Counter
     $count = 0;
-    $length_group = count($_POST['report_groups_c4']);
     //Status
     $response["status"]  = true;
 
-    //String value
-    $investigation_group_report = "";
-
-    //Get the investigation group report
-    foreach ($_POST['report_groups_c4'] as $group)
-    {
-
-      if (--$length_group != 0)
-      {
-        $investigation_group_report .= $group . ", ";
-      }
-      else {
-        $investigation_group_report .= $group;
-      }
-    }
 
     /*
-    echo "Date: " . $date_report;
-    echo "Initial: " . $initial_date_report;
-    echo "Final: " . $final_date_report;
-    echo "Budget: " . $budget_report;
+    echo "Program: " . $program_report;
+    echo "Adviser: " . $adviser_report;
     echo "Title: " . $title_report;
     */
 
@@ -161,13 +145,13 @@
         //Query to register new faculty report
         $insertQueryFaculty  = "INSERT INTO `facultad_reporte`
                                             (`id_facultad_reporte`, `nombre_facultad_reporte`, `siglas_facultad_reporte`,
-                                             `nombre_decano_facultad_reporte`, `apellido_decano_facultad_reporte`,
+                                             `nombre_programa_facultad_reporte`, `nombre_decano_facultad_reporte`, `apellido_decano_facultad_reporte`,
                                              `nombre_director_facultad_reporte`, `apellido_director_facultad_reporte`)
-                                VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+                                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
         //Prepared query
         $inserted_faculty = $mysqli->prepare($insertQueryFaculty);
         //Parameters
-        $inserted_faculty->bind_param("ssssss", $faculty_name, $faculty_acronym,
+        $inserted_faculty->bind_param("sssssss", $faculty_name, $faculty_acronym, $program_name,
                                                  $dean_name,    $dean_lastname,   $director_name,
                                                  $director_lastname);
         //Evaluate if the query was executed
@@ -181,6 +165,7 @@
           $response['message_error'] = "Error (execute query in facultad_reporte): " . $inserted_faculty->error;
         }
 
+
         if (isset($faculty_id))
         {
           /*
@@ -193,16 +178,14 @@
           //Query to register new faculty report
           $insertQueryConfiguration  = "INSERT INTO `configuracion_reporte`
                                                    (`id_configuracion_reporte`, `titulo_configuracion_reporte`, `fecha_generacion_configuracion_reporte`,
-                                                    `fecha_sustentacion_configuracion_reporte`, `fecha_iniciacion_configuracion_reporte`, `fecha_finalizacion_configuracion_reporte`,
-                                                    `presupuesto_configuracion_reporte`, `nombre_grupo_investigacion_configuracion_reporte`,
                                                     `id_facultad_configuracion_reporte`, `id_resultado_configuracion_reporte`, `id_usuario_configuracion_reporte`,
                                                     `id_funcionalidad_configuracion_reporte`, `id_consecutivo_configuracion_reporte`, `id_facultad_final_configuracion_reporte`,
                                                     `id_tipo_reporte_configuracion_reporte`)
-                                        VALUES (NULL, ?, CURDATE(), ?, ?, ?, ?, ?, ?, '1', ?, '1', ?, ?, '4')";
+                                        VALUES (NULL, ?, CURDATE(), ?, '1', ?, '1', ?, ?, '4')";
           //Prepared query
           $inserted_configuration = $mysqli->prepare($insertQueryConfiguration);
           //Parameters
-          $inserted_configuration->bind_param("ssssssiiii", $title_report, $date_report, $initial_date_report, $final_date_report, $budget_report, $investigation_group_report, $faculty_id, $user_id, $consecutive_id, $user_faculty_id);
+          $inserted_configuration->bind_param("siiii", $title_report, $faculty_id, $user_id, $consecutive_id, $user_faculty_id);
           //Evaluate if the query was executed
           if($inserted_configuration->execute())
           {
@@ -216,6 +199,51 @@
 
           if ($configuration_id)
           {
+            /*
+            *****************************************************************************
+            *****************************************************************************
+            *********************     REGISTER STUDENTS REPORT     **********************
+            *****************************************************************************
+            *****************************************************************************
+            */
+            //Get the students report
+            foreach ($_POST['report_students_c4'] as $student)
+            {
+              $student_name         = $student['nombre_estudiante'];
+              $student_lastname     = $student['apellido_estudiante'];
+              $student_document     = $student['documento_estudiante'];
+              $student_note_number  = $student['nota_numero_estudiante'];
+              $student_note_letters = $student['nota_letras_estudiante'];
+              //Query to register new faculty report
+              $insertQueryStudents  = "INSERT INTO `estudiante_reporte`
+                                                  (`id_estudiante_reporte`,          `nombre_estudiante_reporte`,      `apellido_estudiante_reporte`, `documento_estudiante_reporte`,
+                                                   `nota_numero_estudiante_reporte`, `nota_letras_estudiante_reporte`, `id_configuracion_estudiante_reporte`)
+                                       VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+              //Prepared query
+              $inserted_student = $mysqli->prepare($insertQueryStudents);
+              //Parameters
+              $inserted_student->bind_param("sssssi", $student_name,        $student_lastname,     $student_document,
+                                                      $student_note_number, $student_note_letters, $configuration_id);
+              //Evaluate if the query was executed
+              if($inserted_student->execute())
+              {
+                $inserted_data_student = $inserted_student->affected_rows;
+
+                if ($inserted_data_student > 0)
+                {
+                  $response["status"]  = true;
+                }
+                else
+                {
+                  $response["status"]  = false;
+                }
+              }
+              else
+              {
+                $response['message_error'] = "Error (execute query in estudiante_reporte): " . $inserted_student->error;
+              }
+            }
+
 
             /*
             *****************************************************************************
@@ -294,22 +322,22 @@
             }
             else
             {
-              $response['message'] = "Algo ha fallado al tratar de registrar los Investigadores; inténtalo de nuevo.";
+              $response['message'] = "Algo ha fallado al tratar de registrar Estudiantes, Jurados o Asesores; inténtalo de nuevo.";
             }
+
+
           }
           else
           {
             $response["status"]  = false;
             $response["message"] = "Error al obtener el identificador (id_configuracion_reporte)";
           }
-
         }
         else
         {
           $response["status"]  = false;
           $response["message"] = "Verificar si los integrantes están correctamente registrados, Decano y Director de investigaciones (id_facultad_reporte)";
         }
-
       }
       else
       {

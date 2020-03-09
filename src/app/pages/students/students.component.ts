@@ -193,16 +193,11 @@ export class StudentsComponent implements OnInit
     //Loading effect
     this.loading = false;
     //Length data
-    if (this.list_students.length > 0)
+    if (this.list_students_aux.filteredData.length > 0)
     {
       this.messageListStudents = false;
     }
-    else if (this.list_students.length == 0 && this.messageFilterResult)
-    {
-      this.messageListStudents = true;
-      this.messageFilterResult = false;
-    }
-    else if (this.list_students.length == 0 && !this.messageFilterResult)
+    else
     {
       this.messageListStudents = true;
     }
@@ -304,36 +299,39 @@ export class StudentsComponent implements OnInit
     const configuration_id = config.id_configuracion_reporte;
     const type_report      = config.id_tipo_reporte;
 
-    switch (type_report)
+    switch (Number(type_report))
     {
-      //C1 Report (Acta de Sustentacion)
-      case '1':
+      //C1 Report (Acta de Inicio)
+      case 1:
         window.open(this.api_localhost + 'generateReportC1.php?configuration_id=' + configuration_id, '_blank');
         break;
 
-      //C2 Report (Homologacion Auxiliar)
-      case '2':
+      //C2 Report (Nombramiento de Asesor)
+      case 2:
         window.open(this.api_localhost + 'generateReportC2.php?configuration_id=' + configuration_id, '_blank');
         break;
 
-      //C3 Report (Acta de Aprobacion)
-      case '3':
+      //C3 Report (Acta de Aprobacion de Posgrados)
+      case 3:
         window.open(this.api_localhost + 'generateReportC3.php?configuration_id=' + configuration_id, '_blank');
         break;
 
-      //C4 Report (Acta de Inicio)
-      case '4':
+      //C4 Report (Acta de Sustentacion)
+      case 4:
         window.open(this.api_localhost + 'generateReportC4.php?configuration_id=' + configuration_id, '_blank');
         break;
 
       //C5 Reports (Paz y Salvo)
-      case '5':
+      case 5:
         window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
         break;
-      case '6':
+      case 6:
         window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
         break;
-      case '7':
+      case 7:
+        window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
+        break;
+      case 8:
         window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
         break;
 

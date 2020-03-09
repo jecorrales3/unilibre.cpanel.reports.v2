@@ -61,7 +61,7 @@
     {
   		$stmt->bind_param("s", $username);
   		$stmt->execute();
-  		$stmt->bind_result($id_user, $name_user, $last_name_user, $email_user, $password_hash, $salt, $type_user, $faculty_user);
+  		$stmt->bind_result($user_id, $user_name, $user_lastname, $user_email, $password_hash, $salt, $user_type, $user_faculty);
 
       if($stmt->fetch())
       {
@@ -70,12 +70,12 @@
         {
           //Session array
           $data = array(
-            'id_usuario'          => $id_user,
-            'nombre_usuario'      => $name_user,
-            'apellido_usuario'    => $last_name_user,
-            'correo_usuario'      => $email_user,
-            'id_tipo_usuario'     => $type_user,
-            'id_facultad_usuario' => $faculty_user
+            'id_usuario'          => $user_id,
+            'nombre_usuario'      => $user_name,
+            'apellido_usuario'    => $user_lastname,
+            'correo_usuario'      => $user_email,
+            'id_tipo_usuario'     => $user_type,
+            'id_facultad_usuario' => $user_faculty
           );
 
           //Session company object
@@ -84,7 +84,7 @@
           //Result of the action
   				$response["status"]   = true;
   				$response["message"]  = "Bienvenido al sistema.";
-  				$response["usertype"] = $type_user;
+  				$response["usertype"] = $user_type;
   			}
   			else
         {

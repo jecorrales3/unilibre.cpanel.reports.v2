@@ -45,6 +45,7 @@ import { GeneratorComponent }               from './pages/generator/generator.co
 import { StudentsComponent }                from './pages/students/students.component';
 import { HistoryReportsComponent }          from './pages/history-reports/history-reports.component';
 import { ConsecutiveComponent }             from './pages/consecutive/consecutive.component';
+import { SignatureComponent }               from './pages/signature/signature.component';
 //Certificates list
 import { C1Component }                      from './pages/certificate/c1/c1.component';
 import { C2Component }                      from './pages/certificate/c2/c2.component';
@@ -93,7 +94,8 @@ import { C6Component }                      from './pages/certificate/c6/c6.comp
     C4Component,
     C5Component,
     C6Component,
-    ConsecutiveComponent
+    ConsecutiveComponent,
+    SignatureComponent
   ],
   imports: [
     //Angular

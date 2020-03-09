@@ -41,8 +41,6 @@
                                           trpe.nombre_tipo_reporte,
                                           ctvo.year_consecutivo_reporte
                                      FROM estudiante_reporte edte
-                                   LEFT JOIN ciudad cdad
-                                   ON cdad.id_ciudad = edte.id_ciudad_estudiante_reporte
                                    INNER JOIN configuracion_reporte conf
                                    ON conf.id_configuracion_reporte = edte.id_configuracion_estudiante_reporte
                                    INNER JOIN facultad_reporte frpt

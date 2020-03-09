@@ -1,4 +1,5 @@
 <?php
+  // C2 -> Nombramiento de Asesor
 
   /*
   *****************************************************************************
@@ -6,12 +7,12 @@
   *****************************************************************************
   ** @description  The PHP document register a report (C2)                   **
   ** @author       Johan Corrales | johan-corralesa@unilibre.edu.co          **
-  ** @created      The PHP document was create on 27/01/2020                 **
+  ** @created      The PHP document was create on 28/02/2020                 **
   ** @required     db_connection.php for anothers PHP documents              **
   *****************************************************************************
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
-  ** @modified   - The PHP document was created on 27/01/2020                **
+  ** @modified   - The PHP document was created on 28/02/2020                **
   ** @who        - Johan Corrales | johan-corralesa@unilibre.edu.co          **
   ** @why        - Creation                                                  **
   *****************************************************************************
@@ -40,8 +41,6 @@
 
     //Post variables (Settings)
     $program_id   = $_POST['report_settings_c2'][0]['programa_reporte'];
-    $date_report  = $_POST['report_settings_c2'][0]['fecha_reporte'];
-    $time_report  = $_POST['report_settings_c2'][0]['hora_reporte'];
     $title_report = $_POST['report_settings_c2'][0]['titulo_reporte'];
 
     //Get the final values
@@ -103,7 +102,8 @@
       */
       $query_members = $mysqli->query("SELECT itgt.id_integrante,
                                     	        itgt.nombre_integrante,
-                                              itgt.apellido_integrante
+                                              itgt.apellido_integrante,
+                                              itgt.https_firma_integrante
                                        FROM integrante itgt
                                        INNER JOIN tipo_integrante tint
                                        ON tint.id_tipo_integrante = itgt.id_tipo_integrante
@@ -126,8 +126,9 @@
                 $dean_lastname = $row_member['apellido_integrante'];
                 break;
             case 2:
-                $director_name     = $row_member['nombre_integrante'];
-                $director_lastname = $row_member['apellido_integrante'];
+                $director_name      = $row_member['nombre_integrante'];
+                $director_lastname  = $row_member['apellido_integrante'];
+                $director_signature = $row_member['https_firma_integrante'];
                 break;
             default:
                 $response["status"]  = false;
@@ -147,14 +148,14 @@
         $insertQueryFaculty  = "INSERT INTO `facultad_reporte`
                                             (`id_facultad_reporte`, `nombre_facultad_reporte`, `siglas_facultad_reporte`,
                                              `nombre_programa_facultad_reporte`, `nombre_decano_facultad_reporte`, `apellido_decano_facultad_reporte`,
-                                             `nombre_director_facultad_reporte`, `apellido_director_facultad_reporte`)
-                                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
+                                             `nombre_director_facultad_reporte`, `apellido_director_facultad_reporte`, `https_firma_director_facultad_reporte`)
+                                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
         //Prepared query
         $inserted_faculty = $mysqli->prepare($insertQueryFaculty);
         //Parameters
-        $inserted_faculty->bind_param("sssssss", $faculty_name, $faculty_acronym, $program_name,
-                                                 $dean_name,    $dean_lastname,   $director_name,
-                                                 $director_lastname);
+        $inserted_faculty->bind_param("ssssssss", $faculty_name, $faculty_acronym, $program_name,
+                                                  $dean_name,    $dean_lastname,   $director_name,
+                                                  $director_lastname, $director_signature);
         //Evaluate if the query was executed
         if($inserted_faculty->execute())
         {
@@ -178,15 +179,15 @@
           */
           //Query to register new faculty report
           $insertQueryConfiguration  = "INSERT INTO `configuracion_reporte`
-                                                   (`id_configuracion_reporte`, `titulo_configuracion_reporte`, `fecha_generacion_configuracion_reporte`, `fecha_sustentacion_configuracion_reporte`, `hora_sustentacion_configuracion_reporte`,
+                                                   (`id_configuracion_reporte`, `titulo_configuracion_reporte`, `fecha_generacion_configuracion_reporte`,
                                                     `id_facultad_configuracion_reporte`, `id_resultado_configuracion_reporte`, `id_usuario_configuracion_reporte`,
                                                     `id_funcionalidad_configuracion_reporte`, `id_consecutivo_configuracion_reporte`, `id_facultad_final_configuracion_reporte`,
                                                     `id_tipo_reporte_configuracion_reporte`)
-                                        VALUES (NULL, ?, CURDATE(), ?, ?, ?, '1', ?, '1', ?, ?, '2')";
+                                        VALUES (NULL, ?, CURDATE(), ?, '1', ?, '1', ?, ?, '2')";
           //Prepared query
           $inserted_configuration = $mysqli->prepare($insertQueryConfiguration);
           //Parameters
-          $inserted_configuration->bind_param("sssiiii", $title_report, $date_report, $time_report, $faculty_id, $user_id, $consecutive_id, $user_faculty_id);
+          $inserted_configuration->bind_param("siiii", $title_report, $faculty_id, $user_id, $consecutive_id, $user_faculty_id);
           //Evaluate if the query was executed
           if($inserted_configuration->execute())
           {

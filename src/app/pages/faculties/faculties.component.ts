@@ -51,7 +51,8 @@ export class FacultiesComponent implements OnInit, OnDestroy
   //Button form
   button_form:boolean = false;
   //loading effect
-  loading:boolean = true;
+  loading:boolean       = true;
+  loading_modal:boolean = true;
 
   //List of services (aux)
   list_faculties_aux: any;
@@ -217,16 +218,11 @@ export class FacultiesComponent implements OnInit, OnDestroy
     //Loading effect
     this.loading = false;
     //Length data
-    if (this.list_faculties.length > 0)
+    if (this.list_faculties_aux.filteredData.length > 0)
     {
       this.messageListFaculties = false;
     }
-    else if (this.list_faculties.length == 0 && this.messageFilterResult)
-    {
-      this.messageListFaculties = true;
-      this.messageFilterResult = false;
-    }
-    else if (this.list_faculties.length == 0 && !this.messageFilterResult)
+    else
     {
       this.messageListFaculties = true;
     }
@@ -239,7 +235,7 @@ export class FacultiesComponent implements OnInit, OnDestroy
   ******************************************************************************
   ******************************************************************************
   */
-  loadDetail(faculty)
+  loadDetail(faculty: { id_facultad: number; nombre_facultad: string; siglas_facultad: string; id_ciudad: string; })
   {
     this.detail_faculty_id      = faculty.id_facultad;
     this.detail_faculty_name    = faculty.nombre_facultad;
@@ -256,6 +252,8 @@ export class FacultiesComponent implements OnInit, OnDestroy
 
   loadDetailMemberList(faculty: { id_facultad: any; })
   {
+    //Loading effect
+    this.loading_modal = true;
     //Get the value
     let faculty_id = faculty.id_facultad;
     //Clean array
@@ -264,6 +262,9 @@ export class FacultiesComponent implements OnInit, OnDestroy
     //Get the member list of the faculty
     this._universityService.getDetailMemberList(faculty_id)
     .subscribe(Members => {
+
+       //Loading effect
+       this.loading_modal = false;
 
        if (Members.length > 0)
        {

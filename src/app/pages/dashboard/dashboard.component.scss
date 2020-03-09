@@ -1,0 +1,11 @@
+.scrollable-card-list
+{
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}

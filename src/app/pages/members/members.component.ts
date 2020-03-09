@@ -245,16 +245,11 @@ export class MembersComponent implements OnInit, OnDestroy
     //Loading effect
     this.loading = false;
     //Length data
-    if (this.list_members.length > 0)
+    if (this.list_members_aux.filteredData.length > 0)
     {
       this.messageListMembers = false;
     }
-    else if (this.list_members.length == 0 && this.messageFilterResult)
-    {
-      this.messageListMembers = true;
-      this.messageFilterResult = false;
-    }
-    else if (this.list_members.length == 0 && !this.messageFilterResult)
+    else
     {
       this.messageListMembers = true;
     }

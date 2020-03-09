@@ -279,6 +279,17 @@
       <div class="modal-body">
         <div class="form-row">
 
+          <div class="col-md-12 text-center" *ngIf="loading_modal">
+            <div class="spinner-border text-primary mt-1 mb-1" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div class="col-md-12 text-center" *ngIf="messageListMembers" style="margin-top:3%;">
+            <div class="alert alert-info" role="alert">
+              No se han asociado integrantes a la facultad seleccionada
+            </div>
+          </div>
+
           <div class="col-md-12">
             <div class="my-3 p-3 bg-white rounded shadow" *ngFor="let type of list_members">
               <h6 class="border-bottom border-gray pb-2 mb-0">{{type.member_type}}</h6>
@@ -291,11 +302,6 @@
                   <span class="d-block">{{member.correo_integrante}}</span>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-12 text-center" *ngIf="messageListMembers" style="margin-top:3%;">
-            <div class="alert alert-info" role="alert">
-              No se han registrado los integrantes a la facultad
             </div>
           </div>
 

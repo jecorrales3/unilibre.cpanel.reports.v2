@@ -1,1 +1,285 @@
-<p>c6 works!</p>
+<!-- FORMULARIO HOMOLOGACION AUXILIAR -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+  <h4 class="text-muted">Homologación Auxiliar</h4>
+</div>
+
+<mat-horizontal-stepper class="p-5" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup" (ngSubmit)="registerSetting()">
+
+      <ng-template matStepLabel>Configuración</ng-template>
+
+      <div class="form-row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="form-row pt-3">
+
+            <div class="form-group col-md-12">
+              <label>Programa</label>
+              <select class="form-control rounded-0" formControlName="program_report"
+                  [ngClass]="{ 'border-danger': submitted_first_form && rff.program_report.errors,
+                               'is-invalid': submitted_first_form && rff.program_report.errors
+                             }" >
+                <option *ngFor="let program of list_programs" [value]="program.id_programa_facultad">
+                  {{program.nombre_programa_facultad}}
+                </option>
+                <option *ngIf="messageListPrograms">No se han registrado programas en el sistema</option>
+              </select>
+              <div *ngIf="submitted_first_form && rff.program_report.errors" class="invalid-feedback">
+                <div *ngIf="rff.program_report.errors.required">El programa del reporte es necesario</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Fecha de Socialización</label>
+              <input matInput [matDatepicker]="picker" class="form-control rounded-0" placeholder="Fecha de la Socialización" id="date" formControlName="date_report"
+                     [ngClass]="{ 'border-danger': submitted_first_form && rff.date_report.errors,
+                                  'is-invalid': submitted_first_form && rff.date_report.errors
+                                }">
+              <div *ngIf="submitted_first_form && rff.date_report.errors" class="invalid-feedback">
+                 <div *ngIf="rff.date_report.errors.required">La fecha de la sustentación es necesaria</div>
+              </div>
+              <input type="hidden" id="passeye-0">
+              <div class="date-icon">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Hora de Socialización</label>
+              <input type="time" class="form-control rounded-0" placeholder="Hora de la Socialización" formControlName="time_report"
+                     [ngClass]="{ 'border-danger': submitted_first_form && rff.time_report.errors,
+                                  'is-invalid': submitted_first_form && rff.time_report.errors
+                                }">
+              <div *ngIf="submitted_first_form && rff.time_report.errors" class="invalid-feedback">
+                 <div *ngIf="rff.time_report.errors.required">La hora de la sustentación es necesaria</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Título del Trabajo</label>
+              <textarea rows="4" class="form-control rounded-0" placeholder="Nombre del trabajo" formControlName="title_report"
+                     [ngClass]="{ 'border-danger': submitted_first_form && rff.title_report.errors,
+                                  'is-invalid': submitted_first_form && rff.title_report.errors
+                                }"></textarea>
+              <div *ngIf="submitted_first_form && rff.title_report.errors" class="invalid-feedback">
+                 <div *ngIf="rff.title_report.errors.required">El título del reporte es necesario</div>
+                 <div *ngIf="rff.title_report.errors.maxlength">El campo debe contener máximo 300 caracteres</div>
+                 <div *ngIf="rff.title_report.errors.pattern">El campo sólo acepta letras</div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-lightning      rounded-0 mb-2 mr-2">Guardar</button>
+              <button type="button" class="btn btn-outline-danger rounded-0 mb-2 mr-2" (click)="removeSettings()">Cancelar</button>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+
+    </form>
+  </mat-step>
+
+
+  <mat-step [stepControl]="secondFormGroup">
+
+    <form [formGroup]="secondFormGroup" (ngSubmit)="registerStudent()">
+      <ng-template matStepLabel>Estudiantes</ng-template>
+
+      <div class="form-row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="form-row pt-3">
+
+            <div class="form-group col-md-6">
+              <label>Nombre</label>
+              <input type="text" class="form-control rounded-0" placeholder="Nombre del estudiante" formControlName="student_name"
+                     [ngClass]="{ 'border-danger': submitted_second_form && rsf.student_name.errors,
+                                  'is-invalid': submitted_second_form && rsf.student_name.errors
+                                }">
+              <div *ngIf="submitted_second_form && rsf.student_name.errors" class="invalid-feedback">
+                 <div *ngIf="rsf.student_name.errors.required">El nombre del estudiante es necesario</div>
+                 <div *ngIf="rsf.student_name.errors.maxlength">El campo debe contener máximo 40 caracteres</div>
+                 <div *ngIf="rsf.student_name.errors.pattern">El campo sólo acepta letras</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>Apellido</label>
+              <input type="text" class="form-control rounded-0" placeholder="Apellido del estudiante" formControlName="student_lastname"
+                     [ngClass]="{ 'border-danger': submitted_second_form && rsf.student_lastname.errors,
+                                  'is-invalid': submitted_second_form && rsf.student_lastname.errors
+                                }">
+              <div *ngIf="submitted_second_form && rsf.student_lastname.errors" class="invalid-feedback">
+                 <div *ngIf="rsf.student_lastname.errors.required">El apellido del estudiante es necesario</div>
+                 <div *ngIf="rsf.student_lastname.errors.maxlength">El campo debe contener máximo 40 caracteres</div>
+                 <div *ngIf="rsf.student_lastname.errors.pattern">El campo sólo acepta letras</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Documento</label>
+              <input type="text" class="form-control rounded-0" placeholder="Documento del estudiante" formControlName="student_document"
+                     [ngClass]="{ 'border-danger': submitted_second_form && rsf.student_document.errors,
+                                  'is-invalid': submitted_second_form && rsf.student_document.errors
+                                }">
+              <div *ngIf="submitted_second_form && rsf.student_document.errors" class="invalid-feedback">
+                 <div *ngIf="rsf.student_document.errors.required">El documento del estudiante es necesario</div>
+                 <div *ngIf="rsf.student_document.errors.pattern">El campo sólo acepta números</div>
+                 <div *ngIf="rsf.student_document.errors.minlength">El campo debe contener mínimo 8 caracteres</div>
+                 <div *ngIf="rsf.student_document.errors.maxlength">El campo debe contener máximo 12 caracteres</div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-lightning rounded-0 mb-2 mr-2">Agregar</button>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <div class="my-3 p-3 bg-white rounded shadow-sm">
+                <h6 class="border-bottom border-gray pb-2 mb-0">Listado de Estudiantes</h6>
+                <div class="pt-3" *ngIf="messageListStudents">
+                  <div class="alert alert-info" role="alert">
+                    No se han asociado estudiantes al reporte
+                  </div>
+                </div>
+                <div class="media text-muted pt-3" *ngFor="let student of report_students_c6, index as id">
+                  <img src="./assets/img/unilibre/unilibre.png" width="32" height="32">
+                  <div class="media-body pl-1 pb-3 mb-0 small lh-125 border-bottom border-gray">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                      <strong class="text-gray-dark">{{student.nombre_estudiante}} {{student.apellido_estudiante}}</strong>
+                      <a class="btn-trash linkhand" (click)="deleteStudent(id)">
+                        Eliminar
+                      </a>
+                    </div>
+                    <span class="d-block">{{student.documento_estudiante}}</span>
+                  </div>
+                </div>
+
+                <small class="d-block text-right mt-3" *ngIf="!messageListStudents">
+                  <button type="button" class="btn btn-outline-danger rounded-0 btn-sm" (click)="removeStudents()">Cancelar</button>
+                </small>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </form>
+
+  </mat-step>
+
+  <mat-step>
+
+    <form [formGroup]="thirdFormGroup" (ngSubmit)="registerMember()">
+      <ng-template matStepLabel>Integrantes</ng-template>
+
+      <div class="form-row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="form-row pt-3">
+
+            <div class="form-group col-md-12">
+              <label>Integrante</label>
+              <select class="form-control rounded-0" formControlName="report_member"
+                  [ngClass]="{ 'border-danger': submitted_third_form && rmf.report_member.errors,
+                               'is-invalid': submitted_third_form && rmf.report_member.errors
+                             }" >
+                <option *ngFor="let member of list_members" [ngValue]="member">
+                  {{member.nombre_integrante}} {{member.apellido_integrante}} | {{member.nombre_tipo_integrante}}
+                </option>
+                <option *ngIf="messageListMembersForm">No se han registrado integrantes en el sistema</option>
+              </select>
+              <div *ngIf="submitted_third_form && rmf.report_member.errors" class="invalid-feedback">
+                <div *ngIf="rmf.report_member.errors.required">El integrante del reporte es necesario</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label>Cargo</label>
+              <select class="form-control rounded-0" formControlName="report_member_position"
+                  [ngClass]="{ 'border-danger': submitted_third_form && rmf.report_member_position.errors,
+                               'is-invalid': submitted_third_form && rmf.report_member_position.errors
+                             }" >
+                <option *ngFor="let position of list_member_position" [ngValue]="position">
+                  {{position.nombre_tipo_cargo_reporte}}
+                </option>
+              </select>
+              <div *ngIf="submitted_third_form && rmf.report_member_position.errors" class="invalid-feedback">
+                <div *ngIf="rmf.report_member_position.errors.required">El cargo del integrante del reporte es necesario</div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-lightning rounded-0 mb-2 mr-2">Agregar</button>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-md-12">
+              <div class="my-3 p-3 bg-white rounded shadow-sm">
+                <h6 class="border-bottom border-gray pb-2 mb-0">Listado de Integrantes</h6>
+                <div class="pt-3" *ngIf="messageListMembers">
+                  <div class="alert alert-info" role="alert">
+                    No se han asociado integrantes al reporte
+                  </div>
+                </div>
+                <div class="media text-muted pt-3" *ngFor="let member of report_members_c6, index as id">
+                  <img src="./assets/img/unilibre/unilibre.png" width="32" height="32">
+                  <div class="media-body pl-1 pb-3 mb-0 small lh-125 border-bottom border-gray">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                      <strong class="text-gray-dark">{{member.nombre_integrante}} {{member.apellido_integrante}}</strong>
+                      <a class="btn-trash linkhand" (click)="deleteMember(id)">
+                        Eliminar
+                      </a>
+                    </div>
+                    <span class="d-block">{{member.nombre_tipo_cargo_reporte}} - {{member.nombre_tipo_integrante}}</span>
+                  </div>
+                </div>
+
+                <small class="d-block text-right mt-3" *ngIf="!messageListMembers">
+                  <button type="button" class="btn btn-outline-danger rounded-0 btn-sm" (click)="removeMembers()">Cancelar</button>
+                </small>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </form>
+
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Finalizar</ng-template>
+    <div class="pt-3">
+      <button type="button" class="btn btn-primary rounded-0 mr-2"   (click)="generateReport()">Finalizar reporte</button>
+      <button type="button" class="btn btn-outline-danger rounded-0" (click)="resetForms();stepper.reset()">Reiniciar</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

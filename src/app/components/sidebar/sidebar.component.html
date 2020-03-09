@@ -1,7 +1,7 @@
 <aside class="sidebar shadow-sm">
 
   <div class="sidebar-profile d-flex flex-column justify-content-center pt-5 pb-3">
-    <div class="picture-wrapper mb-4">
+    <div class="picture-wrapper mb-4 profile-details">
       <div class="user-picture m-auto">
         <img src="./assets/img/unilibre/unilibre.png" class="img-fluid" alt="Unilibre Pereira">
       </div>
@@ -10,9 +10,6 @@
       <p class="mb-0 text-uppercase name">{{username}}</p>
       <small class="text-uppercase role">{{usertype}}</small>
     </div>
-  </div>
-  <div class="sidebar-search pt-1 pb-1 pl-3 pr-3">
-    <input type="search" class="form-control rounded-pill" name="search" placeholder="Search ...">
   </div>
   <!-- LOADING DATA -->
   <nav class="text-center pb-3" style="padding-top:60%" *ngIf="loading">
