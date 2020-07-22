@@ -8,6 +8,7 @@
 import { Component, OnInit }                  from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService }                      from 'ngx-toastr';
+import { environment }                        from '../../../../environments/environment';
 
 /*
 ******************************************************************************
@@ -36,9 +37,8 @@ export class C6Component implements OnInit
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/file/';
+  private URL  = environment.baseUrl + 'file/';
+
 
   //ReactiveForm
   firstFormGroup:  FormGroup;
@@ -686,6 +686,6 @@ export class C6Component implements OnInit
   showReport(configuration_id: string | number)
   {
     //C6 Report (Homologacion Auxiliar)
-    window.open(this.api_localhost + 'generateReportC6.php?configuration_id=' + configuration_id, '_blank');
+    window.open(this.URL + 'generateReportC6.php?configuration_id=' + configuration_id, '_blank');
   };
 }

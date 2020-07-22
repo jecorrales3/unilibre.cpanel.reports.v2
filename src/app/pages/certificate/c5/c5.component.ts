@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService }                      from 'ngx-toastr';
 import { trigger, transition, style, animate,
          query, stagger }                     from '@angular/animations';
+import { environment }                        from '../../../../environments/environment';
+
 
 /*
 ******************************************************************************
@@ -49,9 +51,8 @@ export class C5Component implements OnInit
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/file/';
+  private URL  = environment.baseUrl + 'file/';
+
 
   //ReactiveForm
   firstFormGroup:  FormGroup;
@@ -783,7 +784,7 @@ export class C5Component implements OnInit
   showReport(configuration_id: string | number)
   {
     //C5 Reports (Paz y Salvo)
-    window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
+    window.open(this.URL + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
   };
 
 }

@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService }                      from 'ngx-toastr';
 import { Observable }                         from 'rxjs';
 import { MatTableDataSource, MatPaginator }   from '@angular/material';
+import { environment }                        from '../../../environments/environment';
 
 /*
 ******************************************************************************
@@ -38,9 +39,8 @@ export class HistoryReportsComponent implements OnInit
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/php/services/file/';
+  private URL  = environment.baseUrl + 'file/';
+  
 
   //ReactiveForm
   search_form: FormGroup;
@@ -474,36 +474,36 @@ export class HistoryReportsComponent implements OnInit
     {
       //C1 Report (Acta de Inicio)
       case 1:
-        window.open(this.api_localhost + 'generateReportC1.php?configuration_id=' + configuration_id, '_blank');
+        window.open(this.URL + 'generateReportC1.php?configuration_id=' + configuration_id, '_blank');
         break;
 
       //C2 Report (Nombramiento de Asesor)
       case 2:
-        window.open(this.api_localhost + 'generateReportC2.php?configuration_id=' + configuration_id, '_blank');
+        window.open(this.URL + 'generateReportC2.php?configuration_id=' + configuration_id, '_blank');
         break;
 
       //C3 Report (Acta de Aprobacion de Posgrados)
       case 3:
-        window.open(this.api_localhost + 'generateReportC3.php?configuration_id=' + configuration_id, '_blank');
+        window.open(this.URL + 'generateReportC3.php?configuration_id=' + configuration_id, '_blank');
         break;
 
       //C4 Report (Acta de Sustentacion)
       case 4:
-        window.open(this.api_localhost + 'generateReportC4.php?configuration_id=' + configuration_id, '_blank');
+        window.open(this.URL + 'generateReportC4.php?configuration_id=' + configuration_id, '_blank');
         break;
 
       //C5 Reports (Paz y Salvo)
       case 5:
-        window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
+        window.open(this.URL + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
         break;
       case 6:
-        window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
+        window.open(this.URL + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
         break;
       case 7:
-        window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
+        window.open(this.URL + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
         break;
       case 8:
-        window.open(this.api_localhost + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
+        window.open(this.URL + 'generateReportC5.php?configuration_id=' + configuration_id, '_blank');
         break;
 
       default:
