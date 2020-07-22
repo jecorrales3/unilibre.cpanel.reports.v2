@@ -50,7 +50,7 @@ export class SignatureComponent  implements OnInit, OnDestroy
   //URL API for localhost server
   private api_localhost  = 'auth/';
   //URL API for production server
-  private api_production = 'backend/production/php/services/file/';
+  private api_production = 'backend/production/file/';
 
   //Boolean variables view
   listForm:boolean = true;

@@ -36,7 +36,7 @@ export class SettingsService
   //URL API for localhost server
   private api_localhost  = 'auth/';
   //URL API for production server
-  private api_production = 'backend/production/php/services/settings/';
+  private api_production = 'backend/production/settings/';
 
   /*
   ******************************************************************************

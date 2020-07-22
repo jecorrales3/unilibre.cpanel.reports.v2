@@ -32,7 +32,7 @@ export class AuthService
   //URL API for localhost server
   private api_localhost  = 'auth/';
   //URL API for production server
-  private api_production = 'backend/production/php/services/auth/';
+  private api_production = 'backend/production/auth/';
   //Status
   private loggedInStatus = false;
 

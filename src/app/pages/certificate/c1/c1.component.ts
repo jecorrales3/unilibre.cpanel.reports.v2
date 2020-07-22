@@ -40,7 +40,7 @@ export class C1Component implements OnInit
   //URL API for localhost server
   private api_localhost  = 'auth/';
   //URL API for production server
-  private api_production = 'backend/production/php/services/file/';
+  private api_production = 'backend/production/file/';
 
   //ReactiveForm
   firstFormGroup:  FormGroup;

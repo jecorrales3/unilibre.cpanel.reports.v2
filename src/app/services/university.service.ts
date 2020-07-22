@@ -37,7 +37,7 @@ export class UniversityService
   //URL API for localhost server
   private api_localhost  = 'auth/';
   //URL API for production server
-  private api_production = 'backend/production/php/services/university/';
+  private api_production = 'backend/production/university/';
 
   /*
   ******************************************************************************
