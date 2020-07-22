@@ -10,5 +10,5 @@
 ********************************************************************************
 ********************************************************************************
 
-3. cd Documents/GitHub/Unilibre/Web/unilibre.cpanel.reports.v2/ && ng serve --proxy-config proxyconfig.json
+3.   && ng serve --proxy-config proxyconfig.json
 4. ng serve --proxy-config proxyconfig.json
