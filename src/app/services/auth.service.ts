@@ -5,8 +5,9 @@
 ******************************************************************************
 ******************************************************************************
 */
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable }   from '@angular/core';
+import { HttpClient }   from '@angular/common/http';
+import { environment }  from '../../environments/environment';
 
 /*
 ******************************************************************************
@@ -30,9 +31,7 @@ export class AuthService
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/auth/';
+  private URL  = environment.baseUrl + 'auth/';
   //Status
   private loggedInStatus = false;
 
@@ -72,8 +71,7 @@ export class AuthService
   getAuthentication(user_email:string, user_password:string)
   {
     //Metodo POST
-    return this.http.post<Global>(this.api_localhost + 'login.php',
-    //return this.http.post<Global>('backend/production/php/auth/authentication.php'
+    return this.http.post<Global>(this.URL + 'login.php',
     {
       user_email,
       user_password

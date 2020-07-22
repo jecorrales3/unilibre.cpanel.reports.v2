@@ -19,6 +19,7 @@ import { Reports }     from './../interfaces/reports';
 import { Certificate } from './../interfaces/certificate';
 import { Profile }     from './../interfaces/profile';
 import { Global }      from './../interfaces/global';
+import { environment }  from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +34,7 @@ export class ControlService
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/control/';
+  private URL  = environment.baseUrl + 'control/';
 
   /*
   ******************************************************************************
@@ -61,7 +60,7 @@ export class ControlService
   public getReports()
   {
     //Path
-    const path = this.api_localhost + 'getReports.php';
+    const path = this.URL + 'getReports.php';
     return this.http.get<Reports[]>(path);
   };
 
@@ -69,7 +68,7 @@ export class ControlService
   public searchReports(type_report: any, year_report: any, month_report: any)
   {
     //Path
-    const path = this.api_localhost + 'getDetailReports.php';
+    const path = this.URL + 'getDetailReports.php';
     return this.http.get<Reports[]>(path, {
           params: {
             type_report: type_report,
@@ -83,7 +82,7 @@ export class ControlService
   updateReport(configuration_id: number,
                report_state: number)
   {
-    return this.http.post<Global>(this.api_localhost + 'updateReport.php',
+    return this.http.post<Global>(this.URL + 'updateReport.php',
     {
       configuration_id,
       report_state
@@ -102,7 +101,7 @@ export class ControlService
   public getAdvisors()
   {
     //Path
-    const path = this.api_localhost + 'getAdvisors.php';
+    const path = this.URL + 'getAdvisors.php';
     return this.http.get<Profile[]>(path);
   };
 
@@ -118,7 +117,7 @@ export class ControlService
                    report_groups_c1: any,
                    report_members_c1: any)
   {
-    return this.http.post<Certificate>(this.api_localhost + 'registerReportC1.php',
+    return this.http.post<Certificate>(this.URL + 'registerReportC1.php',
     {
       report_settings_c1,
       report_groups_c1,
@@ -138,7 +137,7 @@ export class ControlService
                    report_students_c2: any,
                    report_members_c2: any)
   {
-    return this.http.post<Certificate>(this.api_localhost + 'registerReportC2.php',
+    return this.http.post<Certificate>(this.URL + 'registerReportC2.php',
     {
       report_settings_c2,
       report_students_c2,
@@ -158,7 +157,7 @@ export class ControlService
                    report_students_c3: any,
                    report_members_c3: any)
   {
-    return this.http.post<Certificate>(this.api_localhost + 'registerReportC3.php',
+    return this.http.post<Certificate>(this.URL + 'registerReportC3.php',
     {
       report_settings_c3,
       report_students_c3,
@@ -178,7 +177,7 @@ export class ControlService
                    report_students_c4: any,
                    report_members_c4: any)
   {
-    return this.http.post<Certificate>(this.api_localhost + 'registerReportC4.php',
+    return this.http.post<Certificate>(this.URL + 'registerReportC4.php',
     {
       report_settings_c4,
       report_students_c4,
@@ -198,7 +197,7 @@ export class ControlService
                    report_students_c5: any,
                    report_members_c5: any)
   {
-    return this.http.post<Certificate>(this.api_localhost + 'registerReportC5.php',
+    return this.http.post<Certificate>(this.URL + 'registerReportC5.php',
     {
       report_settings_c5,
       report_students_c5,
@@ -221,7 +220,7 @@ export class ControlService
                    report_students_c6: any,
                    report_members_c6: any)
   {
-    return this.http.post<Certificate>(this.api_localhost + 'registerReportC6.php',
+    return this.http.post<Certificate>(this.URL + 'registerReportC6.php',
     {
       report_settings_c6,
       report_students_c6,

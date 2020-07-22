@@ -5,9 +5,10 @@
 ******************************************************************************
 ******************************************************************************
 */
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable }   from '@angular/core';
+import { HttpClient }   from '@angular/common/http';
+import { Observable }   from 'rxjs';
+import { environment }  from '../../environments/environment';
 
 /*
 ******************************************************************************
@@ -42,9 +43,7 @@ export class ConsultAuthService
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/auth/';
+  private URL  = environment.baseUrl + 'auth/';
 
   /*
   ******************************************************************************
@@ -69,20 +68,17 @@ export class ConsultAuthService
   */
   getService()
   {
-    //return this.http.get<Login>('backend/production/php/auth/getAuthService.php')
-    return this.http.get<Login>(this.api_localhost + 'getAuthentication.php')
+    return this.http.get<Login>(this.URL + 'getAuthentication.php')
   }
 
   isLoggedIn(): Observable<isLoggedIn>
   {
-    //return this.http.get<isLoggedIn>('backend/production/php/auth/logged.php')
-    return this.http.get<isLoggedIn>(this.api_localhost + 'getLogged.php')
+    return this.http.get<isLoggedIn>(this.URL + 'getLogged.php')
   }
 
   logout()
   {
-    //return this.http.get<logoutStatus>('backend/production/php/auth/logout.php')
-    return this.http.get<logoutStatus>(this.api_localhost + 'logout.php')
+    return this.http.get<logoutStatus>(this.URL + 'logout.php')
   }
 
 }

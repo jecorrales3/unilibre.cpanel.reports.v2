@@ -7,6 +7,7 @@
 */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment }  from '../../environments/environment';
 
 /*
 ******************************************************************************
@@ -32,9 +33,7 @@ export class DashboardService
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/dashboard/';
+  private URL  = environment.baseUrl + 'dashboard/';
 
   /*
   ******************************************************************************
@@ -59,7 +58,7 @@ export class DashboardService
   public getReportCounters()
   {
     //Path
-    const path = this.api_localhost + 'getReportCounters.php';
+    const path = this.URL + 'getReportCounters.php';
     return this.http.get<ReportCounters[]>(path);
   };
 
@@ -67,7 +66,7 @@ export class DashboardService
   public getReportPercentage()
   {
     //Path
-    const path = this.api_localhost + 'getReportPercentage.php';
+    const path = this.URL + 'getReportPercentage.php';
     return this.http.get<ReportPercentage[]>(path);
   };
 
@@ -75,7 +74,7 @@ export class DashboardService
   public getReportList()
   {
     //Path
-    const path = this.api_localhost + 'getReportList.php';
+    const path = this.URL + 'getReportList.php';
     return this.http.get<ReportList[]>(path);
   };
 }

@@ -7,6 +7,7 @@
 */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment }  from '../../environments/environment';
 
 /*
 ******************************************************************************
@@ -35,9 +36,7 @@ export class UniversityService
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/university/';
+  private URL  = environment.baseUrl + 'university/';
 
   /*
   ******************************************************************************
@@ -63,7 +62,7 @@ export class UniversityService
   public getFaculties()
   {
     //Path
-    const path = this.api_localhost + 'getFaculties.php';
+    const path = this.URL + 'getFaculties.php';
     return this.http.get<Faculties[]>(path);
   };
 
@@ -72,7 +71,7 @@ export class UniversityService
                   faculty_acronym:string,
                   faculty_city:number)
   {
-    return this.http.post<Global>(this.api_localhost + 'registerFaculty.php',
+    return this.http.post<Global>(this.URL + 'registerFaculty.php',
     {
       faculty_name,
       faculty_acronym,
@@ -86,7 +85,7 @@ export class UniversityService
                 faculty_acronym:string,
                 faculty_city:string)
   {
-    return this.http.post<Global>(this.api_localhost + 'updateFaculty.php',
+    return this.http.post<Global>(this.URL + 'updateFaculty.php',
     {
       faculty_id,
       faculty_name,
@@ -98,7 +97,7 @@ export class UniversityService
   //Method post that delete a faculty
   deleteFaculty(faculty_id:number)
   {
-    return this.http.post<Global>(this.api_localhost + 'deleteFaculty.php',
+    return this.http.post<Global>(this.URL + 'deleteFaculty.php',
     {
       faculty_id
     })
@@ -117,7 +116,7 @@ export class UniversityService
   public getPrograms()
   {
     //Path
-    const path = this.api_localhost + 'getPrograms.php';
+    const path = this.URL + 'getPrograms.php';
     return this.http.get<Members[]>(path);
   };
 
@@ -126,7 +125,7 @@ export class UniversityService
                   program_title_name:string,
                   program_faculty:string)
   {
-    return this.http.post<Global>(this.api_localhost + 'registerProgram.php',
+    return this.http.post<Global>(this.URL + 'registerProgram.php',
     {
       program_name,
       program_title_name,
@@ -140,7 +139,7 @@ export class UniversityService
                 program_title_name:string,
                 program_faculty:string)
   {
-    return this.http.post<Global>(this.api_localhost + 'updateProgram.php',
+    return this.http.post<Global>(this.URL + 'updateProgram.php',
     {
       program_id,
       program_name,
@@ -152,7 +151,7 @@ export class UniversityService
   //Method post that delete a program
   deleteProgram(program_id:number)
   {
-    return this.http.post<Global>(this.api_localhost + 'deleteProgram.php',
+    return this.http.post<Global>(this.URL + 'deleteProgram.php',
     {
       program_id
     })
@@ -170,7 +169,7 @@ export class UniversityService
   public getMembers()
   {
     //Path
-    const path = this.api_localhost + 'getMembers.php';
+    const path = this.URL + 'getMembers.php';
     return this.http.get<Members[]>(path);
   };
 
@@ -178,7 +177,7 @@ export class UniversityService
   public getDetailMemberList(faculty_id: string | string[])
   {
     //Path
-    const path = this.api_localhost + 'getDetailMemberList.php';
+    const path = this.URL + 'getDetailMemberList.php';
     return this.http.get<Members[]>(path, {
           params: {
             faculty_id: faculty_id
@@ -194,7 +193,7 @@ export class UniversityService
                  member_faculty:number,
                  member_type:number)
   {
-    return this.http.post<Global>(this.api_localhost + 'registerMember.php',
+    return this.http.post<Global>(this.URL + 'registerMember.php',
     {
       member_name,
       member_lastname,
@@ -214,7 +213,7 @@ export class UniversityService
                member_faculty:number,
                member_type:number)
   {
-    return this.http.post<Global>(this.api_localhost + 'updateMember.php',
+    return this.http.post<Global>(this.URL + 'updateMember.php',
     {
       member_id,
       member_name,
@@ -229,7 +228,7 @@ export class UniversityService
   //Method post that delete a member
   deleteMember(member_id:number)
   {
-    return this.http.post<Global>(this.api_localhost + 'deleteMember.php',
+    return this.http.post<Global>(this.URL + 'deleteMember.php',
     {
       member_id
     })
@@ -248,7 +247,7 @@ export class UniversityService
   public getStudents()
   {
     //Path
-    const path = this.api_localhost + 'getStudents.php';
+    const path = this.URL + 'getStudents.php';
     return this.http.get<Students[]>(path);
   };
 
@@ -256,7 +255,7 @@ export class UniversityService
   public getDetailReportList(student_document: string | string[])
   {
     //Path
-    const path = this.api_localhost + 'getDetailReportList.php';
+    const path = this.URL + 'getDetailReportList.php';
     return this.http.get<Report[]>(path, {
           params: {
             student_document: student_document

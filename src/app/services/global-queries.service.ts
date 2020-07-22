@@ -7,6 +7,7 @@
 */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment }  from '../../environments/environment';
 
 /*
 ******************************************************************************
@@ -42,9 +43,7 @@ export class GlobalQueriesService
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/global/';
+  private URL  = environment.baseUrl + 'global/';
 
   //Array list
   list_months = [
@@ -134,7 +133,7 @@ export class GlobalQueriesService
   public getCities()
   {
     //Path
-    const path = this.api_localhost + 'getCities.php';
+    const path = this.URL + 'getCities.php';
     return this.http.get<Cities[]>(path);
   };
 
@@ -142,7 +141,7 @@ export class GlobalQueriesService
   public getMemberType()
   {
     //Path
-    const path = this.api_localhost + 'getMemberType.php';
+    const path = this.URL + 'getMemberType.php';
     return this.http.get<MemberType[]>(path);
   };
 
@@ -150,7 +149,7 @@ export class GlobalQueriesService
   public getUserType()
   {
     //Path
-    const path = this.api_localhost + 'getUserType.php';
+    const path = this.URL + 'getUserType.php';
     return this.http.get<UserType[]>(path);
   };
 
@@ -158,7 +157,7 @@ export class GlobalQueriesService
   public getUserState()
   {
     //Path
-    const path = this.api_localhost + 'getUserState.php';
+    const path = this.URL + 'getUserState.php';
     return this.http.get<UserState[]>(path);
   };
 
@@ -166,7 +165,7 @@ export class GlobalQueriesService
   public getMemberPosition()
   {
     //Path
-    const path = this.api_localhost + 'getMemberPosition.php';
+    const path = this.URL + 'getMemberPosition.php';
     return this.http.get<MemberPosition[]>(path);
   };
 
@@ -174,7 +173,7 @@ export class GlobalQueriesService
   public getMemberPosition2()
   {
     //Path
-    const path = this.api_localhost + 'getMemberPosition2.php';
+    const path = this.URL + 'getMemberPosition2.php';
     return this.http.get<MemberPosition[]>(path);
   };
 
@@ -182,7 +181,7 @@ export class GlobalQueriesService
   public getInvestigationGroups()
   {
     //Path
-    const path = this.api_localhost + 'getInvestigationGroups.php';
+    const path = this.URL + 'getInvestigationGroups.php';
     return this.http.get<InvestigationGroups[]>(path);
   };
 
@@ -190,7 +189,7 @@ export class GlobalQueriesService
   public getCertificateTypes()
   {
     //Path
-    const path = this.api_localhost + 'getCertificateTypes.php';
+    const path = this.URL + 'getCertificateTypes.php';
     return this.http.get<CertificateTypes[]>(path);
   };
 
@@ -198,7 +197,7 @@ export class GlobalQueriesService
   public getConsecutiveTypes()
   {
     //Path
-    const path = this.api_localhost + 'getConsecutiveTypes.php';
+    const path = this.URL + 'getConsecutiveTypes.php';
     return this.http.get<ConsecutiveTypes[]>(path);
   };
 
@@ -206,7 +205,7 @@ export class GlobalQueriesService
   public getConsecutiveState()
   {
     //Path
-    const path = this.api_localhost + 'getConsecutiveState.php';
+    const path = this.URL + 'getConsecutiveState.php';
     return this.http.get<ConsecutiveState[]>(path);
   };
 
@@ -214,7 +213,7 @@ export class GlobalQueriesService
   public getReportState()
   {
     //Path
-    const path = this.api_localhost + 'getReportState.php';
+    const path = this.URL + 'getReportState.php';
     return this.http.get<ReportState[]>(path);
   };
 
@@ -222,7 +221,7 @@ export class GlobalQueriesService
   public getReportTypes()
   {
     //Path
-    const path = this.api_localhost + 'getReportTypes.php';
+    const path = this.URL + 'getReportTypes.php';
     return this.http.get<ReportTypes[]>(path);
   };
 
@@ -230,7 +229,7 @@ export class GlobalQueriesService
   public getConsecutiveYears()
   {
     //Path
-    const path = this.api_localhost + 'getConsecutiveYears.php';
+    const path = this.URL + 'getConsecutiveYears.php';
     return this.http.get<ConsecutiveYears[]>(path);
   };
 
@@ -238,7 +237,7 @@ export class GlobalQueriesService
   public getConvocatoryTypes()
   {
     //Path
-    const path = this.api_localhost + 'getConvocatoryTypes.php';
+    const path = this.URL + 'getConvocatoryTypes.php';
     return this.http.get<ConvocatoryTypes[]>(path);
   };
 
