@@ -5,9 +5,9 @@
 ******************************************************************************
 ******************************************************************************
 */
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment }  from '../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 /*
 ******************************************************************************
@@ -16,15 +16,14 @@ import { environment }  from '../../environments/environment';
 ******************************************************************************
 ******************************************************************************
 */
-import { ReportCounters }      from './../interfaces/report_counters';
-import { ReportPercentage }    from './../interfaces/report_percentage';
-import { ReportList }          from './../interfaces/report_list';
+import { ReportCounters } from "./../interfaces/report_counters";
+import { ReportPercentage } from "./../interfaces/report_percentage";
+import { ReportList } from "./../interfaces/report_list";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-export class DashboardService
-{
+export class DashboardService {
   /*
   ******************************************************************************
   ******************************************************************************
@@ -33,7 +32,7 @@ export class DashboardService
   ******************************************************************************
   */
   //URL API for localhost server
-  private URL  = environment.baseUrl + 'dashboard/';
+  private URL = environment.baseUrl + "dashboard/";
 
   /*
   ******************************************************************************
@@ -42,10 +41,7 @@ export class DashboardService
   ******************************************************************************
   ******************************************************************************
   */
-  constructor(private http: HttpClient)
-  {
-
-  };
+  constructor(private http: HttpClient) {}
 
   /*
   ******************************************************************************
@@ -55,26 +51,23 @@ export class DashboardService
   ******************************************************************************
   */
   //Method return the report counter list
-  public getReportCounters()
-  {
+  public getReportCounters() {
     //Path
-    const path = this.URL + 'getReportCounters.php';
+    const path = this.URL + "getReportCounters.php";
     return this.http.get<ReportCounters[]>(path);
-  };
+  }
 
   //Method return the percentage report
-  public getReportPercentage()
-  {
+  public getReportPercentage() {
     //Path
-    const path = this.URL + 'getReportPercentage.php';
+    const path = this.URL + "getReportPercentage.php";
     return this.http.get<ReportPercentage[]>(path);
-  };
+  }
 
   //Method return the list (last 5 reports)
-  public getReportList()
-  {
+  public getReportList() {
     //Path
-    const path = this.URL + 'getReportList.php';
+    const path = this.URL + "getReportList.php";
     return this.http.get<ReportList[]>(path);
-  };
+  }
 }

@@ -5,9 +5,9 @@
 ******************************************************************************
 ******************************************************************************
 */
-import { Injectable }   from '@angular/core';
-import { HttpClient }   from '@angular/common/http';
-import { environment }  from '../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 /*
 ******************************************************************************
@@ -16,13 +16,12 @@ import { environment }  from '../../environments/environment';
 ******************************************************************************
 ******************************************************************************
 */
-import { Global }  from './../interfaces/global';
+import { Global } from "./../interfaces/global";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-export class AuthService
-{
+export class AuthService {
   /*
   ******************************************************************************
   ******************************************************************************
@@ -30,8 +29,8 @@ export class AuthService
   ******************************************************************************
   ******************************************************************************
   */
-  //URL API for localhost server
-  private URL  = environment.baseUrl + 'auth/';
+  //URL
+  private URL = environment.baseUrl + "auth/";
   //Status
   private loggedInStatus = false;
 
@@ -43,11 +42,7 @@ export class AuthService
   ******************************************************************************
   */
 
-  constructor(private http: HttpClient)
-  {
-
-  };
-
+  constructor(private http: HttpClient) {}
 
   /*
   ******************************************************************************
@@ -57,25 +52,20 @@ export class AuthService
   ******************************************************************************
   */
 
-  setLoggedIn(value: boolean)
-  {
+  setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
-    localStorage.setItem('loggedIn', 'true');
-  };
+    localStorage.setItem("loggedIn", "true");
+  }
 
-  get isLoggedIn()
-  {
+  get isLoggedIn() {
     return this.loggedInStatus;
-  };
+  }
 
-  getAuthentication(user_email:string, user_password:string)
-  {
+  getAuthentication(user_email: string, user_password: string) {
     //Metodo POST
-    return this.http.post<Global>(this.URL + 'login.php',
-    {
+    return this.http.post<Global>(this.URL + "login.php", {
       user_email,
-      user_password
-    })
-  };
-
+      user_password,
+    });
+  }
 }

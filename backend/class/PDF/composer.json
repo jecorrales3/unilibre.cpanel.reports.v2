@@ -1,6 +1,0 @@
-{
-    "require": {
-        "mpdf/mpdf": "^7.1",
-        "arielcr/numero-a-letras": "dev-master"
-    }
-}

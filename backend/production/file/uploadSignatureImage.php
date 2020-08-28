@@ -39,9 +39,10 @@
     $file_size  = $_FILES['file']['size'];
     $file_temp  = $_FILES['file']['tmp_name'];
     //File route
-    $file_route  = "img/unilibre/signatures/";
-    $route       = '../../src/assets/' . $file_route . $file_name;
-    $final_route = '../../src/assets/' . $file_route. "/";
+    $file_route  = "static/images/signature/";
+    //$file_route  = "img/unilibre/signatures/";
+    $route       = $file_route . $file_name;
+    $final_route = $file_route. "/";
     //Information about file
     $file_info  = pathinfo($route, PATHINFO_EXTENSION);
     $name       = "signature_member_" . $member_id;
@@ -56,9 +57,9 @@
     */
 
     //Evaluate the route
-    if(!is_dir('../../src/assets/' . $file_route))
+    if(!is_dir($file_route))
     {
-      mkdir('../../src/assets/' . $file_route, 0777, true);
+      mkdir($file_route, 0777, true);
     }
 
     if ($file_type == "image/png" || $file_type == "image/jpg" || $file_type == "image/jpeg" && $file_size <= 2000000)
@@ -68,8 +69,8 @@
         //Rename file
         rename($route, $final_route . $name . "." . $file_info);
         //Final file
-        $route = 'assets/'  . $file_route . $name . "." . $file_info;
-        $https = 'https://' . $_SERVER['HTTP_HOST'] . '/app/assets/' . $file_route . $name . "." . $file_info;
+        $route = '/app/backend/production/file/' . $file_route . $name . "." . $file_info;
+        $https = 'https://' . $_SERVER['HTTP_HOST'] . '/app/backend/production/file/' . $file_route . $name . "." . $file_info;
 
         //Query to update a member signature
         $insertQuery  = "UPDATE integrante

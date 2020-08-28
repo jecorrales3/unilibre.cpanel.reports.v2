@@ -5,10 +5,10 @@
 ******************************************************************************
 ******************************************************************************
 */
-import { Injectable }   from '@angular/core';
-import { HttpClient }   from '@angular/common/http';
-import { Observable }   from 'rxjs';
-import { environment }  from '../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
 
 /*
 ******************************************************************************
@@ -17,24 +17,20 @@ import { environment }  from '../../environments/environment';
 ******************************************************************************
 ******************************************************************************
 */
-import { Login }  from './../interfaces/login';
+import { Login } from "./../interfaces/login";
 
-interface isLoggedIn
-{
+interface isLoggedIn {
   status: boolean;
-};
+}
 
-interface logoutStatus
-{
+interface logoutStatus {
   status: boolean;
-};
-
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-export class ConsultAuthService
-{
+export class ConsultAuthService {
   /*
   ******************************************************************************
   ******************************************************************************
@@ -43,7 +39,7 @@ export class ConsultAuthService
   ******************************************************************************
   */
   //URL API for localhost server
-  private URL  = environment.baseUrl + 'auth/';
+  private URL = environment.baseUrl + "auth/";
 
   /*
   ******************************************************************************
@@ -53,11 +49,7 @@ export class ConsultAuthService
   ******************************************************************************
   */
 
-  constructor(private http: HttpClient)
-  {
-
-  };
-
+  constructor(private http: HttpClient) {}
 
   /*
   ******************************************************************************
@@ -66,19 +58,15 @@ export class ConsultAuthService
   ******************************************************************************
   ******************************************************************************
   */
-  getService()
-  {
-    return this.http.get<Login>(this.URL + 'getAuthentication.php')
+  getService() {
+    return this.http.get<Login>(this.URL + "getAuthentication.php");
   }
 
-  isLoggedIn(): Observable<isLoggedIn>
-  {
-    return this.http.get<isLoggedIn>(this.URL + 'getLogged.php')
+  isLoggedIn(): Observable<isLoggedIn> {
+    return this.http.get<isLoggedIn>(this.URL + "getLogged.php");
   }
 
-  logout()
-  {
-    return this.http.get<logoutStatus>(this.URL + 'logout.php')
+  logout() {
+    return this.http.get<logoutStatus>(this.URL + "logout.php");
   }
-
 }

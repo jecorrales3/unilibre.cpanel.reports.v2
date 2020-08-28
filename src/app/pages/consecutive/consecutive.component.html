@@ -1,12 +1,24 @@
 <div>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3"
+  >
     <h4 class="text-muted">Consecutivos</h4>
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="listClass" (click)="listSection()">Listado</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="listClass"
+          (click)="listSection()"
+          >Listado</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="registerClass" (click)="registerSection()">Registro</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="registerClass"
+          (click)="registerSection()"
+          >Registro</a
+        >
       </li>
     </ul>
   </div>
@@ -20,12 +32,19 @@
       <div class="card-body">
         <div class="mb-3">
           <label>Filtro de búsqueda</label>
-          <input type="text" class="form-control rounded-0" placeholder="¿Qué quieres buscar?" (keyup)="applyFilter($event.target.value)">
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="¿Qué quieres buscar?"
+            (keyup)="applyFilter($event.target.value)"
+          />
         </div>
-        <hr>
+        <hr />
         <div class="table-responsive">
           <table class="table table-sm table-striped">
-            <caption>Listado de Consecutivos</caption>
+            <caption>
+              Listado de Consecutivos
+            </caption>
             <thead class="thead-dark">
               <tr class="text-center">
                 <th scope="col">#</th>
@@ -42,32 +61,68 @@
             <tbody>
               <tr class="text-center" *ngIf="loading">
                 <td colspan="12">
-                  <div class="spinner-border text-primary mt-1 mb-1" role="status">
+                  <div
+                    class="spinner-border text-primary mt-1 mb-1"
+                    role="status"
+                  >
                     <span class="sr-only">Loading...</span>
                   </div>
                 </td>
               </tr>
-              <tr *ngFor="let consecutive of list_consecutive | async, index as id">
-                <th class="text-center" scope="row">{{id+1}}</th>
-                <td class="text-center">{{consecutive.nombre_tipo_consecutivo_reporte}}</td>
+              <tr
+                *ngFor="
+                  let consecutive of list_consecutive | async;
+                  index as id
+                "
+              >
+                <th class="text-center" scope="row">{{ id + 1 }}</th>
                 <td class="text-center">
-                  Desde: {{consecutive.vigencia_desde_consecutivo_reporte}} | Hasta: {{consecutive.vigencia_hasta_consecutivo_reporte}}
+                  {{ consecutive.nombre_tipo_consecutivo_reporte }}
                 </td>
-                <td class="text-center">{{consecutive.year_consecutivo_reporte}}</td>
-                <td class="text-center">Actual: {{consecutive.consecutivo_actual_reporte}} | Hasta: {{consecutive.consecutivo_hasta_reporte}}</td>
-                <td class="text-center">{{consecutive.consecutivo_restante_reporte}}</td>
+                <td class="text-center">
+                  Desde: {{ consecutive.vigencia_desde_consecutivo_reporte }} |
+                  Hasta: {{ consecutive.vigencia_hasta_consecutivo_reporte }}
+                </td>
+                <td class="text-center">
+                  {{ consecutive.year_consecutivo_reporte }}
+                </td>
+                <td class="text-center">
+                  Actual: {{ consecutive.consecutivo_actual_reporte }} | Hasta:
+                  {{ consecutive.consecutivo_hasta_reporte }}
+                </td>
+                <td class="text-center">
+                  {{ consecutive.consecutivo_restante_reporte }}
+                </td>
                 <td class="text-center linkhand">
-                  <span matTooltip="{{consecutive.nombre_facultad}}">
-                    {{consecutive.siglas_facultad}}
+                  <span matTooltip="{{ consecutive.nombre_facultad }}">
+                    {{ consecutive.siglas_facultad }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <span class="badge badge-pill" [ngClass]="{ 'badge-success': consecutive.id_estado_consecutivo_reporte == '1', 'badge-warning': consecutive.id_estado_consecutivo_reporte == '2', 'badge-danger': consecutive.id_estado_consecutivo_reporte == '3'}">
-                    {{consecutive.nombre_estado_consecutivo_reporte}}
+                  <span
+                    class="badge badge-pill"
+                    [ngClass]="{
+                      'badge-success':
+                        consecutive.id_estado_consecutivo_reporte == '1',
+                      'badge-warning':
+                        consecutive.id_estado_consecutivo_reporte == '2',
+                      'badge-danger':
+                        consecutive.id_estado_consecutivo_reporte == '3'
+                    }"
+                  >
+                    {{ consecutive.nombre_estado_consecutivo_reporte }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <button type="button" class="btn btn-lightning rounded-0 btn-sm"  data-toggle="modal" data-target="#modalDetail" (click)="loadDetail(consecutive)">Detalle</button>
+                  <button
+                    type="button"
+                    class="btn btn-lightning rounded-0 btn-sm"
+                    (click)="
+                      loadDetail(consecutive); openDetailModal(detailTemplate)
+                    "
+                  >
+                    Detalle
+                  </button>
                 </td>
               </tr>
               <tr class="text-center" *ngIf="messageListConsecutive">
@@ -86,8 +141,11 @@
               </tr>
             </tbody>
           </table>
-          <hr>
-          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          <hr />
+          <mat-paginator
+            [pageSizeOptions]="[10, 15, 30]"
+            showFirstLastButtons
+          ></mat-paginator>
         </div>
       </div>
     </div>
@@ -104,19 +162,27 @@
             <h5>Registro</h5>
           </div>
           <div class="card-body">
-            <form [formGroup]="consecutive_form" (ngSubmit)="registerConsecutive()">
+            <form
+              [formGroup]="consecutive_form"
+              (ngSubmit)="registerConsecutive()"
+            >
               <div class="form-row">
-
                 <div class="col-md-12">
                   <div class="alert alert-primary" role="alert">
-                    <p class="text-justify">Debe tener en cuenta los siguientes puntos al momento de registrar un consecutivo:</p>
-                    <hr>
+                    <p class="text-justify">
+                      Debe tener en cuenta los siguientes puntos al momento de
+                      registrar un consecutivo:
+                    </p>
+                    <hr />
                     <ul>
                       <li>
-                        El sistema registra cada consecutivo de acuerdo al año actual.
+                        El sistema registra cada consecutivo de acuerdo al año
+                        actual.
                       </li>
                       <li>
-                        Si el sistema encuentra un tipo de consecutivo Activo este (nuevo consecutivo) será registrado con estado Inactivo.
+                        Si el sistema encuentra un tipo de consecutivo Activo
+                        este (nuevo consecutivo) será registrado con estado
+                        Inactivo.
                       </li>
                     </ul>
                   </div>
@@ -124,55 +190,103 @@
 
                 <div class="form-group col-md-12">
                   <label>Consecutivo (actual)</label>
-                  <input type="text" class="form-control rounded-0" placeholder="Consecutivo actual" formControlName="consecutive_current"
-                         [ngClass]="{ 'border-danger': submitted_form && rc.consecutive_current.errors,
-                                      'is-invalid': submitted_form && rc.consecutive_current.errors
-                                    }">
-                  <div *ngIf="submitted_form && rc.consecutive_current.errors" class="invalid-feedback">
-                     <div *ngIf="rc.consecutive_current.errors.required">El consecutivo actual es necesario</div>
-                     <div *ngIf="rc.consecutive_current.errors.pattern">El campo solo acepta valores numéricos</div>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="Consecutivo actual"
+                    formControlName="consecutive_current"
+                    [ngClass]="{
+                      'border-danger':
+                        submitted_form && rc.consecutive_current.errors,
+                      'is-invalid':
+                        submitted_form && rc.consecutive_current.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted_form && rc.consecutive_current.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rc.consecutive_current.errors.required">
+                      El consecutivo actual es necesario
+                    </div>
+                    <div *ngIf="rc.consecutive_current.errors.pattern">
+                      El campo solo acepta valores numéricos
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group col-md-12">
                   <label>Facultad</label>
-                  <select class="form-control rounded-0" formControlName="consecutive_faculty"
-                      [ngClass]="{ 'border-danger': submitted_form && rc.consecutive_faculty.errors,
-                                   'is-invalid': submitted_form && rc.consecutive_faculty.errors
-                                 }" >
-                    <option *ngFor="let faculty of list_faculties" [value]="faculty.id_facultad">
-                      {{faculty.nombre_facultad}}
+                  <select
+                    class="form-control rounded-0"
+                    formControlName="consecutive_faculty"
+                    [ngClass]="{
+                      'border-danger':
+                        submitted_form && rc.consecutive_faculty.errors,
+                      'is-invalid':
+                        submitted_form && rc.consecutive_faculty.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let faculty of list_faculties"
+                      [value]="faculty.id_facultad"
+                    >
+                      {{ faculty.nombre_facultad }}
                     </option>
-                    <option *ngIf="messageListFaculties">No se han registrado facultades en el sistema</option>
+                    <option *ngIf="messageListFaculties">
+                      No se han registrado facultades en el sistema
+                    </option>
                   </select>
-                  <div *ngIf="submitted_form && rc.consecutive_faculty.errors" class="invalid-feedback">
-                    <div *ngIf="rc.consecutive_faculty.errors.required">La facultad del consecutivo es necesaria</div>
+                  <div
+                    *ngIf="submitted_form && rc.consecutive_faculty.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rc.consecutive_faculty.errors.required">
+                      La facultad del consecutivo es necesaria
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group col-md-12">
                   <label>Tipo de Consecutivo</label>
-                  <select class="form-control rounded-0" formControlName="consecutive_type"
-                      [ngClass]="{ 'border-danger': submitted_form && rc.consecutive_type.errors,
-                                   'is-invalid': submitted_form && rc.consecutive_type.errors
-                                 }" >
-                    <option *ngFor="let type of list_consecutive_types" [value]="type.id_tipo_consecutivo_reporte">
-                      {{type.nombre_tipo_consecutivo_reporte}}
+                  <select
+                    class="form-control rounded-0"
+                    formControlName="consecutive_type"
+                    [ngClass]="{
+                      'border-danger':
+                        submitted_form && rc.consecutive_type.errors,
+                      'is-invalid': submitted_form && rc.consecutive_type.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let type of list_consecutive_types"
+                      [value]="type.id_tipo_consecutivo_reporte"
+                    >
+                      {{ type.nombre_tipo_consecutivo_reporte }}
                     </option>
                   </select>
-                  <div *ngIf="submitted_form && rc.consecutive_type.errors" class="invalid-feedback">
-                    <div *ngIf="rc.consecutive_type.errors.required">La tipo del consecutivo es necesario</div>
+                  <div
+                    *ngIf="submitted_form && rc.consecutive_type.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rc.consecutive_type.errors.required">
+                      La tipo del consecutivo es necesario
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-md-12">
-                  <hr>
+                  <hr />
                 </div>
 
                 <div class="col-md-12">
-                  <button type="submit" class="btn btn-lightning rounded-0 mb-2 mr-2">Registrar consecutivo</button>
+                  <button
+                    type="submit"
+                    class="btn btn-lightning rounded-0 mb-2 mr-2"
+                  >
+                    Registrar consecutivo
+                  </button>
                 </div>
-
               </div>
             </form>
           </div>
@@ -182,7 +296,6 @@
       <div class="col-md-3"></div>
     </div>
   </div>
-
 </div>
 
 <!--
@@ -194,66 +307,107 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalDetail" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{detail_consecutive_type}} - {{detail_consecutive_faculty}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form [formGroup]="update_consecutive_form" (ngSubmit)="updateConsecutive()">
-        <div class="modal-body">
-          <div class="form-row">
+<ng-template #detailTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">
+      {{ detail_consecutive_type }} - {{ detail_consecutive_faculty }}
+    </h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="update_consecutive_form" (ngSubmit)="updateConsecutive()">
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="col-md-12">
+          <p class="text-justify">
+            El consecutivo para el tipo de reporte
+            {{ detail_consecutive_type }} tiene vigencia desde
+            <strong>{{ detail_consecutive_valid_since }}</strong> hasta el
+            <strong>{{ detail_consecutive_valid_until }}</strong> con
+            <strong>{{ detail_consecutive_until }}</strong> consecutivos
+            habilitados para la generación de reportes del año
+            <strong>{{ detail_consecutive_year }}</strong
+            >.
+          </p>
+          <p class="text-justify" *ngIf="detail_consecutive_state_id != 3">
+            El estado del reporte sólo se actualizará a estado Activo cuando NO
+            haya otro consecutivo del mismo tipo con estado Activo.
+          </p>
+        </div>
 
-            <div class="col-md-12">
-              <p class="text-justify">
-                El consecutivo para el tipo de reporte {{detail_consecutive_type}} tiene vigencia desde <strong>{{detail_consecutive_valid_since}}</strong> hasta el <strong>{{detail_consecutive_valid_until}}</strong>
-                con <strong>{{detail_consecutive_until}}</strong> consecutivos habilitados para la generación de reportes del año <strong>{{detail_consecutive_year}}</strong>.
-              </p>
-              <p class="text-justify" *ngIf="detail_consecutive_state_id != '3'">
-                El estado del reporte sólo se actualizará a estado Activo cuando NO haya otro consecutivo del mismo tipo con estado Activo.
-              </p>
-            </div>
-
-            <div class="col-md-12" *ngIf="detail_consecutive_state_id != 2 && detail_consecutive_state_id != 3 && messageConsecutive">
-              <div class="alert alert-danger text-justify" role="alert">
-                <p>Se debe finalizar el estado del consecutivo porque no cumple los parámetros necesarios para ser usado en la creación de reportes:</p>
-                <hr>
-                <ul>
-                  <li>El año registrado para el consecutivo no corresponde al año actual.</li>
-                  <li>El consecutivo ha cumplido el límite de reportes.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <hr>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Estado</label>
-              <select class="form-control rounded-0" formControlName="consecutive_state"
-                      [ngClass]="{ 'border-danger': updated_form && uc.consecutive_state.errors,
-                                   'is-invalid': updated_form && uc.consecutive_state.errors
-                                 }">
-                <option *ngFor="let state of list_consecutive_state" [value]="state.id_estado_consecutivo_reporte">
-                  {{state.nombre_estado_consecutivo_reporte}}
-                </option>
-              </select>
-              <div *ngIf="updated_form && uc.consecutive_state.errors" class="invalid-feedback">
-                 <div *ngIf="uc.consecutive_state.errors.required">El estado del consecutivo es necesario</div>
-              </div>
-            </div>
-
+        <div
+          class="col-md-12"
+          *ngIf="
+            detail_consecutive_state_id != 2 &&
+            detail_consecutive_state_id != 3 &&
+            messageConsecutive
+          "
+        >
+          <div class="alert alert-danger text-justify" role="alert">
+            <p>
+              Se debe finalizar el estado del consecutivo porque no cumple los
+              parámetros necesarios para ser usado en la creación de reportes:
+            </p>
+            <hr />
+            <ul>
+              <li>
+                El año registrado para el consecutivo no corresponde al año
+                actual.
+              </li>
+              <li>El consecutivo ha cumplido el límite de reportes.</li>
+            </ul>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary rounded-0">Actualizar</button>
+
+        <div class="col-md-12">
+          <hr />
         </div>
-      </form>
+
+        <div class="form-group col-md-12">
+          <label>Estado</label>
+          <select
+            class="form-control rounded-0"
+            formControlName="consecutive_state"
+            [ngClass]="{
+              'border-danger': updated_form && uc.consecutive_state.errors,
+              'is-invalid': updated_form && uc.consecutive_state.errors
+            }"
+          >
+            <option
+              *ngFor="let state of list_consecutive_state"
+              [value]="state.id_estado_consecutivo_reporte"
+            >
+              {{ state.nombre_estado_consecutivo_reporte }}
+            </option>
+          </select>
+          <div
+            *ngIf="updated_form && uc.consecutive_state.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="uc.consecutive_state.errors.required">
+              El estado del consecutivo es necesario
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-lightning rounded-0"
+        (click)="modalRef.hide()"
+      >
+        Cerrar
+      </button>
+      <button type="submit" class="btn btn-primary rounded-0">
+        Actualizar
+      </button>
+    </div>
+  </form>
+</ng-template>

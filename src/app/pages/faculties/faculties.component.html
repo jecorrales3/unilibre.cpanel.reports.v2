@@ -1,12 +1,24 @@
 <div>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3"
+  >
     <h4 class="text-muted">Facultad</h4>
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="listClass" (click)="listSection()">Listado</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="listClass"
+          (click)="listSection()"
+          >Listado</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="registerClass" (click)="registerSection()">Registro</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="registerClass"
+          (click)="registerSection()"
+          >Registro</a
+        >
       </li>
     </ul>
   </div>
@@ -20,12 +32,19 @@
       <div class="card-body">
         <div class="mb-3">
           <label>Filtro de búsqueda</label>
-          <input type="text" class="form-control rounded-0" placeholder="¿Qué quieres buscar?" (keyup)="applyFilter($event.target.value)">
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="¿Qué quieres buscar?"
+            (keyup)="applyFilter($event.target.value)"
+          />
         </div>
-        <hr>
+        <hr />
         <div class="table-responsive">
           <table class="table table-sm table-striped">
-            <caption>Listado de Facultades</caption>
+            <caption>
+              Listado de Facultades
+            </caption>
             <thead class="thead-dark">
               <tr class="text-center">
                 <th scope="col">#</th>
@@ -40,29 +59,58 @@
             <tbody>
               <tr class="text-center" *ngIf="loading">
                 <td colspan="12">
-                  <div class="spinner-border text-primary mt-1 mb-1" role="status">
+                  <div
+                    class="spinner-border text-primary mt-1 mb-1"
+                    role="status"
+                  >
                     <span class="sr-only">Loading...</span>
                   </div>
                 </td>
               </tr>
-              <tr *ngFor="let faculty of list_faculties | async, index as id">
-                <th class="text-center" scope="row">{{id+1}}</th>
+              <tr *ngFor="let faculty of list_faculties | async; index as id">
+                <th class="text-center" scope="row">{{ id + 1 }}</th>
                 <td class="text-left linkhand">
-                  <span matTooltip="{{faculty.nombre_facultad}}">
-                    {{faculty.nombre_facultad | truncate: 40}}
+                  <span matTooltip="{{ faculty.nombre_facultad }}">
+                    {{ faculty.nombre_facultad | truncate: 40 }}
                   </span>
                 </td>
-                <td class="text-center">{{faculty.siglas_facultad}}</td>
-                <td class="text-center">{{faculty.nombre_ciudad}}, {{faculty.nombre_departamento}}</td>
-                <td class="text-center">{{faculty.fecha_registro_facultad}}</td>
+                <td class="text-center">{{ faculty.siglas_facultad }}</td>
                 <td class="text-center">
-                  <span class="badge badge-pill badge-dark linkhand" matTooltip="Ver listado" data-toggle="modal" data-target="#modalDetailList" (click)="loadDetailMemberList(faculty)">
-                    {{faculty.contador_integrantes}}
+                  {{ faculty.nombre_ciudad }}, {{ faculty.nombre_departamento }}
+                </td>
+                <td class="text-center">
+                  {{ faculty.fecha_registro_facultad }}
+                </td>
+                <td class="text-center">
+                  <span
+                    class="badge badge-pill badge-dark linkhand"
+                    matTooltip="Ver listado"
+                    (click)="
+                      loadDetailMemberList(faculty); openListModal(listTemplate)
+                    "
+                  >
+                    {{ faculty.contador_integrantes }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <button type="button" class="btn btn-lightning rounded-0 btn-sm"   data-toggle="modal" data-target="#modalDetail" (click)="loadDetail(faculty)">Detalle</button>
-                  <button type="button" class="btn btn-danger rounded-0 ml-1 btn-sm" data-toggle="modal" data-target="#modalDelete" (click)="loadDetail(faculty)">Eliminar</button>
+                  <button
+                    type="button"
+                    class="btn btn-lightning rounded-0 btn-sm"
+                    (click)="
+                      loadDetail(faculty); openDetailModal(detailTemplate)
+                    "
+                  >
+                    Detalle
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger rounded-0 ml-1 btn-sm"
+                    (click)="
+                      loadDetail(faculty); openDeleteModal(deleteTemplate)
+                    "
+                  >
+                    Eliminar
+                  </button>
                 </td>
               </tr>
               <tr class="text-center" *ngIf="messageListFaculties">
@@ -81,8 +129,11 @@
               </tr>
             </tbody>
           </table>
-          <hr>
-          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          <hr />
+          <mat-paginator
+            [pageSizeOptions]="[10, 15, 30]"
+            showFirstLastButtons
+          ></mat-paginator>
         </div>
       </div>
     </div>
@@ -101,54 +152,102 @@
           <div class="card-body">
             <form [formGroup]="faculty_form" (ngSubmit)="registerFaculty()">
               <div class="form-row">
-
                 <div class="form-group col-md-12">
                   <label>Siglas</label>
-                  <input type="text" class="form-control rounded-0" placeholder="Siglas de la facultad" formControlName="faculty_acronym"
-                         [ngClass]="{ 'border-danger': submitted_form && rf.faculty_acronym.errors,
-                                      'is-invalid': submitted_form && rf.faculty_acronym.errors
-                                    }">
-                  <div *ngIf="submitted_form && rf.faculty_acronym.errors" class="invalid-feedback">
-                     <div *ngIf="rf.faculty_acronym.errors.required">La siglas de la facultad es necesario</div>
-                     <div *ngIf="rf.faculty_acronym.errors.maxlength">El campo solo acepta 10 caracteres</div>
-                     <div *ngIf="rf.faculty_acronym.errors.pattern">El campo solo acepta letras</div>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="Siglas de la facultad"
+                    formControlName="faculty_acronym"
+                    [ngClass]="{
+                      'border-danger':
+                        submitted_form && rf.faculty_acronym.errors,
+                      'is-invalid': submitted_form && rf.faculty_acronym.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted_form && rf.faculty_acronym.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rf.faculty_acronym.errors.required">
+                      La siglas de la facultad es necesario
+                    </div>
+                    <div *ngIf="rf.faculty_acronym.errors.maxlength">
+                      El campo solo acepta 10 caracteres
+                    </div>
+                    <div *ngIf="rf.faculty_acronym.errors.pattern">
+                      El campo solo acepta letras
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group col-md-12">
                   <label>Ciudad</label>
-                  <select class="form-control rounded-0" formControlName="faculty_city"
-                          [ngClass]="{ 'border-danger': submitted_form && rf.faculty_city.errors,
-                                       'is-invalid': submitted_form && rf.faculty_city.errors
-                                     }">
-                    <option *ngFor="let ciudad of list_cities" [value]="ciudad.id_ciudad">
-                      {{ciudad.nombre_ciudad}}, {{ciudad.nombre_departamento}}.
+                  <select
+                    class="form-control rounded-0"
+                    formControlName="faculty_city"
+                    [ngClass]="{
+                      'border-danger': submitted_form && rf.faculty_city.errors,
+                      'is-invalid': submitted_form && rf.faculty_city.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let ciudad of list_cities"
+                      [value]="ciudad.id_ciudad"
+                    >
+                      {{ ciudad.nombre_ciudad }},
+                      {{ ciudad.nombre_departamento }}.
                     </option>
                   </select>
-                  <div *ngIf="submitted_form && rf.faculty_city.errors" class="invalid-feedback">
-                     <div *ngIf="rf.faculty_city.errors.required">La ciudad de la facultad es necesaria</div>
+                  <div
+                    *ngIf="submitted_form && rf.faculty_city.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rf.faculty_city.errors.required">
+                      La ciudad de la facultad es necesaria
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group col-md-12">
                   <label>Nombre</label>
-                  <textarea rows="4" class="form-control rounded-0" placeholder="Nombre de la facultad" formControlName="faculty_name"
-                         [ngClass]="{ 'border-danger': submitted_form && rf.faculty_name.errors,
-                                      'is-invalid': submitted_form && rf.faculty_name.errors
-                                    }"></textarea>
-                  <div *ngIf="submitted_form && rf.faculty_name.errors" class="invalid-feedback">
-                     <div *ngIf="rf.faculty_name.errors.required">El nombre de la facultad es necesario</div>
-                     <div *ngIf="rf.faculty_name.errors.maxlength">El campo solo acepta 130 caracteres</div>
-                     <div *ngIf="rf.faculty_name.errors.pattern">El campo solo acepta letras</div>
+                  <textarea
+                    rows="4"
+                    class="form-control rounded-0"
+                    placeholder="Nombre de la facultad"
+                    formControlName="faculty_name"
+                    [ngClass]="{
+                      'border-danger': submitted_form && rf.faculty_name.errors,
+                      'is-invalid': submitted_form && rf.faculty_name.errors
+                    }"
+                  ></textarea>
+                  <div
+                    *ngIf="submitted_form && rf.faculty_name.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rf.faculty_name.errors.required">
+                      El nombre de la facultad es necesario
+                    </div>
+                    <div *ngIf="rf.faculty_name.errors.maxlength">
+                      El campo solo acepta 130 caracteres
+                    </div>
+                    <div *ngIf="rf.faculty_name.errors.pattern">
+                      El campo solo acepta letras
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-md-12">
-                  <hr>
+                  <hr />
                 </div>
 
                 <div class="col-md-12">
-                  <button type="submit" class="btn btn-lightning rounded-0 mb-2 mr-2">Registrar facultad</button>
+                  <button
+                    type="submit"
+                    class="btn btn-lightning rounded-0 mb-2 mr-2"
+                  >
+                    Registrar facultad
+                  </button>
                 </div>
               </div>
             </form>
@@ -159,7 +258,6 @@
       <div class="col-md-3"></div>
     </div>
   </div>
-
 </div>
 
 <!--
@@ -171,145 +269,232 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalDetail" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Detalle</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form [formGroup]="update_faculty_form" (ngSubmit)="updateFaculty()">
-        <div class="modal-body">
-          <div class="form-row">
-
-            <div class="form-group col-md-12">
-              <label>Siglas</label>
-              <input type="text" class="form-control rounded-0" placeholder="Siglas de la facultad" formControlName="faculty_acronym"
-                     [ngClass]="{ 'border-danger': updated_form && uf.faculty_acronym.errors,
-                                  'is-invalid': updated_form && uf.faculty_acronym.errors
-                                }">
-              <div *ngIf="updated_form && uf.faculty_acronym.errors" class="invalid-feedback">
-                 <div *ngIf="uf.faculty_acronym.errors.required">La siglas de la facultad es necesario</div>
-                 <div *ngIf="uf.faculty_acronym.errors.maxlength">El campo solo acepta 10 caracteres</div>
-                 <div *ngIf="uf.faculty_acronym.errors.pattern">El campo solo acepta letras</div>
-              </div>
+<ng-template #detailTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Detalle</h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="update_faculty_form" (ngSubmit)="updateFaculty()">
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label>Siglas</label>
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="Siglas de la facultad"
+            formControlName="faculty_acronym"
+            [ngClass]="{
+              'border-danger': updated_form && uf.faculty_acronym.errors,
+              'is-invalid': updated_form && uf.faculty_acronym.errors
+            }"
+          />
+          <div
+            *ngIf="updated_form && uf.faculty_acronym.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="uf.faculty_acronym.errors.required">
+              La siglas de la facultad es necesario
             </div>
-
-            <div class="form-group col-md-12">
-              <label>Ciudad</label>
-              <select class="form-control rounded-0" formControlName="faculty_city"
-                      [ngClass]="{ 'border-danger': updated_form && uf.faculty_city.errors,
-                                   'is-invalid': updated_form && uf.faculty_city.errors
-                                 }">
-                <option *ngFor="let ciudad of list_cities" [value]="ciudad.id_ciudad">
-                  {{ciudad.nombre_ciudad}}, {{ciudad.nombre_departamento}}.
-                </option>
-              </select>
-              <div *ngIf="updated_form && uf.faculty_city.errors" class="invalid-feedback">
-                 <div *ngIf="uf.faculty_city.errors.required">La ciudad de la facultad es necesario</div>
-              </div>
+            <div *ngIf="uf.faculty_acronym.errors.maxlength">
+              El campo solo acepta 10 caracteres
             </div>
-
-            <div class="form-group col-md-12">
-              <label>Nombre</label>
-              <textarea rows="4" class="form-control rounded-0" placeholder="Nombre de la facultad" formControlName="faculty_name"
-                     [ngClass]="{ 'border-danger': updated_form && uf.faculty_name.errors,
-                                  'is-invalid': updated_form && uf.faculty_name.errors
-                                }"></textarea>
-              <div *ngIf="updated_form && uf.faculty_name.errors" class="invalid-feedback">
-                 <div *ngIf="uf.faculty_name.errors.required">El nombre de la facultad es necesario</div>
-                 <div *ngIf="uf.faculty_name.errors.maxlength">El campo solo acepta 130 caracteres</div>
-                 <div *ngIf="uf.faculty_name.errors.pattern">El campo solo acepta letras</div>
-              </div>
+            <div *ngIf="uf.faculty_acronym.errors.pattern">
+              El campo solo acepta letras
             </div>
-
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary rounded-0">Actualizar</button>
+
+        <div class="form-group col-md-12">
+          <label>Ciudad</label>
+          <select
+            class="form-control rounded-0"
+            formControlName="faculty_city"
+            [ngClass]="{
+              'border-danger': updated_form && uf.faculty_city.errors,
+              'is-invalid': updated_form && uf.faculty_city.errors
+            }"
+          >
+            <option
+              *ngFor="let ciudad of list_cities"
+              [value]="ciudad.id_ciudad"
+            >
+              {{ ciudad.nombre_ciudad }}, {{ ciudad.nombre_departamento }}.
+            </option>
+          </select>
+          <div
+            *ngIf="updated_form && uf.faculty_city.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="uf.faculty_city.errors.required">
+              La ciudad de la facultad es necesario
+            </div>
+          </div>
         </div>
-      </form>
+
+        <div class="form-group col-md-12">
+          <label>Nombre</label>
+          <textarea
+            rows="4"
+            class="form-control rounded-0"
+            placeholder="Nombre de la facultad"
+            formControlName="faculty_name"
+            [ngClass]="{
+              'border-danger': updated_form && uf.faculty_name.errors,
+              'is-invalid': updated_form && uf.faculty_name.errors
+            }"
+          ></textarea>
+          <div
+            *ngIf="updated_form && uf.faculty_name.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="uf.faculty_name.errors.required">
+              El nombre de la facultad es necesario
+            </div>
+            <div *ngIf="uf.faculty_name.errors.maxlength">
+              El campo solo acepta 130 caracteres
+            </div>
+            <div *ngIf="uf.faculty_name.errors.pattern">
+              El campo solo acepta letras
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-lightning rounded-0"
+        (click)="modalRef.hide()"
+      >
+        Cerrar
+      </button>
+      <button type="submit" class="btn btn-primary rounded-0">
+        Actualizar
+      </button>
+    </div>
+  </form>
+</ng-template>
 
 <!-- Modal -->
-<div class="modal fade" id="modalDelete" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Eliminar</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-row">
-
-          <div class="col-md-12">
-            <p class="text-justify text-color">
-              ¿Está seguro que desea eliminar el registro de <strong class="text-danger">{{detail_faculty_name}}</strong>?
-              Esta operación es irreversible lo que significa que no podrá recuperar dicha información eliminada.
-            </p>
-          </div>
-
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary rounded-0" (click)="deleteFaculty()" data-dismiss="modal">Confirmar</button>
+<ng-template #deleteTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Eliminar</h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="col-md-12">
+        <p class="text-justify text-color">
+          ¿Está seguro que desea eliminar el registro de
+          <strong class="text-danger">{{ detail_faculty_name }}</strong
+          >? Esta operación es irreversible lo que significa que no podrá
+          recuperar dicha información eliminada.
+        </p>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-lightning rounded-0"
+      (click)="modalRef.hide()"
+    >
+      Cerrar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary rounded-0"
+      (click)="deleteFaculty(); modalRef.hide()"
+    >
+      Confirmar
+    </button>
+  </div>
+</ng-template>
 
 <!-- Modal -->
-<div class="modal fade" id="modalDetailList" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Listado</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-row">
-
-          <div class="col-md-12 text-center" *ngIf="loading_modal">
-            <div class="spinner-border text-primary mt-1 mb-1" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          </div>
-          <div class="col-md-12 text-center" *ngIf="messageListMembers" style="margin-top:3%;">
-            <div class="alert alert-info" role="alert">
-              No se han asociado integrantes a la facultad seleccionada
-            </div>
-          </div>
-
-          <div class="col-md-12">
-            <div class="my-3 p-3 bg-white rounded shadow" *ngFor="let type of list_members">
-              <h6 class="border-bottom border-gray pb-2 mb-0">{{type.member_type}}</h6>
-              <div class="media text-muted pt-3" *ngFor="let member of type.member_list; let last = last;">
-                <div class="media-body pb-3 mb-0 small lh-125 border-gray" [ngClass]="{'border-bottom': !last}">
-                  <div class="d-flex justify-content-between align-items-center w-100">
-                    <strong class="text-gray-dark">{{member.nombre_integrante}} {{member.apellido_integrante}}</strong>
-                    <a>{{member.cedula_integrante}}</a>
-                  </div>
-                  <span class="d-block">{{member.correo_integrante}}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
+<ng-template #listTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Listado</h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="col-md-12 text-center" *ngIf="loading_modal">
+        <div class="spinner-border text-primary mt-1 mb-1" role="status">
+          <span class="sr-only">Loading...</span>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
+      <div
+        class="col-md-12 text-center"
+        *ngIf="messageListMembers"
+        style="margin-top: 3%"
+      >
+        <div class="alert alert-info" role="alert">
+          No se han asociado integrantes a la facultad seleccionada
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div
+          class="my-3 p-3 bg-white rounded shadow"
+          *ngFor="let type of list_members"
+        >
+          <h6 class="border-bottom border-gray pb-2 mb-0">
+            {{ type.member_type }}
+          </h6>
+          <div
+            class="media text-muted pt-3"
+            *ngFor="let member of type.member_list; let last = last"
+          >
+            <div
+              class="media-body pb-3 mb-0 small lh-125 border-gray"
+              [ngClass]="{ 'border-bottom': !last }"
+            >
+              <div
+                class="d-flex justify-content-between align-items-center w-100"
+              >
+                <strong class="text-gray-dark">
+                  {{ member.nombre_integrante }}
+                  {{ member.apellido_integrante }}</strong
+                >
+                <a>{{ member.cedula_integrante }}</a>
+              </div>
+              <span class="d-block">{{ member.correo_integrante }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-lightning rounded-0"
+      (click)="modalRef.hide()"
+    >
+      Cerrar
+    </button>
+  </div>
+</ng-template>

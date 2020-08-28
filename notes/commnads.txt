@@ -4,11 +4,11 @@
 ********************************************************************************
 ********************************************************************************
 
-1. cd Documents/GitHub/Unilibre/Web/unilibre.cpanel.reports.v2/backend && php -S 0.0.0.0:1234
-2. php -S 0.0.0.0:1234
+1. cd Documents/GitHub/Unilibre/Web/unilibre.cpanel.reports.v2/backend && php -S 127.0.0.1:8000
+2. php -S 127.0.0.1:8000
 
 ********************************************************************************
 ********************************************************************************
 
-3.   && ng serve --proxy-config proxyconfig.json
-4. ng serve --proxy-config proxyconfig.json
+1. cd Documents/GitHub/Unilibre/Web/unilibre.cpanel.reports.v2 && npm start
+2. npm start

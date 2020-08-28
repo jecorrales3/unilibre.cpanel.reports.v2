@@ -37,43 +37,46 @@
     //Get the user query
     if ($user_type == 1)
     {
-      $queryResult = $mysqli->query("SELECT edte.id_estudiante_reporte,
-                                    	      edte.nombre_estudiante_reporte,
-                                            edte.apellido_estudiante_reporte,
-                                            edte.documento_estudiante_reporte,
-                                            COUNT(*) AS contador_reporte,
-                                            fctd.nombre_facultad,
-                                            fctd.siglas_facultad
-                                       FROM estudiante_reporte edte
-                                       INNER JOIN configuracion_reporte conf
-                                       ON conf.id_configuracion_reporte = edte.id_configuracion_estudiante_reporte
-                                       INNER JOIN facultad fctd
-                                       ON fctd.id_facultad = conf.id_facultad_final_configuracion_reporte
-                                       GROUP BY edte.documento_estudiante_reporte
-                                       ORDER BY edte.apellido_estudiante_reporte,
-                                                edte.nombre_estudiante_reporte");
+      $query = "SELECT edte.id_estudiante_reporte,
+                       edte.nombre_estudiante_reporte,
+                       edte.apellido_estudiante_reporte,
+                       edte.documento_estudiante_reporte,
+                       COUNT(*) AS contador_reporte,
+                       fctd.nombre_facultad,
+                       fctd.siglas_facultad
+                FROM estudiante_reporte edte
+                INNER JOIN configuracion_reporte conf
+                ON conf.id_configuracion_reporte = edte.id_configuracion_estudiante_reporte
+                INNER JOIN facultad fctd
+                ON fctd.id_facultad = conf.id_facultad_final_configuracion_reporte
+                GROUP BY edte.documento_estudiante_reporte
+                ORDER BY edte.apellido_estudiante_reporte,
+                         edte.nombre_estudiante_reporte";
     }
     else
     {
-      $queryResult = $mysqli->query("SELECT edte.id_estudiante_reporte,
-                                    	      edte.nombre_estudiante_reporte,
-                                            edte.apellido_estudiante_reporte,
-                                            edte.documento_estudiante_reporte,
-                                            COUNT(*) AS contador_reporte,
-                                            fctd.nombre_facultad,
-                                            fctd.siglas_facultad
-                                       FROM estudiante_reporte edte
-                                       INNER JOIN configuracion_reporte conf
-                                       ON conf.id_configuracion_reporte = edte.id_configuracion_estudiante_reporte
-                                       INNER JOIN facultad fctd
-                                       ON fctd.id_facultad = conf.id_facultad_final_configuracion_reporte
-                                       WHERE conf.id_facultad_final_configuracion_reporte = '$user_faculty'
-                                       GROUP BY edte.documento_estudiante_reporte
-                                       ORDER BY edte.apellido_estudiante_reporte,
-                                                edte.nombre_estudiante_reporte");
+      $query = "SELECT edte.id_estudiante_reporte,
+                       edte.nombre_estudiante_reporte,
+                       edte.apellido_estudiante_reporte,
+                       edte.documento_estudiante_reporte,
+                       COUNT(*) AS contador_reporte,
+                       fctd.nombre_facultad,
+                       fctd.siglas_facultad
+                FROM estudiante_reporte edte
+                INNER JOIN configuracion_reporte conf
+                ON conf.id_configuracion_reporte = edte.id_configuracion_estudiante_reporte
+                INNER JOIN facultad fctd
+                ON fctd.id_facultad = conf.id_facultad_final_configuracion_reporte
+                WHERE conf.id_facultad_final_configuracion_reporte = '$user_faculty'
+                GROUP BY edte.documento_estudiante_reporte
+                ORDER BY edte.apellido_estudiante_reporte,
+                         edte.nombre_estudiante_reporte";
     }
 
+    $queryResult = $mysqli->query($query);
+
     $data = array();
+
     while ($row = $queryResult->fetch_assoc())
     {
       $data[] = $row;

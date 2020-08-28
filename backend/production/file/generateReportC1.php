@@ -24,7 +24,7 @@
   include '../control/certificate_query.php';
   include '../error/message_error.php';
   //mPDF class
-  require_once __DIR__ . '../class/mPDF/vendor/autoload.php';
+  require_once __DIR__ . '../../class/mPDF/vendor/autoload.php';
 
   //Session start
   session_start();

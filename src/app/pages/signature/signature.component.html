@@ -1,9 +1,16 @@
 <div>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3"
+  >
     <h4 class="text-muted">Directores de Investigación</h4>
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="listClass" (click)="listSection()">Listado</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="listClass"
+          (click)="listSection()"
+          >Listado</a
+        >
       </li>
     </ul>
   </div>
@@ -17,12 +24,19 @@
       <div class="card-body">
         <div class="mb-3">
           <label>Filtro de búsqueda</label>
-          <input type="text" class="form-control rounded-0" placeholder="¿Qué quieres buscar?" (keyup)="applyFilter($event.target.value)">
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="¿Qué quieres buscar?"
+            (keyup)="applyFilter($event.target.value)"
+          />
         </div>
-        <hr>
+        <hr />
         <div class="table-responsive">
           <table class="table table-sm table-striped">
-            <caption>Listado de Directores</caption>
+            <caption>
+              Listado de Directores
+            </caption>
             <thead class="thead-dark">
               <tr class="text-center">
                 <th scope="col">#</th>
@@ -32,33 +46,81 @@
                 <th scope="col">Documento</th>
                 <th scope="col">Facultad</th>
                 <th scope="col">Tipo</th>
+                <th scope="col">Opción</th>
               </tr>
             </thead>
             <tbody>
               <tr class="text-center" *ngIf="loading">
                 <td colspan="12">
-                  <div class="spinner-border text-primary mt-1 mb-1" role="status">
+                  <div
+                    class="spinner-border text-primary mt-1 mb-1"
+                    role="status"
+                  >
                     <span class="sr-only">Loading...</span>
                   </div>
                 </td>
               </tr>
-              <tr *ngFor="let member of list_members | async, index as id">
-                <th class="text-center" scope="row">{{id+1}}</th>
-                <td class="text-left">{{member.nombre_integrante}} {{member.apellido_integrante}}</td>
-                <td class="text-center">
-                  <img [src]="member.imagen_firma_integrante" class="rounded linkhand" width="32" height="32" data-toggle="modal" data-target="#modalSignature" (click)="loadDetail(member)" matTooltip="Actualizar firma del integrante" *ngIf="member.imagen_firma_integrante != undefined">
-                  <img src="assets/img/unilibre/no-image.png" class="rounded linkhand" width="32" height="32" data-toggle="modal" data-target="#modalSignature" (click)="loadDetail(member)" matTooltip="Subir firma del Integrante"      *ngIf="member.imagen_firma_integrante == undefined">
+              <tr *ngFor="let member of list_members | async; index as id">
+                <th class="text-center" scope="row">{{ id + 1 }}</th>
+                <td class="text-left">
+                  {{ member.nombre_integrante }}
+                  {{ member.apellido_integrante }}
                 </td>
-                <td class="text-center" *ngIf="member.correo_integrante == undefined">N/A</td>
-                <td class="text-center" *ngIf="member.correo_integrante != undefined">{{member.correo_integrante}}</td>
-                <td class="text-right">{{member.cedula_integrante}}</td>
+                <td class="text-center">
+                  <img
+                    [src]="member.imagen_firma_integrante"
+                    class="rounded linkhand"
+                    width="32"
+                    height="32"
+                    (click)="
+                      loadDetail(member); openSignatureModal(signatureTemplate)
+                    "
+                    matTooltip="Actualizar firma del integrante"
+                    *ngIf="member.imagen_firma_integrante != undefined"
+                  />
+                  <img
+                    src="assets/img/unilibre/no-image.png"
+                    class="rounded linkhand"
+                    width="32"
+                    height="32"
+                    (click)="
+                      loadDetail(member); openSignatureModal(signatureTemplate)
+                    "
+                    matTooltip="Subir firma del Integrante"
+                    *ngIf="member.imagen_firma_integrante == undefined"
+                  />
+                </td>
+                <td
+                  class="text-center"
+                  *ngIf="member.correo_integrante == undefined"
+                >
+                  N/A
+                </td>
+                <td
+                  class="text-center"
+                  *ngIf="member.correo_integrante != undefined"
+                >
+                  {{ member.correo_integrante }}
+                </td>
+                <td class="text-right">{{ member.cedula_integrante }}</td>
                 <td class="text-center linkhand">
-                  <span matTooltip="{{member.nombre_facultad}}">
-                    {{member.siglas_facultad}}
+                  <span matTooltip="{{ member.nombre_facultad }}">
+                    {{ member.siglas_facultad }}
                   </span>
                 </td>
                 <td class="text-center">
-                  {{member.nombre_tipo_integrante}}
+                  {{ member.nombre_tipo_integrante }}
+                </td>
+                <td class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-lightning rounded-0 btn-sm"
+                    (click)="
+                      loadDetail(member); openSignatureModal(signatureTemplate)
+                    "
+                  >
+                    Detalle
+                  </button>
                 </td>
               </tr>
               <tr class="text-center" *ngIf="messageListMembers">
@@ -77,13 +139,15 @@
               </tr>
             </tbody>
           </table>
-          <hr>
-          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          <hr />
+          <mat-paginator
+            [pageSizeOptions]="[10, 15, 30]"
+            showFirstLastButtons
+          ></mat-paginator>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 
 <!--
@@ -95,41 +159,63 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalSignature" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Firma de {{detail_member_name}} {{detail_member_lastname}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-row">
-          <div class="col-md-12 mb-1">
-            <div class="alert alert-primary" role="alert">
-              <strong>Nota:</strong>
-              El sistema sólo acepta formatos de imagen (PNG, JPEG o JPG) y un máximo en su tamaño de 2mb.
-            </div>
-          </div>
-          <div class="col-md-12 text-center">
-            <img src="{{detail_member_signature}}"      class="img-fluid img-thumbnail" *ngIf="detail_member_signature != undefined">
-            <img src="assets/img/unilibre/no-image.png" class="img-fluid img-thumbnail" *ngIf="detail_member_signature == undefined">
-          </div>
+<ng-template #signatureTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">
+      Firma de {{ detail_member_name }} {{ detail_member_lastname }}
+    </h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="col-md-12 mb-1">
+        <div class="alert alert-primary" role="alert">
+          <strong>Nota:</strong>
+          El sistema sólo acepta formatos de imagen (PNG, JPEG o JPG) y un
+          máximo en su tamaño de 2mb.
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-        <label class="btn btn-primary rounded-0">
-          <span *ngIf="detail_member_signature != undefined">
-            <i class="fas fa-signature"></i> Actualizar firma
-          </span>
-          <span *ngIf="detail_member_signature == undefined">
-            <i class="fas fa-signature"></i> Generar firma
-          </span>
-          <input type="file" style="display: none;" (change)="uploadSignatureImage($event)">
-        </label>
+      <div class="col-md-12 text-center">
+        <img
+          src="{{ detail_member_signature }}"
+          class="img-fluid img-thumbnail"
+          *ngIf="detail_member_signature != undefined"
+        />
+        <img
+          src="assets/img/unilibre/no-image.png"
+          class="img-fluid img-thumbnail"
+          *ngIf="detail_member_signature == undefined"
+        />
       </div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-lightning rounded-0"
+      (click)="modalRef.hide()"
+    >
+      Cerrar
+    </button>
+    <label class="btn btn-primary rounded-0">
+      <span *ngIf="detail_member_signature != undefined">
+        <i class="fas fa-signature"></i> Actualizar firma
+      </span>
+      <span *ngIf="detail_member_signature == undefined">
+        <i class="fas fa-signature"></i> Generar firma
+      </span>
+      <input
+        type="file"
+        style="display: none"
+        (change)="uploadSignatureImage($event)"
+      />
+    </label>
+  </div>
+</ng-template>

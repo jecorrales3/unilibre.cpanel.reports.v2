@@ -1,12 +1,24 @@
 <div>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3"
+  >
     <h4 class="text-muted">Integrantes</h4>
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="listClass" (click)="listSection()">Listado</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="listClass"
+          (click)="listSection()"
+          >Listado</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="registerClass" (click)="registerSection()">Registro</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="registerClass"
+          (click)="registerSection()"
+          >Registro</a
+        >
       </li>
     </ul>
   </div>
@@ -20,12 +32,19 @@
       <div class="card-body">
         <div class="mb-3">
           <label>Filtro de búsqueda</label>
-          <input type="text" class="form-control rounded-0" placeholder="¿Qué quieres buscar?" (keyup)="applyFilter($event.target.value)">
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="¿Qué quieres buscar?"
+            (keyup)="applyFilter($event.target.value)"
+          />
         </div>
-        <hr>
+        <hr />
         <div class="table-responsive">
           <table class="table table-sm table-striped">
-            <caption>Listado de Integrantes</caption>
+            <caption>
+              Listado de Integrantes
+            </caption>
             <thead class="thead-dark">
               <tr class="text-center">
                 <th scope="col">#</th>
@@ -40,34 +59,69 @@
             <tbody>
               <tr class="text-center" *ngIf="loading">
                 <td colspan="12">
-                  <div class="spinner-border text-primary mt-1 mb-1" role="status">
+                  <div
+                    class="spinner-border text-primary mt-1 mb-1"
+                    role="status"
+                  >
                     <span class="sr-only">Loading...</span>
                   </div>
                 </td>
               </tr>
-              <tr *ngFor="let member of list_members | async, index as id">
-                <th class="text-center" scope="row">{{id+1}}</th>
-                <td class="text-left">{{member.nombre_integrante}} {{member.apellido_integrante}}</td>
-                <td class="text-center" *ngIf="member.correo_integrante == undefined">N/A</td>
-                <td class="text-center" *ngIf="member.correo_integrante != undefined">{{member.correo_integrante}}</td>
-                <td class="text-right">{{member.cedula_integrante}}</td>
+              <tr *ngFor="let member of list_members | async; index as id">
+                <th class="text-center" scope="row">{{ id + 1 }}</th>
+                <td class="text-left">
+                  {{ member.nombre_integrante }}
+                  {{ member.apellido_integrante }}
+                </td>
+                <td
+                  class="text-center"
+                  *ngIf="member.correo_integrante == undefined"
+                >
+                  N/A
+                </td>
+                <td
+                  class="text-center"
+                  *ngIf="member.correo_integrante != undefined"
+                >
+                  {{ member.correo_integrante }}
+                </td>
+                <td class="text-right">{{ member.cedula_integrante }}</td>
                 <td class="text-left linkhand">
-                  <span matTooltip="{{member.nombre_facultad}}">
-                    {{member.nombre_facultad | truncate: 30}}
+                  <span matTooltip="{{ member.nombre_facultad }}">
+                    {{ member.nombre_facultad | truncate: 30 }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <i class="fas linkhand" matTooltip="{{member.nombre_tipo_integrante}}"
-                     [ngClass]="{
-                                 'fa-user-tie': member.id_tipo_integrante == 1,
-                                 'fa-book-reader': member.id_tipo_integrante == 2,
-                                 'fa-chalkboard-teacher': member.id_tipo_integrante == 3
-                                }">
+                  <i
+                    class="fas linkhand"
+                    matTooltip="{{ member.nombre_tipo_integrante }}"
+                    [ngClass]="{
+                      'fa-user-tie': member.id_tipo_integrante == 1,
+                      'fa-book-reader': member.id_tipo_integrante == 2,
+                      'fa-chalkboard-teacher': member.id_tipo_integrante == 3
+                    }"
+                  >
                   </i>
                 </td>
                 <td class="text-center">
-                  <button type="button" class="btn btn-lightning rounded-0 btn-sm"   data-toggle="modal" data-target="#modalDetail" (click)="loadDetail(member)">Detalle</button>
-                  <button type="button" class="btn btn-danger rounded-0 ml-1 btn-sm" data-toggle="modal" data-target="#modalDelete" (click)="loadDetail(member)">Eliminar</button>
+                  <button
+                    type="button"
+                    class="btn btn-lightning rounded-0 btn-sm"
+                    (click)="
+                      loadDetail(member); openDetailModal(detailTemplate)
+                    "
+                  >
+                    Detalle
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger rounded-0 ml-1 btn-sm"
+                    (click)="
+                      loadDetail(member); openDeleteModal(deleteTemplate)
+                    "
+                  >
+                    Eliminar
+                  </button>
                 </td>
               </tr>
               <tr class="text-center" *ngIf="messageListMembers">
@@ -86,8 +140,11 @@
               </tr>
             </tbody>
           </table>
-          <hr>
-          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          <hr />
+          <mat-paginator
+            [pageSizeOptions]="[10, 15, 30]"
+            showFirstLastButtons
+          ></mat-paginator>
         </div>
       </div>
     </div>
@@ -106,89 +163,183 @@
           <div class="card-body">
             <form [formGroup]="member_form" (ngSubmit)="registerMember()">
               <div class="form-row">
-
                 <div class="form-group col-md-6">
                   <label>Nombre</label>
-                  <input type="text" class="form-control rounded-0" placeholder="Nombre del integrante" formControlName="member_name"
-                       [ngClass]="{ 'border-danger': submitted_form && rm.member_name.errors,
-                                    'is-invalid': submitted_form && rm.member_name.errors
-                                  }">
-                  <div *ngIf="submitted_form && rm.member_name.errors" class="invalid-feedback">
-                    <div *ngIf="rm.member_name.errors.required">El nombre del integrante es necesario</div>
-                    <div *ngIf="rm.member_name.errors.pattern">El campo sólo puede contener valores alfanuméricos</div>
-                    <div *ngIf="rm.member_name.errors.maxlength">El nombre del integrante debe contener máximo 40 caracteres</div>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="Nombre del integrante"
+                    formControlName="member_name"
+                    [ngClass]="{
+                      'border-danger': submitted_form && rm.member_name.errors,
+                      'is-invalid': submitted_form && rm.member_name.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted_form && rm.member_name.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rm.member_name.errors.required">
+                      El nombre del integrante es necesario
+                    </div>
+                    <div *ngIf="rm.member_name.errors.pattern">
+                      El campo sólo puede contener valores alfanuméricos
+                    </div>
+                    <div *ngIf="rm.member_name.errors.maxlength">
+                      El nombre del integrante debe contener máximo 40
+                      caracteres
+                    </div>
                   </div>
                 </div>
                 <div class="form-group col-md-6">
                   <label>Apellido</label>
-                  <input type="text" class="form-control rounded-0" placeholder="Apellido del integrante" formControlName="member_lastname"
-                       [ngClass]="{ 'border-danger': submitted_form && rm.member_lastname.errors,
-                                    'is-invalid': submitted_form && rm.member_lastname.errors
-                                  }">
-                  <div *ngIf="submitted_form && rm.member_lastname.errors" class="invalid-feedback">
-                    <div *ngIf="rm.member_lastname.errors.required">El apellido del integrante es necesario</div>
-                    <div *ngIf="rm.member_lastname.errors.pattern">El campo sólo puede contener valores alfanuméricos</div>
-                    <div *ngIf="rm.member_lastname.errors.maxlength">El apellido del integrante debe contener máximo 40 caracteres</div>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="Apellido del integrante"
+                    formControlName="member_lastname"
+                    [ngClass]="{
+                      'border-danger':
+                        submitted_form && rm.member_lastname.errors,
+                      'is-invalid': submitted_form && rm.member_lastname.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted_form && rm.member_lastname.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rm.member_lastname.errors.required">
+                      El apellido del integrante es necesario
+                    </div>
+                    <div *ngIf="rm.member_lastname.errors.pattern">
+                      El campo sólo puede contener valores alfanuméricos
+                    </div>
+                    <div *ngIf="rm.member_lastname.errors.maxlength">
+                      El apellido del integrante debe contener máximo 40
+                      caracteres
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group col-md-6">
                   <label>Correo</label>
-                  <input type="text" class="form-control rounded-0" placeholder="Correo electrónico del integrante" formControlName="member_email"
-                       [ngClass]="{ 'border-danger': submitted_form && rm.member_email.errors,
-                                    'is-invalid': submitted_form && rm.member_email.errors
-                                  }">
-                  <div *ngIf="submitted_form && rm.member_email.errors" class="invalid-feedback">
-                    <div *ngIf="rm.member_email.errors.email">El correo debe coincidir con una dirección de correo electrónico válida</div>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="Correo electrónico del integrante"
+                    formControlName="member_email"
+                    [ngClass]="{
+                      'border-danger': submitted_form && rm.member_email.errors,
+                      'is-invalid': submitted_form && rm.member_email.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted_form && rm.member_email.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rm.member_email.errors.email">
+                      El correo debe coincidir con una dirección de correo
+                      electrónico válida
+                    </div>
                   </div>
                 </div>
                 <div class="form-group col-md-6">
                   <label>Documento</label>
-                  <input type="text" class="form-control rounded-0" placeholder="DI del integrante" formControlName="member_document"
-                        [ngClass]="{ 'border-danger': submitted_form && rm.member_document.errors,
-                                     'is-invalid': submitted_form && rm.member_document.errors
-                                   }" >
-                  <div *ngIf="submitted_form && rm.member_document.errors" class="invalid-feedback">
-                    <div *ngIf="rm.member_document.errors.required">El documento es necesario</div>
-                    <div *ngIf="rm.member_document.errors.pattern">El campo sólo puede contener valores numéricos</div>
-                    <div *ngIf="rm.member_document.errors.minlength">El documento debe contener al menos 8 caracteres</div>
-                    <div *ngIf="rm.member_document.errors.maxlength">El documento debe contener máximo 15 caracteres</div>
+                  <input
+                    type="text"
+                    class="form-control rounded-0"
+                    placeholder="DI del integrante"
+                    formControlName="member_document"
+                    [ngClass]="{
+                      'border-danger':
+                        submitted_form && rm.member_document.errors,
+                      'is-invalid': submitted_form && rm.member_document.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted_form && rm.member_document.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rm.member_document.errors.required">
+                      El documento es necesario
+                    </div>
+                    <div *ngIf="rm.member_document.errors.pattern">
+                      El campo sólo puede contener valores numéricos
+                    </div>
+                    <div *ngIf="rm.member_document.errors.minlength">
+                      El documento debe contener al menos 6 caracteres
+                    </div>
+                    <div *ngIf="rm.member_document.errors.maxlength">
+                      El documento debe contener máximo 10 caracteres
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group col-md-6">
                   <label>Facultad</label>
-                  <select class="form-control rounded-0" formControlName="member_faculty"
-                      [ngClass]="{ 'border-danger': submitted_form && rm.member_faculty.errors,
-                                   'is-invalid': submitted_form && rm.member_faculty.errors
-                                 }" >
-                    <option *ngFor="let faculty of list_faculties" [value]="faculty.id_facultad">
-                      {{faculty.nombre_facultad}}
+                  <select
+                    class="form-control rounded-0"
+                    formControlName="member_faculty"
+                    [ngClass]="{
+                      'border-danger':
+                        submitted_form && rm.member_faculty.errors,
+                      'is-invalid': submitted_form && rm.member_faculty.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let faculty of list_faculties"
+                      [value]="faculty.id_facultad"
+                    >
+                      {{ faculty.nombre_facultad }}
                     </option>
-                    <option *ngIf="messageListFaculties">No se han registrado facultades en el sistema</option>
+                    <option *ngIf="messageListFaculties">
+                      No se han registrado facultades en el sistema
+                    </option>
                   </select>
-                  <div *ngIf="submitted_form && rm.member_faculty.errors" class="invalid-feedback">
-                    <div *ngIf="rm.member_faculty.errors.required">La facultad del integrante es necesaria</div>
+                  <div
+                    *ngIf="submitted_form && rm.member_faculty.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rm.member_faculty.errors.required">
+                      La facultad del integrante es necesaria
+                    </div>
                   </div>
                 </div>
                 <div class="form-group col-md-6">
                   <label>Tipo de Integrante</label>
-                  <select class="form-control rounded-0" formControlName="member_type"
-                      [ngClass]="{ 'border-danger': submitted_form && rm.member_type.errors,
-                                   'is-invalid': submitted_form && rm.member_type.errors
-                                 }" >
-                    <option *ngFor="let type of list_member_type" [value]="type.id_tipo_integrante">
-                      {{type.nombre_tipo_integrante}}
+                  <select
+                    class="form-control rounded-0"
+                    formControlName="member_type"
+                    [ngClass]="{
+                      'border-danger': submitted_form && rm.member_type.errors,
+                      'is-invalid': submitted_form && rm.member_type.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let type of list_member_type"
+                      [value]="type.id_tipo_integrante"
+                    >
+                      {{ type.nombre_tipo_integrante }}
                     </option>
                   </select>
-                  <div *ngIf="submitted_form && rm.member_type.errors" class="invalid-feedback">
-                    <div *ngIf="rm.member_type.errors.required">El tipo de integrante es necesario</div>
+                  <div
+                    *ngIf="submitted_form && rm.member_type.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="rm.member_type.errors.required">
+                      El tipo de integrante es necesario
+                    </div>
                   </div>
                 </div>
-
               </div>
-              <hr>
-              <button type="submit" class="btn btn-lightning rounded-0 mb-2 mr-2" [disabled]="button_form">Registrar</button>
+              <hr />
+              <button
+                type="submit"
+                class="btn btn-lightning rounded-0 mb-2 mr-2"
+                [disabled]="button_form"
+              >
+                Registrar integrante
+              </button>
             </form>
           </div>
         </div>
@@ -197,8 +348,6 @@
       <div class="col-md-3"></div>
     </div>
   </div>
-
-
 </div>
 
 <!--
@@ -210,136 +359,242 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalDetail" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Detalle</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form [formGroup]="update_member_form" (ngSubmit)="updateMember()">
-        <div class="modal-body">
-          <div class="form-row">
-
-            <div class="form-group col-md-6">
-              <label>Nombre</label>
-              <input type="text" class="form-control rounded-0" placeholder="Nombre del integrante" formControlName="member_name"
-                   [ngClass]="{ 'border-danger': updated_form && um.member_name.errors,
-                                'is-invalid': updated_form && um.member_name.errors
-                              }">
-              <div *ngIf="updated_form && um.member_name.errors" class="invalid-feedback">
-                <div *ngIf="um.member_name.errors.required">El nombre del integrante es necesario</div>
-                <div *ngIf="um.member_name.errors.pattern">El campo sólo puede contener valores alfanuméricos</div>
-                <div *ngIf="um.member_name.errors.maxlength">El nombre del integrante debe contener máximo 40 caracteres</div>
-              </div>
+<ng-template #detailTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Detalle</h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="update_member_form" (ngSubmit)="updateMember()">
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Nombre</label>
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="Nombre del integrante"
+            formControlName="member_name"
+            [ngClass]="{
+              'border-danger': updated_form && um.member_name.errors,
+              'is-invalid': updated_form && um.member_name.errors
+            }"
+          />
+          <div
+            *ngIf="updated_form && um.member_name.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="um.member_name.errors.required">
+              El nombre del integrante es necesario
             </div>
-            <div class="form-group col-md-6">
-              <label>Apellido</label>
-              <input type="text" class="form-control rounded-0" placeholder="Apellido del integrante" formControlName="member_lastname"
-                   [ngClass]="{ 'border-danger': updated_form && um.member_lastname.errors,
-                                'is-invalid': updated_form && um.member_lastname.errors
-                              }">
-              <div *ngIf="updated_form && um.member_lastname.errors" class="invalid-feedback">
-                <div *ngIf="um.member_lastname.errors.required">El apellido del integrante es necesario</div>
-                <div *ngIf="um.member_lastname.errors.pattern">El campo sólo puede contener valores alfanuméricos</div>
-                <div *ngIf="um.member_lastname.errors.maxlength">El apellido del integrante debe contener máximo 40 caracteres</div>
-              </div>
+            <div *ngIf="um.member_name.errors.pattern">
+              El campo sólo puede contener valores alfanuméricos
             </div>
-
-            <div class="form-group col-md-6">
-              <label>Correo</label>
-              <input type="text" class="form-control rounded-0" placeholder="Correo electrónico del integrante" formControlName="member_email"
-                   [ngClass]="{ 'border-danger': updated_form && um.member_email.errors,
-                                'is-invalid': updated_form && um.member_email.errors
-                              }">
-              <div *ngIf="updated_form && um.member_email.errors" class="invalid-feedback">
-                <div *ngIf="um.member_email.errors.email">El correo debe coincidir con una dirección de correo electrónico válida</div>
-              </div>
+            <div *ngIf="um.member_name.errors.maxlength">
+              El nombre del integrante debe contener máximo 40 caracteres
             </div>
-            <div class="form-group col-md-6">
-              <label>Documento</label>
-              <input type="text" class="form-control rounded-0" placeholder="DI del integrante" formControlName="member_document"
-                    [ngClass]="{ 'border-danger': updated_form && um.member_document.errors,
-                                 'is-invalid': updated_form && um.member_document.errors
-                               }" >
-              <div *ngIf="updated_form && um.member_document.errors" class="invalid-feedback">
-                <div *ngIf="um.member_document.errors.required">El documento es necesario</div>
-                <div *ngIf="um.member_document.errors.pattern">El campo sólo puede contener valores numéricos</div>
-                <div *ngIf="um.member_document.errors.minlength">El documento debe contener al menos 8 caracteres</div>
-                <div *ngIf="um.member_document.errors.maxlength">El documento debe contener máximo 15 caracteres</div>
-              </div>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Tipo del Integrante</label>
-              <select class="form-control rounded-0" formControlName="member_type"
-                  [ngClass]="{ 'border-danger': updated_form && um.member_type.errors,
-                               'is-invalid': updated_form && um.member_type.errors
-                             }" >
-                <option *ngFor="let type of list_member_type" [value]="type.id_tipo_integrante">
-                  {{type.nombre_tipo_integrante}}
-                </option>
-              </select>
-              <div *ngIf="updated_form && um.member_type.errors" class="invalid-feedback">
-                <div *ngIf="um.member_type.errors.required">El tipo de integrante es necesario</div>
-              </div>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Facultad</label>
-              <select class="form-control rounded-0" formControlName="member_faculty"
-                  [ngClass]="{ 'border-danger': updated_form && um.member_faculty.errors,
-                               'is-invalid': updated_form && um.member_faculty.errors
-                             }" >
-                <option *ngFor="let faculty of list_faculties" [value]="faculty.id_facultad">
-                  {{faculty.nombre_facultad}}
-                </option>
-                <option *ngIf="messageListFaculties">No se han registrado facultades en el sistema</option>
-              </select>
-              <div *ngIf="updated_form && um.member_faculty.errors" class="invalid-feedback">
-                <div *ngIf="um.member_faculty.errors.required">La facultad del integrante es necesaria</div>
-              </div>
-            </div>
-
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary rounded-0">Actualizar</button>
+        <div class="form-group col-md-6">
+          <label>Apellido</label>
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="Apellido del integrante"
+            formControlName="member_lastname"
+            [ngClass]="{
+              'border-danger': updated_form && um.member_lastname.errors,
+              'is-invalid': updated_form && um.member_lastname.errors
+            }"
+          />
+          <div
+            *ngIf="updated_form && um.member_lastname.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="um.member_lastname.errors.required">
+              El apellido del integrante es necesario
+            </div>
+            <div *ngIf="um.member_lastname.errors.pattern">
+              El campo sólo puede contener valores alfanuméricos
+            </div>
+            <div *ngIf="um.member_lastname.errors.maxlength">
+              El apellido del integrante debe contener máximo 40 caracteres
+            </div>
+          </div>
         </div>
-      </form>
+
+        <div class="form-group col-md-6">
+          <label>Correo</label>
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="Correo electrónico del integrante"
+            formControlName="member_email"
+            [ngClass]="{
+              'border-danger': updated_form && um.member_email.errors,
+              'is-invalid': updated_form && um.member_email.errors
+            }"
+          />
+          <div
+            *ngIf="updated_form && um.member_email.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="um.member_email.errors.email">
+              El correo debe coincidir con una dirección de correo electrónico
+              válida
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Documento</label>
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="DI del integrante"
+            formControlName="member_document"
+            [ngClass]="{
+              'border-danger': updated_form && um.member_document.errors,
+              'is-invalid': updated_form && um.member_document.errors
+            }"
+          />
+          <div
+            *ngIf="updated_form && um.member_document.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="um.member_document.errors.required">
+              El documento es necesario
+            </div>
+            <div *ngIf="um.member_document.errors.pattern">
+              El campo sólo puede contener valores numéricos
+            </div>
+            <div *ngIf="um.member_document.errors.minlength">
+              El documento debe contener al menos 8 caracteres
+            </div>
+            <div *ngIf="um.member_document.errors.maxlength">
+              El documento debe contener máximo 15 caracteres
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label>Tipo del Integrante</label>
+          <select
+            class="form-control rounded-0"
+            formControlName="member_type"
+            [ngClass]="{
+              'border-danger': updated_form && um.member_type.errors,
+              'is-invalid': updated_form && um.member_type.errors
+            }"
+          >
+            <option
+              *ngFor="let type of list_member_type"
+              [value]="type.id_tipo_integrante"
+            >
+              {{ type.nombre_tipo_integrante }}
+            </option>
+          </select>
+          <div
+            *ngIf="updated_form && um.member_type.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="um.member_type.errors.required">
+              El tipo de integrante es necesario
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label>Facultad</label>
+          <select
+            class="form-control rounded-0"
+            formControlName="member_faculty"
+            [ngClass]="{
+              'border-danger': updated_form && um.member_faculty.errors,
+              'is-invalid': updated_form && um.member_faculty.errors
+            }"
+          >
+            <option
+              *ngFor="let faculty of list_faculties"
+              [value]="faculty.id_facultad"
+            >
+              {{ faculty.nombre_facultad }}
+            </option>
+            <option *ngIf="messageListFaculties">
+              No se han registrado facultades en el sistema
+            </option>
+          </select>
+          <div
+            *ngIf="updated_form && um.member_faculty.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="um.member_faculty.errors.required">
+              La facultad del integrante es necesaria
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-lightning rounded-0"
+        (click)="modalRef.hide()"
+      >
+        Cerrar
+      </button>
+      <button type="submit" class="btn btn-primary rounded-0">
+        Actualizar
+      </button>
+    </div>
+  </form>
+</ng-template>
 
 <!-- Modal -->
-<div class="modal fade" id="modalDelete" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Eliminar</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-row">
-
-          <div class="col-md-12">
-            <p class="text-justify text-color">
-              ¿Está seguro que desea eliminar el registro de <strong class="text-danger">{{detail_member_name}} {{detail_member_lastname}}</strong>?
-              Esta operación es irreversible lo que significa que no podrá recuperar dicha información eliminada.
-            </p>
-          </div>
-
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary rounded-0" (click)="deleteMember()" data-dismiss="modal">Confirmar</button>
+<ng-template #deleteTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Eliminar</h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="col-md-12">
+        <p class="text-justify text-color">
+          ¿Está seguro que desea eliminar el registro de
+          <strong class="text-danger"
+            >{{ detail_member_name }} {{ detail_member_lastname }}</strong
+          >? Esta operación es irreversible lo que significa que no podrá
+          recuperar dicha información eliminada.
+        </p>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-lightning rounded-0"
+      (click)="modalRef.hide()"
+    >
+      Cerrar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary rounded-0"
+      (click)="deleteMember(); modalRef.hide()"
+    >
+      Confirmar
+    </button>
+  </div>
+</ng-template>

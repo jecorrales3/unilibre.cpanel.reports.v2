@@ -1,5 +1,7 @@
 <div>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3"
+  >
     <h4 class="text-muted">Perfil del Usuario</h4>
   </div>
 
@@ -16,73 +18,158 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>Nombre</label>
-                <input type="text" class="form-control rounded-0" placeholder="Nombre del usuario" formControlName="user_name"
-                     [ngClass]="{ 'border-danger': submitted_form && up.user_name.errors,
-                                  'is-invalid': submitted_form && up.user_name.errors
-                                }">
-                <div *ngIf="submitted_form && up.user_name.errors" class="invalid-feedback">
-                  <div *ngIf="up.user_name.errors.required">El nombre del usuario es necesario</div>
-                  <div *ngIf="up.user_name.errors.pattern">El campo sólo puede contener valores alfanuméricos</div>
-                  <div *ngIf="up.user_name.errors.maxlength">El nombre del usuario debe contener máximo 40 caracteres</div>
+                <input
+                  type="text"
+                  class="form-control rounded-0"
+                  placeholder="Nombre del usuario"
+                  formControlName="user_name"
+                  [ngClass]="{
+                    'border-danger': submitted_form && up.user_name.errors,
+                    'is-invalid': submitted_form && up.user_name.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted_form && up.user_name.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="up.user_name.errors.required">
+                    El nombre del usuario es necesario
+                  </div>
+                  <div *ngIf="up.user_name.errors.pattern">
+                    El campo sólo puede contener valores alfanuméricos
+                  </div>
+                  <div *ngIf="up.user_name.errors.maxlength">
+                    El nombre del usuario debe contener máximo 40 caracteres
+                  </div>
                 </div>
               </div>
               <div class="form-group col-md-6">
                 <label>Apellido</label>
-                <input type="text" class="form-control rounded-0" placeholder="Apellido del usuario" formControlName="user_lastname"
-                     [ngClass]="{ 'border-danger': submitted_form && up.user_lastname.errors,
-                                  'is-invalid': submitted_form && up.user_lastname.errors
-                                }">
-                <div *ngIf="submitted_form && up.user_lastname.errors" class="invalid-feedback">
-                  <div *ngIf="up.user_lastname.errors.required">El apellido del usuario es necesario</div>
-                  <div *ngIf="up.user_lastname.errors.pattern">El campo sólo puede contener valores alfanuméricos</div>
-                  <div *ngIf="up.user_lastname.errors.maxlength">El apellido del usuario debe contener máximo 40 caracteres</div>
+                <input
+                  type="text"
+                  class="form-control rounded-0"
+                  placeholder="Apellido del usuario"
+                  formControlName="user_lastname"
+                  [ngClass]="{
+                    'border-danger': submitted_form && up.user_lastname.errors,
+                    'is-invalid': submitted_form && up.user_lastname.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted_form && up.user_lastname.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="up.user_lastname.errors.required">
+                    El apellido del usuario es necesario
+                  </div>
+                  <div *ngIf="up.user_lastname.errors.pattern">
+                    El campo sólo puede contener valores alfanuméricos
+                  </div>
+                  <div *ngIf="up.user_lastname.errors.maxlength">
+                    El apellido del usuario debe contener máximo 40 caracteres
+                  </div>
                 </div>
               </div>
 
               <div class="form-group col-md-6">
                 <label>Correo</label>
-                <input type="text" class="form-control rounded-0" placeholder="Correo electrónico" formControlName="user_email"
-                     [ngClass]="{ 'border-danger': submitted_form && up.user_email.errors,
-                                  'is-invalid': submitted_form && up.user_email.errors
-                                }">
-                <div *ngIf="submitted_form && up.user_email.errors" class="invalid-feedback">
-                  <div *ngIf="up.user_email.errors.required">El correo electrónico es necesario</div>
-                  <div *ngIf="up.user_email.errors.email">El correo debe coincidir con una dirección de correo electrónico válida</div>
+                <input
+                  type="text"
+                  class="form-control rounded-0"
+                  placeholder="Correo electrónico"
+                  formControlName="user_email"
+                  [ngClass]="{
+                    'border-danger': submitted_form && up.user_email.errors,
+                    'is-invalid': submitted_form && up.user_email.errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted_form && up.user_email.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="up.user_email.errors.required">
+                    El correo electrónico es necesario
+                  </div>
+                  <div *ngIf="up.user_email.errors.email">
+                    El correo debe coincidir con una dirección de correo
+                    electrónico válida
+                  </div>
                 </div>
               </div>
               <div class="form-group col-md-6">
                 <label>Facultad</label>
-                <select class="form-control rounded-0" formControlName="user_faculty"
-                    [ngClass]="{ 'border-danger': submitted_form && up.user_faculty.errors,
-                                 'is-invalid': submitted_form && up.user_faculty.errors
-                               }" >
-                  <option *ngFor="let faculty of list_faculties" [value]="faculty.id_facultad">
-                    {{faculty.nombre_facultad}}
+                <select
+                  class="form-control rounded-0"
+                  formControlName="user_faculty"
+                  [ngClass]="{
+                    'border-danger': submitted_form && up.user_faculty.errors,
+                    'is-invalid': submitted_form && up.user_faculty.errors
+                  }"
+                >
+                  <option
+                    *ngFor="let faculty of list_faculties"
+                    [value]="faculty.id_facultad"
+                  >
+                    {{ faculty.nombre_facultad }}
                   </option>
-                  <option *ngIf="messageListFaculties">No se han registrado facultades en el sistema</option>
+                  <option *ngIf="messageListFaculties">
+                    No se han registrado facultades en el sistema
+                  </option>
                 </select>
-                <div *ngIf="submitted_form && up.user_faculty.errors" class="invalid-feedback">
-                  <div *ngIf="up.user_faculty.errors.required">La facultad del usuario es necesaria</div>
+                <div
+                  *ngIf="submitted_form && up.user_faculty.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="up.user_faculty.errors.required">
+                    La facultad del usuario es necesaria
+                  </div>
                 </div>
               </div>
 
               <div class="form-group col-md-6">
                 <label>Tipo de Usuario</label>
-                <select class="form-control rounded-0" formControlName="user_type">
-                  <option *ngFor="let type of list_user_type" [value]="type.id_tipo_usuario">{{type.nombre_tipo_usuario}}</option>
+                <select
+                  class="form-control rounded-0"
+                  formControlName="user_type"
+                >
+                  <option
+                    *ngFor="let type of list_user_type"
+                    [value]="type.id_tipo_usuario"
+                  >
+                    {{ type.nombre_tipo_usuario }}
+                  </option>
                 </select>
               </div>
               <div class="form-group col-md-6">
                 <label>Estado del Usuario</label>
-                <select class="form-control rounded-0" formControlName="user_state">
-                  <option *ngFor="let state of list_user_state" [value]="state.id_estado_usuario">{{state.nombre_estado_usuario}}</option>
+                <select
+                  class="form-control rounded-0"
+                  formControlName="user_state"
+                >
+                  <option
+                    *ngFor="let state of list_user_state"
+                    [value]="state.id_estado_usuario"
+                  >
+                    {{ state.nombre_estado_usuario }}
+                  </option>
                 </select>
               </div>
-
             </div>
-            <hr>
-            <button type="submit" class="btn btn-lightning rounded-0 mb-2 mr-2" [disabled]="button_form">Actualizar</button>
-            <button type="button" class="btn btn-outline-danger rounded-0 mb-2" data-toggle="modal" data-target="#staticBackdrop">Contraseña</button>
+            <hr />
+            <button
+              type="submit"
+              class="btn btn-lightning rounded-0 mb-2 mr-2"
+              [disabled]="button_form"
+            >
+              Actualizar
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-danger rounded-0 mb-2"
+              (click)="openPasswordModal(passwordTemplate)"
+            >
+              Contraseña
+            </button>
           </form>
         </div>
       </div>
@@ -101,70 +188,130 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Contraseña</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form [formGroup]="password_form" (ngSubmit)="passwordForm()" #formDirective="ngForm">
-        <div class="modal-body">
-          <div class="form-row">
-
-            <div class="form-group col-md-12">
-              <label>Contraseña (actual)</label>
-              <input type="password" class="form-control rounded-0" placeholder="Contraseña actual del usuario" formControlName="old_password"
-                   [ngClass]="{ 'border-danger': updated_form && upu.old_password.errors,
-                                'is-invalid': updated_form && upu.old_password.errors
-                              }" #old_password>
-              <div *ngIf="updated_form && upu.old_password.errors" class="invalid-feedback">
-                <div *ngIf="upu.old_password.errors.required">La contraseña actual es necesaria</div>
-                <div *ngIf="upu.old_password.errors.minlength">La contraseña debe contener mínimo 5 caracteres</div>
-                <div *ngIf="upu.old_password.errors.maxlength">La contraseña debe contener máximo 25 caracteres</div>
-              </div>
-              <small class="float-right">{{old_password.value.length}} / 25</small>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Contraseña (nueva)</label>
-              <input [type]="is_active ? 'password' : 'text'" class="form-control rounded-0" placeholder="Nueva contraseña" formControlName="new_password"
-                   [ngClass]="{ 'border-danger': updated_form && upu.new_password.errors,
-                                'is-invalid': updated_form && upu.new_password.errors
-                              }" #new_password id="new_password">
-              <div *ngIf="updated_form && upu.new_password.errors" class="invalid-feedback">
-                <div *ngIf="upu.new_password.errors.required">La contraseña nueva es necesaria</div>
-                <div *ngIf="upu.new_password.errors.minlength">La contraseña nueva debe contener mínimo 5 caracteres</div>
-                <div *ngIf="upu.new_password.errors.maxlength">La contraseña nueva debe contener máximo 25 caracteres</div>
-              </div>
-              <input type="hidden" id="passeye-0">
-              <div class="btn btn-sm btn-outline-primary show-password" (click)="changeInput()">
-                {{state_input}}
-              </div>
-              <small class="float-right">{{new_password.value.length}} / 25</small>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Contraseña (confirmación)</label>
-              <input [type]="is_active ? 'password' : 'text'" class="form-control rounded-0" placeholder="Confirmar contraseña" formControlName="confirm_password"
-                   [ngClass]="{ 'border-danger': password_form.hasError('notSame'),
-                                'is-invalid': password_form.hasError('notSame')
-                              }" #confirm_password>
-              <div class="invalid-match" *ngIf="password_form.hasError('notSame')">
-                <div>Las contraseñas ingresadas no coinciden</div>
-              </div>
-              <small class="float-right">{{confirm_password.value.length}} / 25</small>
-            </div>
-
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary rounded-0">Actualizar</button>
-        </div>
-      </form>
-    </div>
+<ng-template #passwordTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Contraseña</h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</div>
+  <form
+    [formGroup]="password_form"
+    (ngSubmit)="passwordForm()"
+    #formDirective="ngForm"
+  >
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label>Contraseña (actual)</label>
+          <input
+            type="password"
+            class="form-control rounded-0"
+            placeholder="Contraseña actual del usuario"
+            formControlName="old_password"
+            [ngClass]="{
+              'border-danger': updated_form && upu.old_password.errors,
+              'is-invalid': updated_form && upu.old_password.errors
+            }"
+            #old_password
+          />
+          <div
+            *ngIf="updated_form && upu.old_password.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="upu.old_password.errors.required">
+              La contraseña actual es necesaria
+            </div>
+            <div *ngIf="upu.old_password.errors.minlength">
+              La contraseña debe contener mínimo 5 caracteres
+            </div>
+            <div *ngIf="upu.old_password.errors.maxlength">
+              La contraseña debe contener máximo 25 caracteres
+            </div>
+          </div>
+          <small class="float-right"
+            >{{ old_password.value.length }} / 25</small
+          >
+        </div>
+
+        <div class="form-group col-md-12">
+          <label>Contraseña (nueva)</label>
+          <input
+            [type]="is_active ? 'password' : 'text'"
+            class="form-control rounded-0"
+            placeholder="Nueva contraseña"
+            formControlName="new_password"
+            [ngClass]="{
+              'border-danger': updated_form && upu.new_password.errors,
+              'is-invalid': updated_form && upu.new_password.errors
+            }"
+            #new_password
+            id="new_password"
+          />
+          <div
+            *ngIf="updated_form && upu.new_password.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="upu.new_password.errors.required">
+              La contraseña nueva es necesaria
+            </div>
+            <div *ngIf="upu.new_password.errors.minlength">
+              La contraseña nueva debe contener mínimo 5 caracteres
+            </div>
+            <div *ngIf="upu.new_password.errors.maxlength">
+              La contraseña nueva debe contener máximo 25 caracteres
+            </div>
+          </div>
+          <input type="hidden" id="passeye-0" />
+          <div
+            class="btn btn-sm btn-outline-primary show-password"
+            (click)="changeInput()"
+          >
+            {{ state_input }}
+          </div>
+          <small class="float-right"
+            >{{ new_password.value.length }} / 25</small
+          >
+        </div>
+
+        <div class="form-group col-md-12">
+          <label>Contraseña (confirmación)</label>
+          <input
+            [type]="is_active ? 'password' : 'text'"
+            class="form-control rounded-0"
+            placeholder="Confirmar contraseña"
+            formControlName="confirm_password"
+            [ngClass]="{
+              'border-danger': password_form.hasError('notSame'),
+              'is-invalid': password_form.hasError('notSame')
+            }"
+            #confirm_password
+          />
+          <div class="invalid-match" *ngIf="password_form.hasError('notSame')">
+            <div>Las contraseñas ingresadas no coinciden</div>
+          </div>
+          <small class="float-right"
+            >{{ confirm_password.value.length }} / 25</small
+          >
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-lightning rounded-0"
+        (click)="modalRef.hide()"
+      >
+        Cerrar
+      </button>
+      <button type="submit" class="btn btn-primary rounded-0">
+        Actualizar
+      </button>
+    </div>
+  </form>
+</ng-template>

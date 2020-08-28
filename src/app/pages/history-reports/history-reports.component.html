@@ -1,12 +1,24 @@
 <div>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3"
+  >
     <h4 class="text-muted">Historial de Reportes</h4>
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="listClass" (click)="listSection()">Listado</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="listClass"
+          (click)="listSection()"
+          >Listado</a
+        >
       </li>
       <li class="nav-item">
-        <a class="nav-link linkhand" [ngClass]="filterClass" (click)="filterSection()">Filtro</a>
+        <a
+          class="nav-link linkhand"
+          [ngClass]="filterClass"
+          (click)="filterSection()"
+          >Filtro</a
+        >
       </li>
     </ul>
   </div>
@@ -20,12 +32,19 @@
       <div class="card-body">
         <div class="mb-3">
           <label>Filtro de búsqueda</label>
-          <input type="text" class="form-control rounded-0" placeholder="¿Qué quieres buscar?" (keyup)="applyFilter($event.target.value)">
+          <input
+            type="text"
+            class="form-control rounded-0"
+            placeholder="¿Qué quieres buscar?"
+            (keyup)="applyFilter($event.target.value)"
+          />
         </div>
-        <hr>
+        <hr />
         <div class="table-responsive">
           <table class="table table-sm table-striped">
-            <caption>Listado de Certificados</caption>
+            <caption>
+              Listado de Certificados
+            </caption>
             <thead class="thead-dark">
               <tr class="text-center">
                 <th scope="col">#</th>
@@ -41,34 +60,74 @@
             <tbody>
               <tr class="text-center" *ngIf="loading">
                 <td colspan="12">
-                  <div class="spinner-border text-primary mt-1 mb-1" role="status">
+                  <div
+                    class="spinner-border text-primary mt-1 mb-1"
+                    role="status"
+                  >
                     <span class="sr-only">Loading...</span>
                   </div>
                 </td>
               </tr>
-              <tr *ngFor="let report of list_reports | async, index as id">
-                <th class="text-center" scope="row">{{id+1}}</th>
-                <td class="text-left linkhand" matTooltip="{{report.titulo_configuracion_reporte}}">
-                  {{report.titulo_configuracion_reporte | uppercase | truncate:30}}
+              <tr *ngFor="let report of list_reports | async; index as id">
+                <th class="text-center" scope="row">{{ id + 1 }}</th>
+                <td
+                  class="text-left linkhand"
+                  matTooltip="{{
+                    report.titulo_configuracion_reporte | uppercase
+                  }}"
+                >
+                  {{
+                    report.titulo_configuracion_reporte
+                      | uppercase
+                      | truncate: 30
+                  }}
                 </td>
-                <td class="text-center">{{report.fecha_generacion_configuracion_reporte}}</td>
-                <td class="text-center">{{report.codigo_configuracion_reporte}}-{{report.year_consecutivo_reporte}}</td>
+                <td class="text-center">
+                  {{ report.fecha_generacion_configuracion_reporte }}
+                </td>
+                <td class="text-center">
+                  {{ report.codigo_configuracion_reporte }}-{{
+                    report.year_consecutivo_reporte
+                  }}
+                </td>
                 <td class="text-center linkhand">
-                  <span matTooltip="{{report.nombre_facultad}}">
-                    {{report.siglas_facultad}} - {{report.nombre_programa_facultad_reporte}}
+                  <span matTooltip="{{ report.nombre_facultad }}">
+                    {{ report.siglas_facultad }} -
+                    {{ report.nombre_programa_facultad_reporte | truncate: 40 }}
                   </span>
                 </td>
-                <td class="text-center">{{report.nombre_tipo_reporte}}</td>
+                <td class="text-center">{{ report.nombre_tipo_reporte }}</td>
                 <td class="text-center">
-                  <span class="badge badge-pill" [ngClass]="{ 'badge-success': report.id_funcionalidad == '1', 'badge-danger': report.id_funcionalidad == '3'}">
-                    {{report.nombre_funcionalidad}}
+                  <span
+                    class="badge badge-pill"
+                    [ngClass]="{
+                      'badge-success': report.id_funcionalidad == '1',
+                      'badge-danger': report.id_funcionalidad == '3'
+                    }"
+                  >
+                    {{ report.nombre_funcionalidad }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <button type="button" class="btn btn-lightning rounded-0 btn-sm"   data-toggle="modal" data-target="#modalDetail"  (click)="loadDetail(report)">
+                  <button
+                    type="button"
+                    class="btn btn-lightning rounded-0 btn-sm"
+                    data-toggle="modal"
+                    data-target="#modalDetail"
+                    (click)="
+                      loadDetail(report); openModalDetail(detailTemplate)
+                    "
+                  >
                     <i class="far fa-list-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-danger rounded-0 ml-1 btn-sm" data-toggle="modal" data-target="#modalAnulate" (click)="loadDetailAnulate(report)">
+                  <button
+                    type="button"
+                    class="btn btn-danger rounded-0 ml-1 btn-sm"
+                    (click)="
+                      loadDetailAnulate(report);
+                      openModalAnulate(anulateTemplate)
+                    "
+                  >
                     <i class="far fa-edit"></i>
                   </button>
                 </td>
@@ -89,8 +148,12 @@
               </tr>
             </tbody>
           </table>
-          <hr>
-          <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          <hr />
+          <mat-paginator
+            #paginator
+            [pageSizeOptions]="[10, 15, 30]"
+            showFirstLastButtons
+          ></mat-paginator>
         </div>
       </div>
     </div>
@@ -105,21 +168,32 @@
       <div class="card-body">
         <form [formGroup]="search_form" (ngSubmit)="searchReports()">
           <div class="form-row">
-
             <div class="col-md-4">
               <div class="mb-3">
                 <div class="form-group">
                   <label>Tipo de Reporte</label>
-                  <select class="form-control rounded-0" formControlName="type_report"
-                      [ngClass]="{ 'border-danger': submitted_form && sr.type_report.errors,
-                                   'is-invalid': submitted_form && sr.type_report.errors
-                                 }" >
-                    <option *ngFor="let type of list_report_types" [value]="type.id_tipo_reporte">
-                      {{type.nombre_tipo_reporte}}
+                  <select
+                    class="form-control rounded-0"
+                    formControlName="type_report"
+                    [ngClass]="{
+                      'border-danger': submitted_form && sr.type_report.errors,
+                      'is-invalid': submitted_form && sr.type_report.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let type of list_report_types"
+                      [value]="type.id_tipo_reporte"
+                    >
+                      {{ type.nombre_tipo_reporte }}
                     </option>
                   </select>
-                  <div *ngIf="submitted_form && sr.type_report.errors" class="invalid-feedback">
-                    <div *ngIf="sr.type_report.errors.required">El programa es necesario</div>
+                  <div
+                    *ngIf="submitted_form && sr.type_report.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="sr.type_report.errors.required">
+                      El programa es necesario
+                    </div>
                   </div>
                 </div>
               </div>
@@ -129,16 +203,28 @@
               <div class="mb-3">
                 <div class="form-group">
                   <label>Año</label>
-                  <select class="form-control rounded-0" formControlName="year_report"
-                      [ngClass]="{ 'border-danger': submitted_form && sr.year_report.errors,
-                                   'is-invalid': submitted_form && sr.year_report.errors
-                                 }" >
-                    <option *ngFor="let year of list_years" [value]="year.year_consecutivo_reporte">
-                      {{year.year_consecutivo_reporte}}
+                  <select
+                    class="form-control rounded-0"
+                    formControlName="year_report"
+                    [ngClass]="{
+                      'border-danger': submitted_form && sr.year_report.errors,
+                      'is-invalid': submitted_form && sr.year_report.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let year of list_years"
+                      [value]="year.year_consecutivo_reporte"
+                    >
+                      {{ year.year_consecutivo_reporte }}
                     </option>
                   </select>
-                  <div *ngIf="submitted_form && sr.year_report.errors" class="invalid-feedback">
-                    <div *ngIf="sr.year_report.errors.required">El año del reporte es necesario</div>
+                  <div
+                    *ngIf="submitted_form && sr.year_report.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="sr.year_report.errors.required">
+                      El año del reporte es necesario
+                    </div>
                   </div>
                 </div>
               </div>
@@ -147,16 +233,28 @@
               <div class="mb-3">
                 <div class="form-group">
                   <label>Mes</label>
-                  <select class="form-control rounded-0" formControlName="month_report"
-                      [ngClass]="{ 'border-danger': submitted_form && sr.month_report.errors,
-                                   'is-invalid': submitted_form && sr.month_report.errors
-                                 }" >
-                    <option *ngFor="let month of list_months" [value]="month.id_month">
-                      {{month.month_name}}
+                  <select
+                    class="form-control rounded-0"
+                    formControlName="month_report"
+                    [ngClass]="{
+                      'border-danger': submitted_form && sr.month_report.errors,
+                      'is-invalid': submitted_form && sr.month_report.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let month of list_months"
+                      [value]="month.id_month"
+                    >
+                      {{ month.month_name }}
                     </option>
                   </select>
-                  <div *ngIf="submitted_form && sr.month_report.errors" class="invalid-feedback">
-                    <div *ngIf="sr.month_report.errors.required">El mes del reporte es necesaria¿o</div>
+                  <div
+                    *ngIf="submitted_form && sr.month_report.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="sr.month_report.errors.required">
+                      El mes del reporte es necesaria¿o
+                    </div>
                   </div>
                 </div>
               </div>
@@ -165,20 +263,24 @@
             <div class="col-md-2">
               <div class="mb-3">
                 <div class="form-group">
-                  <br>
-                  <button type="submit" class="btn btn-primary btn-block rounded-0 mt-2">
+                  <br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-block rounded-0 mt-2"
+                  >
                     Buscar Reportes
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
         </form>
-        <hr>
+        <hr />
         <div class="table-responsive">
           <table class="table table-sm table-striped">
-            <caption>Listado de Certificados</caption>
+            <caption>
+              Listado de Certificados
+            </caption>
             <thead class="thead-dark">
               <tr class="text-center">
                 <th scope="col">#</th>
@@ -193,33 +295,68 @@
             <tbody>
               <tr class="text-center" *ngIf="loading_search">
                 <td colspan="12">
-                  <div class="spinner-border text-primary mt-1 mb-1" role="status">
+                  <div
+                    class="spinner-border text-primary mt-1 mb-1"
+                    role="status"
+                  >
                     <span class="sr-only">Loading...</span>
                   </div>
                 </td>
               </tr>
-              <tr *ngFor="let report of list_search_report, index as id">
-                <th class="text-center" scope="row">{{id+1}}</th>
-                <td class="text-left linkhand" matTooltip="{{report.titulo_configuracion_reporte}}">
-                  {{report.titulo_configuracion_reporte | uppercase | truncate:40}}
+              <tr *ngFor="let report of list_search_report; index as id">
+                <th class="text-center" scope="row">{{ id + 1 }}</th>
+                <td
+                  class="text-left linkhand"
+                  matTooltip="{{ report.titulo_configuracion_reporte }}"
+                >
+                  {{
+                    report.titulo_configuracion_reporte
+                      | uppercase
+                      | truncate: 40
+                  }}
                 </td>
-                <td class="text-center">{{report.fecha_generacion_configuracion_reporte}}</td>
-                <td class="text-center">{{report.codigo_configuracion_reporte}}-{{report.year_consecutivo_reporte}}</td>
+                <td class="text-center">
+                  {{ report.fecha_generacion_configuracion_reporte }}
+                </td>
+                <td class="text-center">
+                  {{ report.codigo_configuracion_reporte }}-{{
+                    report.year_consecutivo_reporte
+                  }}
+                </td>
                 <td class="text-center linkhand">
-                  <span matTooltip="{{report.nombre_facultad}}">
-                    {{report.siglas_facultad}} - {{report.nombre_programa_facultad_reporte}}
+                  <span matTooltip="{{ report.nombre_facultad }}">
+                    {{ report.siglas_facultad }} -
+                    {{ report.nombre_programa_facultad_reporte }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <span class="badge badge-pill" [ngClass]="{ 'badge-success': report.id_funcionalidad == '1', 'badge-danger': report.id_funcionalidad == '3'}">
-                    {{report.nombre_funcionalidad}}
+                  <span
+                    class="badge badge-pill"
+                    [ngClass]="{
+                      'badge-success': report.id_funcionalidad == '1',
+                      'badge-danger': report.id_funcionalidad == '3'
+                    }"
+                  >
+                    {{ report.nombre_funcionalidad }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <button type="button" class="btn btn-lightning rounded-0 btn-sm"   data-toggle="modal" data-target="#modalDetail"  (click)="loadDetail(report)">
+                  <button
+                    type="button"
+                    class="btn btn-lightning rounded-0 btn-sm"
+                    data-toggle="modal"
+                    data-target="#modalDetail"
+                    (click)="loadDetail(report)"
+                  >
                     <i class="far fa-list-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-danger rounded-0 ml-1 btn-sm" data-toggle="modal" data-target="#modalAnulate" (click)="loadDetailAnulate(report)">
+                  <button
+                    type="button"
+                    class="btn btn-danger rounded-0 ml-1 btn-sm"
+                    data-toggle="modal"
+                    data-target="#modalAnulate"
+                    (click)="loadDetailAnulate(report)"
+                  >
                     <i class="far fa-edit"></i>
                   </button>
                 </td>
@@ -227,7 +364,8 @@
               <tr class="text-center" *ngIf="messageFilter">
                 <td colspan="12">
                   <div class="alert alert-info mt-2" role="alert">
-                    No se han ingresado los parámetros necesarios para realizar la búsqueda en el sistema
+                    No se han ingresado los parámetros necesarios para realizar
+                    la búsqueda en el sistema
                   </div>
                 </td>
               </tr>
@@ -244,7 +382,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <!--
@@ -256,179 +393,221 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalDetail" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Detalle</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-row">
-          <div class="col-md-12">
-            <mat-accordion>
-              <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Título
-                  </mat-panel-title>
-                  <mat-panel-description *ngIf="detail_configuration_code != undefined">
-                    {{detail_configuration_code}}
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
+<ng-template #detailTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Detalle</h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="col-md-12">
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Título </mat-panel-title>
+              <mat-panel-description
+                *ngIf="detail_configuration_code != undefined"
+              >
+                {{ detail_configuration_code }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-                <mat-divider></mat-divider>
-                <div class="mt-2">
-                  <p class="text-justify">{{detail_configuration_title | uppercase}}</p>
-                </div>
-              </mat-expansion-panel>
+            <mat-divider></mat-divider>
+            <div class="mt-2">
+              <p class="text-justify">
+                {{ detail_configuration_title | uppercase }}
+              </p>
+            </div>
+          </mat-expansion-panel>
 
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Fecha
-                  </mat-panel-title>
-                  <mat-panel-description>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Fecha </mat-panel-title>
+              <mat-panel-description> </mat-panel-description>
+            </mat-expansion-panel-header>
 
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
+            <mat-divider></mat-divider>
+            <div class="mt-2">
+              <p>
+                <strong>Creado el: </strong> {{ detail_configuration_date }}
+              </p>
+              <p>
+                <strong>Sustentación: </strong>
+                {{ detail_configuration_lift_date }} - <strong>Hora: </strong>
+                {{ detail_configuration_hour }}
+              </p>
+            </div>
+          </mat-expansion-panel>
 
-                <mat-divider></mat-divider>
-                <div class="mt-2">
-                  <p>
-                    <strong>Creado el: </strong> {{detail_configuration_date}}
-                  </p>
-                  <p>
-                    <strong>Sustentación: </strong> {{detail_configuration_lift_date}} - <strong>Hora: </strong> {{detail_configuration_hour}}
-                  </p>
-                </div>
-              </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Facultad </mat-panel-title>
+              <mat-panel-description> </mat-panel-description>
+            </mat-expansion-panel-header>
 
+            <mat-divider></mat-divider>
+            <div class="mt-2">
+              <p>
+                <strong>Facultad: </strong>
+                {{ detail_configuration_faculty }}
+              </p>
+              <p>
+                <strong>Programa: </strong>
+                {{ detail_configuration_program }}
+              </p>
+            </div>
+          </mat-expansion-panel>
 
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Facultad
-                  </mat-panel-title>
-                  <mat-panel-description>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Usuario </mat-panel-title>
+              <mat-panel-description>
+                {{ detail_configuration_user_email }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
+            <mat-divider></mat-divider>
+            <div class="mt-2">
+              <p class="text-justify">
+                El reporte fue creado por
+                {{ detail_configuration_user_name }}
+                {{ detail_configuration_user_lastname }}
+              </p>
+            </div>
+          </mat-expansion-panel>
 
-                <mat-divider></mat-divider>
-                <div class="mt-2">
-                  <p>
-                    <strong>Facultad: </strong> {{detail_configuration_faculty}}
-                  </p>
-                  <p>
-                    <strong>Programa: </strong> {{detail_configuration_program}}
-                  </p>
-                </div>
-              </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Estado </mat-panel-title>
+              <mat-panel-description>
+                {{ detail_configuration_type }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Usuario
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    {{detail_configuration_user_email}}
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-
-                <mat-divider></mat-divider>
-                <div class="mt-2">
-                  <p class="text-justify">
-                    El reporte fue creado por {{detail_configuration_user_name}} {{detail_configuration_user_lastname}}
-                  </p>
-                </div>
-              </mat-expansion-panel>
-
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Estado
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    {{detail_configuration_type}}
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-
-                <mat-divider></mat-divider>
-                <div class="mt-2">
-                  <p class="text-justify">
-                    El reporte se encuentra
-                    <span [ngClass]="{ 'text-success': detail_configuration_state == 'Activo', 'text-danger': detail_configuration_state == 'Anulado'}">
-                      <strong>{{detail_configuration_state}}</strong>
-                    </span>
-                  </p>
-                </div>
-              </mat-expansion-panel>
-            </mat-accordion>
-
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary rounded-0" (click)="showReport()">Visualizar</button>
+            <mat-divider></mat-divider>
+            <div class="mt-2">
+              <p class="text-justify">
+                El reporte se encuentra
+                <span
+                  [ngClass]="{
+                    'text-success': detail_configuration_state == 'Activo',
+                    'text-danger': detail_configuration_state == 'Anulado'
+                  }"
+                >
+                  <strong>{{ detail_configuration_state }}</strong>
+                </span>
+              </p>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-lightning rounded-0"
+      (click)="modalRef.hide()"
+    >
+      Cerrar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary rounded-0"
+      (click)="showReport()"
+    >
+      Visualizar
+    </button>
+  </div>
+</ng-template>
 
 <!-- Modal -->
-<div class="modal fade" id="modalAnulate" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-0">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Anular Reporte</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form [formGroup]="update_report_form" (ngSubmit)="updateReport()">
-        <div class="modal-body">
-          <div class="form-row">
+<ng-template #anulateTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Anular Reporte</h5>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="update_report_form" (ngSubmit)="updateReport()">
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="col-md-12">
+          <p
+            class="text-justify text-color"
+            *ngIf="detail_configuration_state_id != 3"
+          >
+            ¿Está seguro que desea anular el reporte que tiene como título
+            <strong class="text-danger"
+              >"{{ detail_configuration_title | uppercase }}"</strong
+            >? Esta operación agregará una cinta diagonal (ANULADO) al PDF
+            generado por el sistema.
+          </p>
+          <p
+            class="text-justify text-color"
+            *ngIf="detail_configuration_state_id == 3"
+          >
+            El reporte con título
+            <strong class="text-danger"
+              >"{{ detail_configuration_title | uppercase }}"</strong
+            >
+            se encuentra con estado Anulado, ¿está seguro que desea actualizar
+            el estado del reporte?
+          </p>
+        </div>
+        <div class="col-md-12">
+          <hr />
+        </div>
 
-            <div class="col-md-12">
-              <p class="text-justify text-color" *ngIf="detail_configuration_state_id != 3">
-                ¿Está seguro que desea anular el reporte que tiene como título <strong class="text-danger">"{{detail_configuration_title | uppercase}}"</strong>?
-                Esta operación agregará una cinta diagonal (ANULADO) al PDF generado por el sistema.
-              </p>
-              <p class="text-justify text-color" *ngIf="detail_configuration_state_id == 3">
-                El reporte con título <strong class="text-danger">"{{detail_configuration_title | uppercase}}"</strong> se encuentra con estado Anulado,
-                ¿está seguro que desea actualizar el estado del reporte?
-              </p>
+        <div class="form-group col-md-12">
+          <label>Estado</label>
+          <select
+            class="form-control rounded-0"
+            formControlName="report_state"
+            [ngClass]="{
+              'border-danger': updated_form && ur.report_state.errors,
+              'is-invalid': updated_form && ur.report_state.errors
+            }"
+          >
+            <option
+              *ngFor="let state of list_report_state"
+              [value]="state.id_funcionalidad"
+            >
+              {{ state.nombre_funcionalidad }}
+            </option>
+          </select>
+          <div
+            *ngIf="updated_form && ur.report_state.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="ur.report_state.errors.required">
+              El estado del reporte es necesario
             </div>
-            <div class="col-md-12">
-              <hr>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Estado</label>
-              <select class="form-control rounded-0" formControlName="report_state"
-                      [ngClass]="{ 'border-danger': updated_form && ur.report_state.errors,
-                                   'is-invalid': updated_form && ur.report_state.errors
-                                 }">
-                <option *ngFor="let state of list_report_state" [value]="state.id_funcionalidad">
-                  {{state.nombre_funcionalidad}}
-                </option>
-              </select>
-              <div *ngIf="updated_form && ur.report_state.errors" class="invalid-feedback">
-                 <div *ngIf="ur.report_state.errors.required">El estado del reporte es necesario</div>
-              </div>
-            </div>
-
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-lightning rounded-0" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary rounded-0">Confirmar</button>
-        </div>
-      </form>
+      </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-lightning rounded-0"
+        (click)="modalRef.hide()"
+      >
+        Cerrar
+      </button>
+      <button type="submit" class="btn btn-primary rounded-0">Confirmar</button>
+    </div>
+  </form>
+</ng-template>

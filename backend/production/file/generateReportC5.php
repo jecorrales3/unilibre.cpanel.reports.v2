@@ -31,7 +31,7 @@
   include '../control/certificate_query.php';
   include '../error/message_error.php';
   //mPDF class
-  require_once __DIR__ . '../class/mPDF/vendor/autoload.php';
+  require_once __DIR__ . '../../class/mPDF/vendor/autoload.php';
 
   //Session start
   session_start();
@@ -52,7 +52,6 @@
       //User data
       $user_id         = $_SESSION['user']['id_usuario'];
       $user_faculty_id = $_SESSION['user']['id_facultad_usuario'];
-
 
       //Object UTF8
       $mysqli->set_charset('utf8');
@@ -386,7 +385,7 @@
                 $margin_top = "10px";
                 $html .='
                 <p class="text-justify">
-                  <b>POR CONCEPTO DE:</b> Aprobación, homologación, socialización y entrega al Centro de Investigaciones como <b>Auxiliares de Investigación</b> del trabajo de
+                  <b>POR CONCEPTO DE:</b> Aprobación, homologación, socialización y entrega al Centro de Investigaciones del trabajo de
                   investigación denominado: <b>“' . mb_strtoupper($title_report) . '”</b> realizado bajo el marco del Seminario Internacional denominado ' . $seminar_name_report . ',
                   desarrollado con la colaboración de la Universidad ' . $university_report . ', y cuyo asesor(a) principal es el(la) docente: <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . '</b>, como requisito parcial
                   para optar al título de <b>' . mb_strtoupper($program_title_report) . '.</b>

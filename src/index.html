@@ -1,21 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Administrador - SIGR</title>
-    <base href="./">
+    <base href="./" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/*" href="./assets/img/unilibre/unilibre.png">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- js files -->
-    <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/*" href="./assets/img/unilibre/unilibre.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <style>
+      .application-loading-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .application-loading-box {
+        width: 300px;
+        margin: 5px;
+        text-align: center;
+        color: #242939;
+      }
+    </style>
   </head>
   <body>
-  <!-- content body Angular Root -->
+    <!-- content body Angular Root -->
+    <div id="loader">
+      <div class="application-loading-container">
+        <div class="application-loading-box text-center">
+          <img
+
+            src="./assets/img/unilibre/unilibre.png"
+            alt="Unilibre"
+            width="150px"
+            height="150px"
+          />
+          <h3 class="mt-2">Cargando...</p>
+        </div>
+      </div>
+    </div>
     <app-root></app-root>
     <!-- content body Angular Root -->
   </body>

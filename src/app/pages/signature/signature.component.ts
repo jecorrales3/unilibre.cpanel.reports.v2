@@ -5,13 +5,20 @@
 ******************************************************************************
 ******************************************************************************
 */
-import { Component, OnInit, OnDestroy,
-         ViewChild, ChangeDetectorRef }       from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService }                      from 'ngx-toastr';
-import { Observable }                         from 'rxjs';
-import { MatTableDataSource, MatPaginator }   from '@angular/material';
-import { HttpClient }                         from '@angular/common/http';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ChangeDetectorRef,
+  TemplateRef,
+} from "@angular/core";
+import { ToastrService } from "ngx-toastr";
+import { Observable } from "rxjs";
+import { MatTableDataSource, MatPaginator } from "@angular/material";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 
 /*
 ******************************************************************************
@@ -20,8 +27,8 @@ import { HttpClient }                         from '@angular/common/http';
 ******************************************************************************
 ******************************************************************************
 */
-import { SettingsService }      from './../../services/settings.service';
-import { GlobalQueriesService } from './../../services/global-queries.service';
+import { SettingsService } from "./../../services/settings.service";
+import { GlobalQueriesService } from "./../../services/global-queries.service";
 
 /*
 ******************************************************************************
@@ -30,16 +37,14 @@ import { GlobalQueriesService } from './../../services/global-queries.service';
 ******************************************************************************
 ******************************************************************************
 */
-import { Global }      from './../../interfaces/global';
-
+import { Global } from "./../../interfaces/global";
 
 @Component({
-  selector: 'app-signature',
-  templateUrl: './signature.component.html',
-  styleUrls: ['./signature.component.scss']
+  selector: "app-signature",
+  templateUrl: "./signature.component.html",
+  styleUrls: ["./signature.component.scss"],
 })
-export class SignatureComponent  implements OnInit, OnDestroy
-{
+export class SignatureComponent implements OnInit, OnDestroy {
   /*
   ******************************************************************************
   ******************************************************************************
@@ -48,18 +53,16 @@ export class SignatureComponent  implements OnInit, OnDestroy
   ******************************************************************************
   */
   //URL API for localhost server
-  private api_localhost  = 'auth/';
-  //URL API for production server
-  private api_production = 'backend/production/file/';
+  private URL = environment.baseUrl + "file/";
 
   //Boolean variables view
-  listForm:boolean = true;
+  listForm: boolean = true;
   //Class Bootstrap = Active.
-  listClass:string;
+  listClass: string;
   //Button form
-  button_form:boolean = false;
+  button_form: boolean = false;
   //loading effect
-  loading:boolean = true;
+  loading: boolean = true;
 
   //List of services (aux)
   list_members_aux: any;
@@ -67,28 +70,34 @@ export class SignatureComponent  implements OnInit, OnDestroy
   list_members: any;
 
   //Detail data
-  detail_member_id:number;
-  detail_member_name:string;
-  detail_member_lastname:string;
-  detail_member_signature:string;
-  detail_member_document:string;
-  detail_member_faculty:number;
-  detail_member_type:number;
+  detail_member_id: number;
+  detail_member_name: string;
+  detail_member_lastname: string;
+  detail_member_signature: string;
+  detail_member_document: string;
+  detail_member_faculty: number;
+  detail_member_type: number;
 
   //Message
-  messageFilterResult:boolean  = false;
-  messageListMembers:boolean   = false;
+  messageFilterResult: boolean = false;
+  messageListMembers: boolean = false;
 
   //Signature image
-  files:any;
-  signature_image:File = null;
-  state_image:boolean  = false;
+  files: any;
+  signature_image: File = null;
+  state_image: boolean = false;
 
   //Paginator
   @ViewChild(MatPaginator) paginator: MatPaginator;
   obs: Observable<any>;
   dataSource: any;
 
+  // Modal settings
+  modalRef: BsModalRef;
+  config = {
+    backdrop: true,
+    ignoreBackdropClick: false,
+  };
 
   /*
   ******************************************************************************
@@ -97,15 +106,16 @@ export class SignatureComponent  implements OnInit, OnDestroy
   ******************************************************************************
   ******************************************************************************
   */
-  constructor(private http: HttpClient,
-  			      private _settingsService:SettingsService,
-              public  _globalService:GlobalQueriesService,
-              private toastr: ToastrService,
-              private changeDetectorRef: ChangeDetectorRef)
-  {
+  constructor(
+    private http: HttpClient,
+    public _settingsService: SettingsService,
+    public _globalService: GlobalQueriesService,
+    private toastr: ToastrService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private modalService: BsModalService
+  ) {
     //Get the members list
-    _settingsService.getMemberSignature()
-    .subscribe(Members => {
+    _settingsService.getMemberSignature().subscribe((Members) => {
       const ELEMENT_DATA = Members;
       //Get the elements
       this.list_members_aux = new MatTableDataSource(ELEMENT_DATA);
@@ -113,7 +123,7 @@ export class SignatureComponent  implements OnInit, OnDestroy
       this.list_members = this.list_members_aux.connect();
       this.getMemberSignature();
     });
-  };
+  }
 
   /*
   ******************************************************************************
@@ -122,29 +132,25 @@ export class SignatureComponent  implements OnInit, OnDestroy
   ******************************************************************************
   ******************************************************************************
   */
-  ngOnInit()
-  {
+  ngOnInit() {
     //Class Bootstrap = Active.
-    this.listClass = 'active';
+    this.listClass = "active";
 
     this.changeDetectorRef.detectChanges();
 
     //Label elements
-    this.paginator._intl.itemsPerPageLabel = 'Ítems por página:';
-    this.paginator._intl.firstPageLabel    = 'Primer página ';
-    this.paginator._intl.previousPageLabel = 'Anterior';
-    this.paginator._intl.nextPageLabel     = 'Siguiente';
-    this.paginator._intl.lastPageLabel     = 'Última página';
-  };
+    this.paginator._intl.itemsPerPageLabel = "Ítems por página:";
+    this.paginator._intl.firstPageLabel = "Primer página ";
+    this.paginator._intl.previousPageLabel = "Anterior";
+    this.paginator._intl.nextPageLabel = "Siguiente";
+    this.paginator._intl.lastPageLabel = "Última página";
+  }
 
-  ngOnDestroy()
-  {
-    if (this.list_members_aux)
-    {
+  ngOnDestroy() {
+    if (this.list_members_aux) {
       this.list_members_aux.disconnect();
     }
-  };
-
+  }
 
   /*
   ******************************************************************************
@@ -153,37 +159,35 @@ export class SignatureComponent  implements OnInit, OnDestroy
   ******************************************************************************
   ******************************************************************************
   */
-  listSection()
-  {
+  listSection() {
     //Variable form
-    this.listForm      = true;
+    this.listForm = true;
     //Class Bootstrap = Active.
-    this.listClass     = 'active';
-  };
+    this.listClass = "active";
+  }
+
+  openSignatureModal(signatureTemplate: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(signatureTemplate, this.config);
+  }
 
   /*
-  ******************************************************************************
-  ******************************************************************************
-  ******************************    SEARCH DATA   ******************************
-  ******************************************************************************
-  ******************************************************************************
-  */
+   ******************************************************************************
+   ******************************************************************************
+   ******************************    SEARCH DATA   ******************************
+   ******************************************************************************
+   ******************************************************************************
+   */
 
-  applyFilter(filterValue: string)
-  {
+  applyFilter(filterValue: string) {
     this.list_members_aux.filter = filterValue.trim().toLowerCase();
 
-    if (this.list_members_aux.filteredData.length == 0)
-    {
+    if (this.list_members_aux.filteredData.length == 0) {
       this.messageFilterResult = true;
-      this.messageListMembers  = false;
-    }
-    else
-    {
+      this.messageListMembers = false;
+    } else {
       this.messageFilterResult = false;
     }
-  };
-
+  }
 
   /*
   ******************************************************************************
@@ -192,20 +196,16 @@ export class SignatureComponent  implements OnInit, OnDestroy
   ******************************************************************************
   ******************************************************************************
   */
-  getMemberSignature()
-  {
+  getMemberSignature() {
     //Loading effect
     this.loading = false;
     //Length data
-    if (this.list_members_aux.filteredData.length > 0)
-    {
+    if (this.list_members_aux.filteredData.length > 0) {
       this.messageListMembers = false;
-    }
-    else
-    {
+    } else {
       this.messageListMembers = true;
     }
-  };
+  }
 
   /*
   ******************************************************************************
@@ -214,13 +214,17 @@ export class SignatureComponent  implements OnInit, OnDestroy
   ******************************************************************************
   ******************************************************************************
   */
-  loadDetail(member: { id_integrante: number; nombre_integrante: string; apellido_integrante: string; imagen_firma_integrante: string; })
-  {
-    this.detail_member_id        = member.id_integrante;
-    this.detail_member_name      = member.nombre_integrante;
-    this.detail_member_lastname  = member.apellido_integrante;
+  loadDetail(member: {
+    id_integrante: number;
+    nombre_integrante: string;
+    apellido_integrante: string;
+    imagen_firma_integrante: string;
+  }) {
+    this.detail_member_id = member.id_integrante;
+    this.detail_member_name = member.nombre_integrante;
+    this.detail_member_lastname = member.apellido_integrante;
     this.detail_member_signature = member.imagen_firma_integrante;
-  };
+  }
 
   /*
   ******************************************************************************
@@ -229,56 +233,58 @@ export class SignatureComponent  implements OnInit, OnDestroy
   ******************************************************************************
   ******************************************************************************
   */
-  uploadSignatureImage(event: { target: { files: File[]; }; })
-  {
+  uploadSignatureImage(event: { target: { files: File[] } }) {
     //Get data from image
     this.signature_image = <File>event.target.files[0];
 
-    if (this.signature_image.type == 'image/jpeg' ||
-        this.signature_image.type == 'image/jpg'  ||
-        this.signature_image.type == 'image/png')
-    {
-      if (this.signature_image.size <= 2000000)
-      {
-        const formData  = new FormData();
+    if (
+      this.signature_image.type == "image/jpeg" ||
+      this.signature_image.type == "image/jpg" ||
+      this.signature_image.type == "image/png"
+    ) {
+      if (this.signature_image.size <= 2000000) {
+        const formData = new FormData();
         const member_id = this.detail_member_id;
 
-        formData.append('file', this.signature_image);
-          //Metodo POST
-          this.http.post<Global>(this.api_localhost + 'uploadSignatureImage.php' + '?member_id=' + member_id, formData)
-          .subscribe(data=>
-          {
-            if (data.message == "El servidor ha procesado la firma digital del integrante.")
-            {
+        formData.append("file", this.signature_image);
+        //Metodo POST
+        this.http
+          .post<Global>(
+            this.URL + "uploadSignatureImage.php" + "?member_id=" + member_id,
+            formData
+          )
+          .subscribe((data) => {
+            if (
+              data.message ==
+              "El servidor ha procesado la firma digital del integrante."
+            ) {
               //Show the result of the action
               this.toastr.success(data.message, "OK", {
                 timeOut: 2000,
-                positionClass: 'toast-bottom-center'
+                positionClass: "toast-bottom-center",
               });
 
               //Refresh the page
               location.reload();
-            }
-            else
-            {
+            } else {
               //Show the result of the action
               this.toastr.error(data.message, "ERROR", {
                 timeOut: 2000,
-                positionClass: 'toast-bottom-center'
+                positionClass: "toast-bottom-center",
               });
             }
           });
-      }
-      else
-      {
+      } else {
         //Show the result of the action
-        this.toastr.success("Tamaño de la imagen supera el límite establecido.", "OK", {
-          timeOut: 2000,
-          positionClass: 'toast-bottom-center'
-        });
+        this.toastr.success(
+          "Tamaño de la imagen supera el límite establecido.",
+          "OK",
+          {
+            timeOut: 2000,
+            positionClass: "toast-bottom-center",
+          }
+        );
       }
     }
-  };
-
-
+  }
 }

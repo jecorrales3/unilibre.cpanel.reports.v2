@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: "auth/",
-  serviceFolder: ""
+  baseUrl: "production/",
 };
 
 /*

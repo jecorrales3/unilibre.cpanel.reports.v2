@@ -19,6 +19,7 @@
   *****************************     UNILIBRE      *****************************
   *****************************************************************************
   */
+
   //Array for results
   $response = array();
   //Include files
@@ -104,7 +105,7 @@
   else
   {
   	$response["status"]  = false;
-  	$response["message"] = "Faltan campos obligatorios";
+  	$response["message"] = "Algo ha salido mal; inténtalo de nuevo.";
   }
 
   //Display the JSON response

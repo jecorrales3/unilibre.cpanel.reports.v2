@@ -17,9 +17,9 @@
   *****************************************************************************
   */
 
-  define('DB_USER', "tasrvyzx_unilibre"); // db user
-  define('DB_PASSWORD', "Unilibre2020*"); // db password (mention your db password here)
-  define('DB_DATABASE', "tasrvyzx_unilibre_db"); // database name
+  define('DB_USER', "root"); // db user
+  define('DB_PASSWORD', "BisontDev2020*"); // db password (mention your db password here)
+  define('DB_DATABASE', "unilibre_db"); // database name
   define('DB_SERVER', "localhost"); // db server
 
   $mysqli = mysqli_connect(DB_SERVER,DB_USER,DB_PASSWORD,DB_DATABASE);
