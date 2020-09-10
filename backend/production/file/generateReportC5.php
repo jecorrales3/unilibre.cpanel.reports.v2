@@ -387,7 +387,7 @@
                 <p class="text-justify">
                   <b>POR CONCEPTO DE:</b> Aprobación, homologación, socialización y entrega al Centro de Investigaciones del trabajo de
                   investigación denominado: <b>“' . mb_strtoupper($title_report) . '”</b> realizado bajo el marco del Seminario Internacional denominado ' . $seminar_name_report . ',
-                  desarrollado con la colaboración de la Universidad ' . $university_report . ', y cuyo asesor(a) principal es el(la) docente: <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . '</b>, como requisito parcial
+                  desarrollado con la colaboración de ' . $university_report . ', y cuyo asesor(a) principal es el(la) docente: <b>' . mb_strtoupper($adviser_name) . ' ' . mb_strtoupper($adviser_lastname) . '</b>, como requisito parcial
                   para optar al título de <b>' . mb_strtoupper($program_title_report) . '.</b>
                 </p>';
                 break;

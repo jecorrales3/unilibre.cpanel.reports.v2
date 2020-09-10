@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 03-02-2020 a las 16:15:21
--- Versión del servidor: 10.3.16-MariaDB
--- Versión de PHP: 7.2.19
+-- Servidor: localhost:3306
+-- Tiempo de generación: 10-09-2020 a las 09:31:49
+-- Versión del servidor: 10.2.33-MariaDB
+-- Versión de PHP: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -73,27 +73,39 @@ CREATE TABLE `configuracion_reporte` (
   `codigo_configuracion_reporte` int(11) DEFAULT NULL,
   `presupuesto_configuracion_reporte` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nombre_grupo_investigacion_configuracion_reporte` varchar(120) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `codigo_convocatoria_configuracion_reporte` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `marco_seminario_configuracion_reporte` varchar(80) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `universidad_seminario_configuracion_reporte` varchar(80) COLLATE utf8_spanish_ci DEFAULT NULL,
   `id_facultad_configuracion_reporte` int(11) NOT NULL,
   `id_resultado_configuracion_reporte` int(11) NOT NULL,
   `id_usuario_configuracion_reporte` int(11) NOT NULL,
   `id_funcionalidad_configuracion_reporte` int(11) NOT NULL,
   `id_consecutivo_configuracion_reporte` int(11) DEFAULT NULL,
   `id_facultad_final_configuracion_reporte` int(11) NOT NULL,
-  `id_tipo_reporte_configuracion_reporte` int(11) DEFAULT NULL
+  `id_tipo_reporte_configuracion_reporte` int(11) NOT NULL,
+  `id_tipo_convocatoria_configuracion_reporte` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `configuracion_reporte`
 --
 
-INSERT INTO `configuracion_reporte` (`id_configuracion_reporte`, `titulo_configuracion_reporte`, `fecha_generacion_configuracion_reporte`, `fecha_sustentacion_configuracion_reporte`, `fecha_iniciacion_configuracion_reporte`, `fecha_finalizacion_configuracion_reporte`, `hora_sustentacion_configuracion_reporte`, `codigo_configuracion_reporte`, `presupuesto_configuracion_reporte`, `nombre_grupo_investigacion_configuracion_reporte`, `id_facultad_configuracion_reporte`, `id_resultado_configuracion_reporte`, `id_usuario_configuracion_reporte`, `id_funcionalidad_configuracion_reporte`, `id_consecutivo_configuracion_reporte`, `id_facultad_final_configuracion_reporte`, `id_tipo_reporte_configuracion_reporte`) VALUES
-(43, 'DISEÑO DE UN PLAN ESTRATÉGICO DE COMPETITIVIDAD PARA LA UNIDAD PRODUCTIVA CAFETERA EL PRADO PARA LA PRODUCCIÓN DE CAFÉ ESPECIAL', '2020-02-03', NULL, NULL, NULL, NULL, 4, NULL, NULL, 45, 1, 1, 1, 3, 3, 1),
-(44, 'MARKETING TURÍSTICO EN EL PAISAJE CULTURAL CAFETERO: CASO DE ESTUDIO DEMANDA TURÍSTICA EN SALENTO, QUINDÍO', '2020-02-03', '2019-02-28', NULL, NULL, '10:00:00', 3, NULL, NULL, 46, 1, 1, 1, 4, 3, 2),
-(45, 'Plan de Mejoramiento para la Gestión del Proceso de Devolución y Faltantes de Productos de Baños y Cocinas', '2020-02-03', NULL, NULL, NULL, NULL, 4, NULL, NULL, 47, 1, 1, 1, 2, 3, 3),
-(46, 'IMPORTANCIA DEL PAPEL FEMENINO EN EL DESARROLLO DE LA PROFESION CONTABLE Y SU NIVEL DE RECONOCMIENTO EN LA CIUDAD DE PEREIRA', '2020-02-03', '2020-02-12', '2020-02-20', '2020-05-22', NULL, 5, '0', 'GRICFAS', 48, 1, 1, 1, 5, 3, 4),
-(47, 'DISEÑO DE UN PLAN ESTRATÉGICO DE COMPETITIVIDAD PARA LA UNIDAD PRODUCTIVA CAFETERA EL PRADO PARA LA PRODUCCIÓN DE CAFÉ ESPECIAL', '2020-02-03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 49, 1, 1, 1, NULL, 3, 5),
-(48, 'ESTUDIO DE MERCADO POR PARTE DE LA EMPRESA RASCACATS PARA IDENTIFICAR LOS HÁBITOS DE COMPRA DE PRODUCTOS PARA GATOS POR PARTE DE SUS PROPIETARIOS EN LA CIUDAD DE PEREIRA', '2020-02-03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 50, 1, 1, 1, NULL, 3, 5),
-(49, 'MARKETING TURÍSTICO EN EL PAISAJE CULTURAL CAFETERO: CASO DE ESTUDIO DEMANDA TURÍSTICA EN SALENTO, QUINDÍO', '2020-02-03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 51, 1, 1, 1, NULL, 3, 6);
+INSERT INTO `configuracion_reporte` (`id_configuracion_reporte`, `titulo_configuracion_reporte`, `fecha_generacion_configuracion_reporte`, `fecha_sustentacion_configuracion_reporte`, `fecha_iniciacion_configuracion_reporte`, `fecha_finalizacion_configuracion_reporte`, `hora_sustentacion_configuracion_reporte`, `codigo_configuracion_reporte`, `presupuesto_configuracion_reporte`, `nombre_grupo_investigacion_configuracion_reporte`, `codigo_convocatoria_configuracion_reporte`, `marco_seminario_configuracion_reporte`, `universidad_seminario_configuracion_reporte`, `id_facultad_configuracion_reporte`, `id_resultado_configuracion_reporte`, `id_usuario_configuracion_reporte`, `id_funcionalidad_configuracion_reporte`, `id_consecutivo_configuracion_reporte`, `id_facultad_final_configuracion_reporte`, `id_tipo_reporte_configuracion_reporte`, `id_tipo_convocatoria_configuracion_reporte`) VALUES
+(100, 'proyecto prueba', '2020-08-06', '2020-08-20', '2020-08-06', '0000-00-00', NULL, 1, '22110', 'MICROBIOTEC', '1', NULL, NULL, 105, 1, 4, 1, 12, 2, 1, 1),
+(101, 'proyecto prueba', '2020-08-06', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 106, 1, 4, 1, 13, 2, 2, NULL),
+(102, 'prueba', '2020-08-06', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 107, 1, 4, 1, 14, 2, 3, NULL),
+(103, 'prueba', '2020-08-06', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 108, 1, 4, 3, 15, 2, 4, NULL),
+(104, 'prueba', '2020-08-06', NULL, NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, 109, 1, 4, 1, 15, 2, 4, NULL),
+(105, 'APLICATIVO PARA LA GENERACIÓN DE REPORTES', '2020-08-20', '2020-08-20', '2019-07-01', '2020-08-20', NULL, 2, '0', 'OBELIX, TEM', 'ISS017', NULL, NULL, 110, 1, 1, 1, 12, 2, 1, 2),
+(106, 'APLICATIVO  PARA  LA  GENERACIÓN  DEREPORTES', '2020-08-20', NULL, NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, 111, 1, 1, 1, 13, 2, 2, NULL),
+(107, 'APLICATIVO  PARA  LA  GENERACIÓN  DEREPORTES', '2020-08-20', NULL, NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, 112, 1, 1, 1, 14, 2, 3, NULL),
+(108, 'APLICATIVO PARA LA GENERACIÓN DEREPORTES', '2020-08-20', NULL, NULL, NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL, 113, 1, 1, 1, 15, 2, 4, NULL),
+(109, 'APLICATIVO  PARA  LA  GENERACIÓN DE REPORTES', '2020-08-20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 114, 1, 1, 1, NULL, 2, 6, NULL),
+(110, 'APLICATIVO PARA LA GENERACIÓN DE REPORTES', '2020-08-20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Tendencia Económica', 'Universidad de Chile', 115, 1, 1, 1, NULL, 2, 7, NULL),
+(111, 'APLICATIVO PARA LA GENERACIÓN DE REPORTES', '2020-08-20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 116, 1, 1, 1, NULL, 2, 5, NULL),
+(112, 'PAZ Y SALVO DE PRUEBA', '2020-08-20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Objetivos de Desarrollo', 'San Martín', 117, 1, 1, 1, NULL, 2, 7, NULL),
+(113, 'Reporte sin título (N/A)', '2020-08-20', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 118, 1, 1, 1, NULL, 2, 8, NULL),
+(114, 'PRUEBA', '2020-08-25', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 119, 1, 1, 1, NULL, 2, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -120,11 +132,21 @@ CREATE TABLE `consecutivo_reporte` (
 --
 
 INSERT INTO `consecutivo_reporte` (`id_consecutivo_reporte`, `vigencia_desde_consecutivo_reporte`, `vigencia_hasta_consecutivo_reporte`, `year_consecutivo_reporte`, `consecutivo_desde_reporte`, `consecutivo_actual_reporte`, `consecutivo_hasta_reporte`, `consecutivo_restante_reporte`, `id_estado_consecutivo_reporte`, `id_tipo_consecutivo_reporte`, `id_facultad_consecutivo_reporte`) VALUES
-(1, '2019-01-01', '2019-12-31', 2019, 0, 15, 1000, 1000, 2, 3, 1),
-(2, '2020-01-01', '2020-12-31', 2020, 0, 4, 1000, 996, 1, 3, 3),
-(3, '2020-01-01', '2020-12-31', 2020, 0, 4, 1000, 996, 1, 1, 3),
-(4, '2020-01-01', '2020-12-31', 2020, 0, 3, 1000, 997, 1, 2, 3),
-(5, '2020-01-01', '2020-12-31', 2020, 0, 5, 1000, 995, 1, 4, 3);
+(1, '2019-01-01', '2019-12-31', 2019, 0, 15, 1000, 1000, 3, 3, 1),
+(2, '2020-01-01', '2020-12-31', 2020, 0, 9, 1000, 991, 1, 3, 3),
+(3, '2020-01-01', '2020-12-31', 2020, 0, 15, 1000, 985, 1, 1, 3),
+(4, '2020-01-01', '2020-12-31', 2020, 0, 7, 1000, 993, 1, 2, 3),
+(5, '2020-01-01', '2020-12-31', 2020, 0, 8, 1000, 992, 1, 4, 3),
+(6, '2020-01-01', '2020-12-31', 2020, 0, 0, 1000, 1000, 3, 1, 1),
+(7, '2020-01-01', '2020-12-31', 2020, 0, 1, 1000, 999, 1, 1, 1),
+(8, '2020-01-01', '2020-12-31', 2020, 0, 0, 1000, 1000, 3, 1, 1),
+(9, '2020-01-01', '2020-12-31', 2020, 0, 0, 1000, 1000, 3, 2, 3),
+(10, '2020-01-01', '2020-12-31', 2020, 0, 1, 1000, 999, 1, 3, 1),
+(11, '2020-01-01', '2020-12-31', 2020, 0, 1000, 1000, 0, 3, 1, 2),
+(12, '2020-01-01', '2020-12-31', 2020, 0, 2, 1000, 998, 1, 1, 2),
+(13, '2020-01-01', '2020-12-31', 2020, 0, 2, 1000, 998, 1, 2, 2),
+(14, '2020-01-01', '2020-12-31', 2020, 0, 2, 1000, 998, 1, 3, 2),
+(15, '2020-01-01', '2020-12-31', 2020, 0, 3, 1000, 997, 1, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -161,7 +183,8 @@ CREATE TABLE `estado_consecutivo_reporte` (
 
 INSERT INTO `estado_consecutivo_reporte` (`id_estado_consecutivo_reporte`, `nombre_estado_consecutivo_reporte`) VALUES
 (1, 'Activo'),
-(2, 'Finalizado');
+(2, 'Inactivo'),
+(3, 'Finalizado');
 
 -- --------------------------------------------------------
 
@@ -195,7 +218,6 @@ CREATE TABLE `estudiante_reporte` (
   `documento_estudiante_reporte` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `nota_numero_estudiante_reporte` varchar(3) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nota_letras_estudiante_reporte` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `id_ciudad_estudiante_reporte` int(11) DEFAULT NULL,
   `id_configuracion_estudiante_reporte` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -203,19 +225,27 @@ CREATE TABLE `estudiante_reporte` (
 -- Volcado de datos para la tabla `estudiante_reporte`
 --
 
-INSERT INTO `estudiante_reporte` (`id_estudiante_reporte`, `nombre_estudiante_reporte`, `apellido_estudiante_reporte`, `documento_estudiante_reporte`, `nota_numero_estudiante_reporte`, `nota_letras_estudiante_reporte`, `id_ciudad_estudiante_reporte`, `id_configuracion_estudiante_reporte`) VALUES
-(65, 'Estefanía', 'Echeverri Guerrero', '1088025071', '4.6', 'Cuatro punto seis', NULL, 43),
-(66, 'Jheimy Ibeth', 'Taborda López', '1088025072', NULL, NULL, NULL, 44),
-(67, 'Luisa Fernanda', 'Morales Yepes', '1088025073', NULL, NULL, NULL, 44),
-(68, 'Maira Alejandra', 'Ríos Betancurth', '1088025074', NULL, NULL, NULL, 44),
-(69, 'Andrés ', 'Mosquera Quintero', '1088025075', NULL, NULL, NULL, 45),
-(70, 'Sonia María', 'Palomino Zapata', '1088025077', NULL, NULL, NULL, 45),
-(71, 'Leidy Johanna', 'Trejos Pinzón', '1088025078', NULL, NULL, NULL, 45),
-(72, 'Estefanía', 'Echeverri Guerrero', '1088025071', NULL, NULL, 1, 47),
-(73, 'Juan Sebastian', 'Soto Díaz', '1088025079', NULL, NULL, 1, 48),
-(74, 'Jheimy Ibeth', 'Taborda López', '1088025072', NULL, NULL, 1, 49),
-(75, 'Luisa Fernanda', 'Morales Yepes', '1088025073', NULL, NULL, 1, 49),
-(76, 'Maira Alejandra', 'Ríos Betancurth', '1088025074', NULL, NULL, 1, 49);
+INSERT INTO `estudiante_reporte` (`id_estudiante_reporte`, `nombre_estudiante_reporte`, `apellido_estudiante_reporte`, `documento_estudiante_reporte`, `nota_numero_estudiante_reporte`, `nota_letras_estudiante_reporte`, `id_configuracion_estudiante_reporte`) VALUES
+(128, 'Juan Diego', 'Castaño Franco', '1225088503', NULL, NULL, 101),
+(129, 'Johan Esteban ', 'Corrales Aguirre', '1088025076', NULL, NULL, 101),
+(130, 'Juan Diego', 'Castaño Franco', '1225088503', NULL, NULL, 102),
+(131, 'Juan Diego', 'Castaño Franco', '1225088503', '5', 'cinco', 103),
+(132, 'Juan Diego ', 'Castaño Franco', '1225088503', '4', 'cuatro', 104),
+(133, 'Juan Diego', 'Castaño Franco', '1225088503', NULL, NULL, 106),
+(134, 'Johan Esteban', 'Corrales Aguirre', '1088025076', NULL, NULL, 106),
+(135, 'Johan Esteban', 'Corrales Aguirre', '1088025076', NULL, NULL, 107),
+(136, 'Juan Diego', 'Castaño Franco', '1225088503', NULL, NULL, 107),
+(137, 'Juan Diego', 'Castaño Franco', '1225088503', '4.4', 'Cuatro coma cuatro', 108),
+(138, 'Johan Esteban', 'Corrales Aguirre', '1088025076', '4.4', 'Cuatro coma cuatro', 108),
+(139, 'Juan Diego', 'Castaño Franco', '1225088503', NULL, NULL, 109),
+(140, 'Johan Esteban', 'Corrales Aguirre', '1088025076', NULL, NULL, 109),
+(141, 'Juan Diego', 'Castaño Franco', '1225088503', NULL, NULL, 110),
+(142, 'Johan Esteban ', 'Corrales Aguirre', '1088025076', NULL, NULL, 110),
+(143, 'Juan Diego', 'Castaño Franco', '1225088503', NULL, NULL, 111),
+(144, 'Johan Esteban', 'Corrales Aguirre', '1088025076', NULL, NULL, 111),
+(145, 'Pedro Alfonso', 'Arias', '1088257415', NULL, NULL, 112),
+(146, 'Raul', 'Hernandez', '42009784', NULL, NULL, 113),
+(147, 'PRUEBA', 'PRUEBA', '00000000', NULL, NULL, 114);
 
 -- --------------------------------------------------------
 
@@ -237,8 +267,8 @@ CREATE TABLE `facultad` (
 --
 
 INSERT INTO `facultad` (`id_facultad`, `nombre_facultad`, `siglas_facultad`, `fecha_registro_facultad`, `id_ciudad_facultad`, `id_funcionalidad_facultad`) VALUES
-(1, 'Facultad de Ingenierías', 'FDI', '2020-01-09', 1, 1),
-(2, 'Facultad de Salud', 'FDS', '2020-01-10', 1, 1),
+(1, 'Facultad de Ingeniería', 'FING', '2020-01-09', 1, 1),
+(2, 'Facultad de Ciencias de la Salud', 'FCS', '2020-01-10', 1, 1),
 (3, 'Facultad de Ciencias Económicas, Administrativas y Contables', 'FCEAC', '2020-01-10', 1, 1);
 
 -- --------------------------------------------------------
@@ -256,21 +286,30 @@ CREATE TABLE `facultad_reporte` (
   `nombre_decano_facultad_reporte` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `apellido_decano_facultad_reporte` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `nombre_director_facultad_reporte` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `apellido_director_facultad_reporte` varchar(45) COLLATE utf8_spanish_ci NOT NULL
+  `apellido_director_facultad_reporte` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  `https_firma_director_facultad_reporte` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `facultad_reporte`
 --
 
-INSERT INTO `facultad_reporte` (`id_facultad_reporte`, `nombre_facultad_reporte`, `siglas_facultad_reporte`, `nombre_programa_facultad_reporte`, `titulo_programa_facultad_reporte`, `nombre_decano_facultad_reporte`, `apellido_decano_facultad_reporte`, `nombre_director_facultad_reporte`, `apellido_director_facultad_reporte`) VALUES
-(45, 'Facultad de Ciencias Económicas, Administrativas y Contables', 'FCEAC', 'Administración de Empresas', NULL, 'Luz Andrea', 'Bedoya Parra', 'Marlen Isabel', 'Redondo Ramírez'),
-(46, 'Facultad de Ciencias Económicas, Administrativas y Contables', 'FCEAC', 'Administración de Empresas', NULL, 'Luz Andrea', 'Bedoya Parra', 'Marlen Isabel', 'Redondo Ramírez'),
-(47, 'Facultad de Ciencias Económicas, Administrativas y Contables', 'FCEAC', 'Especialización en Alta Gerencia', NULL, 'Luz Andrea', 'Bedoya Parra', 'Marlen Isabel', 'Redondo Ramírez'),
-(48, 'Facultad de Ciencias Económicas, Administrativas y Contables', 'FCEAC', NULL, NULL, 'Luz Andrea', 'Bedoya Parra', 'Marlen Isabel', 'Redondo Ramírez'),
-(49, 'Facultad de Ciencias Económicas, Administrativas y Contables', 'FCEAC', 'Administración de Empresas', 'Administrador de Empresas', 'Luz Andrea', 'Bedoya Parra', 'Marlen Isabel', 'Redondo Ramírez'),
-(50, 'Facultad de Ciencias Económicas, Administrativas y Contables', 'FCEAC', 'Administración de Empresas', 'Administrador de Empresas', 'Luz Andrea', 'Bedoya Parra', 'Marlen Isabel', 'Redondo Ramírez'),
-(51, 'Facultad de Ciencias Económicas, Administrativas y Contables', 'FCEAC', 'Administración de Empresas', 'Administrador de Empresas', 'Luz Andrea', 'Bedoya Parra', 'Marlen Isabel', 'Redondo Ramírez');
+INSERT INTO `facultad_reporte` (`id_facultad_reporte`, `nombre_facultad_reporte`, `siglas_facultad_reporte`, `nombre_programa_facultad_reporte`, `titulo_programa_facultad_reporte`, `nombre_decano_facultad_reporte`, `apellido_decano_facultad_reporte`, `nombre_director_facultad_reporte`, `apellido_director_facultad_reporte`, `https_firma_director_facultad_reporte`) VALUES
+(105, 'Facultad de Ciencias de la Salud', 'FCS', NULL, NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(106, 'Facultad de Ciencias de la Salud', 'FCS', 'Enfermería', NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(107, 'Facultad de Ciencias de la Salud', 'FCS', 'Especialización en Seguridad y Salud en Trabajo Gerencia y Control de Riesgos', NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(108, 'Facultad de Ciencias de la Salud', 'FCS', 'Maestría en Gestión de la Seguridad y Salud en el Trabajo', NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(109, 'Facultad de Ciencias de la Salud', 'FCS', 'Especialización en Seguridad y Salud en Trabajo Gerencia y Control de Riesgos', NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(110, 'Facultad de Ciencias de la Salud', 'FCS', NULL, NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(111, 'Facultad de Ciencias de la Salud', 'FCS', 'Microbiología', NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(112, 'Facultad de Ciencias de la Salud', 'FCS', 'Microbiología', NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(113, 'Facultad de Ciencias de la Salud', 'FCS', 'Microbiología', NULL, 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(114, 'Facultad de Ciencias de la Salud', 'FCS', 'Microbiología', 'Microbiólogo', 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(115, 'Facultad de Ciencias de la Salud', 'FCS', 'Microbiología', 'Microbiólogo', 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(116, 'Facultad de Ciencias de la Salud', 'FCS', 'Microbiología', 'Microbiólogo', 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(117, 'Facultad de Ciencias de la Salud', 'FCS', 'Enfermería', 'Enfermero', 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(118, 'Facultad de Ciencias de la Salud', 'FCS', 'Enfermería', 'Enfermero', 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL),
+(119, 'Facultad de Ciencias de la Salud', 'FCS', 'Enfermería', 'Enfermero', 'Maria Teresa', 'Rodriguez Lugo', 'Olga Maria ', 'Henao Trujillo ', NULL);
 
 -- --------------------------------------------------------
 
@@ -289,7 +328,8 @@ CREATE TABLE `funcionalidad` (
 
 INSERT INTO `funcionalidad` (`id_funcionalidad`, `nombre_funcionalidad`) VALUES
 (1, 'Activo'),
-(2, 'Eliminado');
+(2, 'Eliminado'),
+(3, 'Anulado');
 
 -- --------------------------------------------------------
 
@@ -333,6 +373,9 @@ CREATE TABLE `integrante` (
   `correo_integrante` varchar(70) COLLATE utf8_spanish_ci DEFAULT NULL,
   `cedula_integrante` varchar(12) COLLATE utf8_spanish_ci DEFAULT NULL,
   `fecha_registro_integrante` date NOT NULL,
+  `fecha_firma_integrante` date DEFAULT NULL,
+  `https_firma_integrante` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `imagen_firma_integrante` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
   `id_tipo_integrante` int(11) NOT NULL,
   `id_facultad_integrante` int(11) NOT NULL,
   `id_funcionalidad_integrante` int(11) NOT NULL
@@ -342,20 +385,53 @@ CREATE TABLE `integrante` (
 -- Volcado de datos para la tabla `integrante`
 --
 
-INSERT INTO `integrante` (`id_integrante`, `nombre_integrante`, `apellido_integrante`, `correo_integrante`, `cedula_integrante`, `fecha_registro_integrante`, `id_tipo_integrante`, `id_facultad_integrante`, `id_funcionalidad_integrante`) VALUES
-(5, 'Lindy Neth', 'Perea Mosquera', NULL, '42003444', '2020-01-09', 3, 3, 1),
-(6, 'Ana María', 'Barrera Rodríguez', NULL, '42004321', '2020-01-10', 3, 3, 1),
-(7, 'Orlando', 'Rodríguez García', 'orlando-garcia@uniblire.edu.co', '32334553', '2020-01-10', 3, 3, 1),
-(8, 'Leidy Johanna', 'Hernández Ramírez', NULL, '1098332333', '2020-01-10', 3, 3, 1),
-(9, 'Rafael', 'Molano', 'rfml@unilibre.edu.co', '43493939', '2020-01-10', 2, 2, 1),
-(10, 'Pedro', 'Ramírez', NULL, '109933232', '2020-01-10', 3, 1, 1),
-(11, 'Fernando', 'Alzate', 'feralzate@unilibre.edu.co', '42330343', '2020-01-15', 3, 2, 1),
-(12, 'Juan', 'Ramírez', NULL, '4200339288', '2020-01-15', 3, 1, 1),
-(13, 'Raúl', 'Pelaéz', NULL, '1098332333', '2020-01-15', 3, 2, 1),
-(14, 'Luis Alberto', ' Arteaga Casas', NULL, '42303399', '2020-01-15', 3, 3, 1),
-(15, 'Valentina', 'Rayo', NULL, '1088023443', '2020-01-15', 2, 3, 2),
-(16, 'Marlen Isabel', 'Redondo Ramírez', 'isabel.redondo@unilibre.edu.co', '00000000', '2020-01-22', 2, 3, 1),
-(17, 'Luz Andrea', 'Bedoya Parra', 'luza-bedoyap@unilibre.edu.co', '42015455', '2020-01-22', 1, 3, 1);
+INSERT INTO `integrante` (`id_integrante`, `nombre_integrante`, `apellido_integrante`, `correo_integrante`, `cedula_integrante`, `fecha_registro_integrante`, `fecha_firma_integrante`, `https_firma_integrante`, `imagen_firma_integrante`, `id_tipo_integrante`, `id_facultad_integrante`, `id_funcionalidad_integrante`) VALUES
+(20, 'Adalucy', 'Álvarez Aldana', 'adalucy.alvareza@unilibre.edu.co', '43638422', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(21, 'Daniel Arturo', 'León Rodriguez', 'daniel.leonr@unilibre.edu.co', '80205774', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(22, 'Duverney', 'Gaviria Arias', 'duverney.gaviria@unilibre.edu.co', '94379943', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(23, 'Victor Hugo', 'Grisales Díaz', 'victorh.grisalesd@unilibre.edu.co', '1053764433', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(24, 'Sandra Yolanda', ' Valencia Castillo', 'sandray.valenciac@unilibre.edu.co', '30391588', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(25, 'Mercy', 'Soto Chaquir', 'mercy.sotoc@unilibre.edu.co', '34998073', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(26, 'Lilia Andrea', 'Buitrago Malaver ', 'liliaa.buitragom@unilibre.edu.co', '46450610', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(27, 'Luis Evelio ', 'Aristizábal Franco', 'luise.aristizabalf@unilibre.edu.co', '10270434', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(28, 'Elcy Yaned ', 'Astudillo Muñoz ', 'elcyy.astudillom@unilibre.edu.co', '55180632', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(29, 'Jheimy Jackeline ', ' García Castañeda', 'jheimyj.garciac@unilibre.edu.co', '30231856', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(30, 'Jaime', 'Alvarez Chica', 'jaime.alvarezc@unilibre.edu.co', '75030566', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(31, 'Héctor Mario', 'Buriticá', 'hectorm.buriticah@unilibre.edu.co', '10280329', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(32, 'Rodolfo', 'López Franco', 'rodolfo.lopezf@unilibre.edu.co', '10228378', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(33, 'Olga Luz', ' Espinel', 'olgal.espinalg@unilibre.edu.co', '43872103', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(34, 'Doricela ', 'Granados Díaz', 'doricela.diazgranadosc@unilibre.edu.co', '52087214', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(35, 'Diana María', 'Muñoz Pérez ', 'dianam.munozp@unilibre.edu.co', '42071578', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(36, 'Luz Adriana', ' López González', 'luza.lopezg@unilibre.edu.co', '30321407', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(37, 'Aleyda', 'Restrepo Vásquez', 'aleyda.restrepov@unilibre.edu.co', '34050177', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(38, 'Ana María', 'Hernández Betancur', 'anam.hernandezb@unilibre.edu.co', '30294550', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(39, 'Carolina', 'Pava Laguna', 'carolina.paval@unilibre.edu.co', '39568057', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(40, 'Eliana', 'Agudelo García', 'eliana.agudelog@unilibre.edu.co', '30272556', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(41, 'María Lucidia', 'Román Montoya', 'marial.romanm@unilibre.edu.co', '42091536', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(42, 'Tatiana', 'Mejía Valencia', 'tatiana.mejiav@unilibre.edu.co', '24766817', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(43, 'Olga Maria', 'Henao Trujillo', 'olga.henao@unilibre.edu.co', '24780433', '2020-07-29', NULL, NULL, NULL, 3, 2, 2),
+(44, 'María Ibeth', 'Orozco Duque ', 'mariai.morozcod@unilibre.edu.co', '30305910', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(45, 'Paulo Cesar', 'Gonzalez Sepúlveda', 'pauloc.gonzalezs@unilibre.edu.co', '94416120', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(46, 'Claudia Maria', 'Lope Ortiz ', 'claudia.lopez@unilibre.edu.co', '25161527', '2020-07-29', NULL, NULL, NULL, 3, 2, 1),
+(47, 'PRUEBA', 'PRUEBA', 'PRUEBA@PRUEBA.COM', '00000002', '2020-07-29', NULL, NULL, NULL, 2, 3, 2),
+(48, 'Olga Maria ', 'Henao Trujillo ', 'olga.henao@unilibre.edu.co', '24780433', '2020-08-06', NULL, NULL, NULL, 2, 2, 1),
+(49, 'Maria Teresa', 'Rodriguez Lugo', 'maria.rodriguez@unilibre.edu.co', '24941148', '2020-08-06', NULL, NULL, NULL, 1, 2, 1),
+(50, 'Luz Andrea', ' Bedoya Parra', NULL, '42015455', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(51, 'Lindy Neth', 'Perea Mosquera', NULL, '1088294731', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(52, 'Ana María', 'Barrera Rodriguez', NULL, '42158568', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(53, 'Leidy Johanna', 'Hernandez Ramirez', NULL, '1088275033', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(54, 'Gerardo Antonio', 'Buchelli Lozano', NULL, '10134478', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(55, 'Hector Fabio', 'Ramos Gonzalez', NULL, '10138476', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(56, 'Luis Alberto', 'Arteaga Casas', NULL, '10128184', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(57, 'Carlos Andrés', 'Díaz Restrepo', NULL, '18615883', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(58, 'Walter', 'García Morales', NULL, '71589532', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(59, 'Jorge Humberto ', 'Zapata Arango', NULL, '10118500', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(60, 'Jorge Eduardo', 'Carreño Bustamante ', NULL, '10248699', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(61, 'Jhonier', 'Cardona Salazar', NULL, '10115641', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(62, 'Javier Alexander', 'Luna Ramirez', NULL, '93376546', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(63, 'Carlos Alberto', 'Cano Plata', NULL, '10283129', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(64, 'Angelica', 'Morales Córtes ', NULL, '1112762486', '2020-08-21', NULL, NULL, NULL, 3, 3, 1),
+(65, 'Isabel ', 'Redondo Ramirez ', NULL, '42123425', '2020-08-21', '2020-08-29', 'https://unilibre.bisont.co/app/backend/production/file/static/images/signature/signature_member_65.png', '/app/backend/production/file/static/images/signature/signature_member_65.png', 2, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -378,16 +454,33 @@ CREATE TABLE `integrante_reporte` (
 --
 
 INSERT INTO `integrante_reporte` (`id_integrante_reporte`, `nombre_integrante_reporte`, `apellido_integrante_reporte`, `cedula_integrante_reporte`, `id_tipo_integrante_reporte`, `id_tipo_cargo_integrante_reporte`, `id_configuracion_integrante_reporte`) VALUES
-(25, 'Leidy Johanna', 'Hernández Ramírez', '1098332333', 3, 2, 43),
-(26, 'Orlando', 'Rodríguez García', '32334553', 3, 2, 43),
-(27, 'Orlando', 'Rodríguez García', '32334553', 3, 3, 44),
-(28, 'Ana María', 'Barrera Rodríguez', '42004321', 3, 3, 44),
-(29, 'Lindy Neth', 'Perea Mosquera', '42003444', 3, 4, 44),
-(30, 'Leidy Johanna', 'Hernández Ramírez', '1098332333', 3, 1, 45),
-(31, 'Luz Andrea', 'Bedoya Parra', '42015455', 1, 3, 46),
-(32, 'Ana María', 'Barrera Rodríguez', '42004321', 3, 1, 47),
-(33, 'Orlando', 'Rodríguez García', '32334553', 3, 1, 48),
-(34, 'Lindy Neth', 'Perea Mosquera', '42003444', 3, 1, 49);
+(86, 'Luz Adriana', ' López González', '30321407', 3, 3, 100),
+(87, 'Olga Luz', ' Espinel', '43872103', 3, 4, 100),
+(88, 'Duverney', 'Gaviria Arias', '94379943', 3, 1, 101),
+(89, 'Elcy Yaned ', 'Astudillo Muñoz ', '55180632', 3, 2, 102),
+(90, 'Héctor Mario', 'Buriticá', '10280329', 3, 1, 103),
+(91, 'Olga Maria', 'Henao Trujillo', '24780433', 3, 2, 103),
+(92, 'Paulo Cesar', 'Gonzalez Sepúlveda', '94416120', 3, 1, 104),
+(93, 'Jaime', 'Alvarez Chica', '75030566', 3, 3, 105),
+(94, 'Héctor Mario', 'Buriticá', '10280329', 3, 5, 105),
+(95, 'Jheimy Jackeline ', ' García Castañeda', '30231856', 3, 1, 106),
+(96, 'Adalucy', 'Álvarez Aldana', '43638422', 3, 2, 106),
+(97, 'Adalucy', 'Álvarez Aldana', '43638422', 3, 1, 107),
+(98, 'Ana María', 'Hernández Betancur', '30294550', 3, 2, 107),
+(99, 'Sandra Yolanda', ' Valencia Castillo', '30391588', 3, 1, 108),
+(100, 'Héctor Mario', 'Buriticá', '10280329', 3, 2, 108),
+(101, 'Olga Luz', ' Espinel', '43872103', 3, 1, 109),
+(102, 'Elcy Yaned ', 'Astudillo Muñoz ', '55180632', 3, 2, 109),
+(103, 'Sandra Yolanda', ' Valencia Castillo', '30391588', 3, 1, 110),
+(104, 'Olga Maria', 'Henao Trujillo', '24780433', 3, 2, 110),
+(105, 'Luz Adriana', ' López González', '30321407', 3, 1, 111),
+(106, 'Duverney', 'Gaviria Arias', '94379943', 3, 2, 111),
+(107, 'Olga Luz', ' Espinel', '43872103', 3, 1, 112),
+(108, 'Luis Evelio ', 'Aristizábal Franco', '10270434', 3, 2, 112),
+(109, 'Jaime', 'Alvarez Chica', '75030566', 3, 1, 113),
+(110, 'Adalucy', 'Álvarez Aldana', '43638422', 3, 2, 113),
+(111, 'Olga Luz', ' Espinel', '43872103', 3, 1, 114),
+(112, 'Héctor Mario', 'Buriticá', '10280329', 3, 1, 114);
 
 -- --------------------------------------------------------
 
@@ -424,14 +517,29 @@ CREATE TABLE `programa_facultad` (
 --
 
 INSERT INTO `programa_facultad` (`id_programa_facultad`, `nombre_programa_facultad`, `titulo_programa_facultad`, `fecha_registro_programa_facultad`, `id_facultad_programa_facultad`, `id_funcionalidad_programa_facultad`) VALUES
-(1, 'Ingeniería de Sistemas', '', '2020-01-11', 1, 1),
-(2, 'Ingeniería Comercial', '', '2020-01-11', 1, 1),
-(3, 'Ingeniería Financiera', '', '2020-01-11', 1, 1),
-(4, 'Contabilidad', '', '2020-01-11', 3, 1),
-(5, 'Especialización en Alta Gerencia', '', '2020-01-20', 3, 1),
-(6, 'Maestría en Administración de Empresas', '', '2020-01-23', 3, 1),
-(7, 'Administración de Empresas', 'Administrador de Empresas', '2020-01-24', 3, 1),
-(8, 'Economía', 'Economista', '2020-02-01', 3, 1);
+(9, 'Microbiología', 'Microbiólogo', '2020-07-28', 2, 1),
+(10, 'Nutrición y dietética', 'Nutricionista y dietista ', '2020-07-28', 2, 1),
+(11, 'Enfermería', 'Enfermero', '2020-07-28', 2, 1),
+(12, 'Especialización en Seguridad y Salud en Trabajo Gerencia y Control de Riesgos', 'Especialista en seguridad y salud en el trabajo gerencia y control de riesgos', '2020-07-28', 2, 1),
+(13, 'Maestría en Gestión de la Seguridad y Salud en el Trabajo', 'Magister en seguridad y salud en el trabajo', '2020-07-28', 2, 1),
+(14, 'Administración de empresas', 'Administrador de Empresas', '2020-07-28', 3, 1),
+(15, 'Contaduría Pública', 'Contador Público', '2020-07-28', 3, 1),
+(16, 'Economía', 'Economista', '2020-07-28', 3, 1),
+(17, 'Especialización en Administración Financiera', 'Especialista en Administración Financiera', '2020-07-28', 3, 1),
+(18, 'Especialización en Planeación y Gestión Estratégica', 'Especialista en Planeación y Gestión Estratégica', '2020-07-28', 3, 1),
+(19, 'Especialización en Gestión Tributaria y Aduanera', 'Especialista en Gestión Tributaria y Aduanera', '2020-07-28', 3, 1),
+(20, 'Especialización en Revisoría Fiscal', 'Especialista en Revisoría Fiscal', '2020-07-28', 3, 1),
+(21, 'Especialización en Alta Gerencia', 'Especialista en Alta Gerencia', '2020-07-28', 3, 1),
+(22, 'Especialización en Contabilidad Financiera Internacional', 'Especialista en Contabilidad Financiera Internacional', '2020-07-28', 3, 1),
+(23, 'Especialización en Gerencia de Negocios y Comercio Internacional', 'Especialista en Gerencia de Negocios y Comercio Internacional', '2020-07-28', 3, 1),
+(24, 'Maestría en Administración de Empresas', 'Magíster en Administración de Empresas', '2020-07-28', 3, 1),
+(25, 'Ingeniería Civil', 'Ingeniero Civil', '2020-07-28', 1, 1),
+(26, 'Ingeniería Comercial', 'Ingeniero Comercial', '2020-07-28', 1, 1),
+(27, 'Ingeniería de Sistemas', 'Ingeniero de Sistemas', '2020-07-28', 1, 1),
+(28, 'Ingeniería Financiera', 'Ingeniero Financiero', '2020-07-28', 1, 1),
+(29, 'Especialización en Gerencia Logística', 'Especialista en Gerencia Logística', '2020-07-28', 1, 1),
+(30, 'Especialización en Movilidad y Transporte', 'Especialista en Movilidad y Transporte', '2020-07-28', 1, 1),
+(31, 'Maestría en Mercadeo', 'Magíster en Mercadeo', '2020-07-28', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -490,10 +598,30 @@ CREATE TABLE `tipo_consecutivo_reporte` (
 --
 
 INSERT INTO `tipo_consecutivo_reporte` (`id_tipo_consecutivo_reporte`, `nombre_tipo_consecutivo_reporte`) VALUES
-(1, 'Acta de Sustentación'),
-(2, 'Homologación Auxiliar'),
-(3, 'Acta de Aprobación'),
-(4, 'Acta de Inicio');
+(1, 'Acta de Inicio'),
+(2, 'Nombramiento de Asesor'),
+(3, 'Acta de Aprobación (Posgrados)'),
+(4, 'Acta de Sustentación'),
+(6, 'Homologación Auxiliar (out)');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_convocatoria_reporte`
+--
+
+CREATE TABLE `tipo_convocatoria_reporte` (
+  `id_tipo_convocatoria_reporte` int(11) NOT NULL,
+  `nombre_tipo_convocatoria_reporte` varchar(45) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_convocatoria_reporte`
+--
+
+INSERT INTO `tipo_convocatoria_reporte` (`id_tipo_convocatoria_reporte`, `nombre_tipo_convocatoria_reporte`) VALUES
+(1, 'Convocatoria'),
+(2, 'No Convocatoria');
 
 -- --------------------------------------------------------
 
@@ -531,13 +659,15 @@ CREATE TABLE `tipo_reporte` (
 --
 
 INSERT INTO `tipo_reporte` (`id_tipo_reporte`, `nombre_tipo_reporte`) VALUES
-(1, 'Acta de Sustentación'),
-(2, 'Homologación Auxiliar'),
-(3, 'Acta de Aprobación'),
-(4, 'Acta de Inicio'),
-(5, 'Paz y Salvo'),
+(1, 'Acta de Inicio'),
+(2, 'Nombramiento de Asesor'),
+(3, 'Acta de Aprobación (Posgrados)'),
+(4, 'Acta de Sustentación'),
+(5, 'Paz y Salvo (Asesorado)'),
 (6, 'Paz y Salvo (Auxiliares de Investigación)'),
-(7, 'Paz y Salvo (Seminario Internacional)');
+(7, ' Paz y Salvo (Seminario Internacional)'),
+(8, 'Paz y Salvo (Semillero de Investigación)'),
+(9, 'Homologación Auxiliar (out)');
 
 -- --------------------------------------------------------
 
@@ -583,10 +713,9 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `apellido_usuario`, `correo_usuario`, `contrasena_hash_usuario`, `salt_usuario`, `fecha_registro_usuario`, `id_facultad_usuario`, `id_tipo_usuario`, `id_estado_usuario`, `id_funcionalidad_usuario`) VALUES
-(1, 'Johan', 'Corrales', 'jecorrales@bisont.co', '$2y$10$Eos.J.NcjQbJrGjQMuYzL.0b49yiIs3aB0qJrVeMmna3Z.mGfh9K2', '83b0d175aac9cc0143ad81dbb14f92511bd37813ca9e9ce6516c8fccfd92bf4a', '2019-12-24', 3, 1, 1, 1),
+(1, 'Johan', 'Corrales', 'jecorrales@bisont.co', '$2y$10$eDbEDLRMtxp243jwEBRcT.FruI8LWlLzVy2QyAm8phZXCVCARzKdC', '4366ea6d1c1d6fc99c3025caa9375b68258b38a357dfd27b74e8d7100442fc43', '2019-12-24', 2, 1, 1, 1),
 (2, 'Juan', 'Castaño', 'jdcastano@bisont.co', '$2y$10$mBwNh.6kWmOz8Wr.gu30jOvRPytoWe69aRnbcgU36HRN1tug5Ac9.', '46481ee32073327093ebf0607132e789c7d79d310cb2de79880263ab674f5050', '2019-12-31', 2, 1, 2, 2),
-(3, 'Felipe', 'Ríos', 'farios@testing.co', '$2y$10$AWOAJW58GXjJ1vU7eC4FbOqhfN2JRdc2j2H6Xb7TkLONNsUyexLRu', '1452bb41611bac8b0b51f3c99987314e0b54ea437bfb814d036555ff4e4cc907', '2020-01-02', 1, 2, 1, 1),
-(4, 'Juan Diego', 'Castaño Franco', 'jdcastano@bisont.co', '$2y$10$pteFqGYHEsiYqwf9Ixvvx.Qu/gB0.UUbrsmy0.ncYqQsijeqm1w4S', '9fc287daef1c2517a59f825288d9b2fd769397d051d68ea919efb809fe5004ca', '2020-01-11', 2, 1, 1, 1);
+(4, 'Juan Diego', 'Castaño Franco', 'jdcastano@bisont.co', '$2y$10$5vH/QeDf4qsAC6vS.43C2e.vpzE6aoTShFgvBMpuiuKraplcLAOum', 'bf689b7e54cb20c138c8da883e6702f2b013542425fd1b5b1538c8c54d7d1e46', '2020-01-11', 2, 2, 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -618,7 +747,8 @@ ALTER TABLE `configuracion_reporte`
   ADD KEY `idFuncionalidadConfiguracionReporte_idx` (`id_funcionalidad_configuracion_reporte`),
   ADD KEY `idConsecutivoConfiguracionReporte_idx` (`id_consecutivo_configuracion_reporte`),
   ADD KEY `idFacultadFinalConfiguracionReporte_idx` (`id_facultad_final_configuracion_reporte`),
-  ADD KEY `idTipoReporteConfiguracionReporte_idx` (`id_tipo_reporte_configuracion_reporte`);
+  ADD KEY `idTipoReporteConfiguracionReporte_idx` (`id_tipo_reporte_configuracion_reporte`),
+  ADD KEY `idTipoConvocatoriaConfiguracionReporte_idx` (`id_tipo_convocatoria_configuracion_reporte`);
 
 --
 -- Indices de la tabla `consecutivo_reporte`
@@ -652,8 +782,7 @@ ALTER TABLE `estado_usuario`
 --
 ALTER TABLE `estudiante_reporte`
   ADD PRIMARY KEY (`id_estudiante_reporte`),
-  ADD KEY `idConfiguracionEstudianteReporte_idx` (`id_configuracion_estudiante_reporte`),
-  ADD KEY `idCiudadEstudianteReporte_idx` (`id_ciudad_estudiante_reporte`);
+  ADD KEY `idConfiguracionEstudianteReporte_idx` (`id_configuracion_estudiante_reporte`);
 
 --
 -- Indices de la tabla `facultad`
@@ -735,6 +864,12 @@ ALTER TABLE `tipo_consecutivo_reporte`
   ADD PRIMARY KEY (`id_tipo_consecutivo_reporte`);
 
 --
+-- Indices de la tabla `tipo_convocatoria_reporte`
+--
+ALTER TABLE `tipo_convocatoria_reporte`
+  ADD PRIMARY KEY (`id_tipo_convocatoria_reporte`);
+
+--
 -- Indices de la tabla `tipo_integrante`
 --
 ALTER TABLE `tipo_integrante`
@@ -782,13 +917,13 @@ ALTER TABLE `ciudad`
 -- AUTO_INCREMENT de la tabla `configuracion_reporte`
 --
 ALTER TABLE `configuracion_reporte`
-  MODIFY `id_configuracion_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id_configuracion_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT de la tabla `consecutivo_reporte`
 --
 ALTER TABLE `consecutivo_reporte`
-  MODIFY `id_consecutivo_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_consecutivo_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
@@ -800,7 +935,7 @@ ALTER TABLE `departamento`
 -- AUTO_INCREMENT de la tabla `estado_consecutivo_reporte`
 --
 ALTER TABLE `estado_consecutivo_reporte`
-  MODIFY `id_estado_consecutivo_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_estado_consecutivo_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `estado_usuario`
@@ -812,25 +947,25 @@ ALTER TABLE `estado_usuario`
 -- AUTO_INCREMENT de la tabla `estudiante_reporte`
 --
 ALTER TABLE `estudiante_reporte`
-  MODIFY `id_estudiante_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id_estudiante_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
 
 --
 -- AUTO_INCREMENT de la tabla `facultad`
 --
 ALTER TABLE `facultad`
-  MODIFY `id_facultad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_facultad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `facultad_reporte`
 --
 ALTER TABLE `facultad_reporte`
-  MODIFY `id_facultad_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id_facultad_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT de la tabla `funcionalidad`
 --
 ALTER TABLE `funcionalidad`
-  MODIFY `id_funcionalidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_funcionalidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `grupo_investigacion`
@@ -842,13 +977,13 @@ ALTER TABLE `grupo_investigacion`
 -- AUTO_INCREMENT de la tabla `integrante`
 --
 ALTER TABLE `integrante`
-  MODIFY `id_integrante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_integrante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de la tabla `integrante_reporte`
 --
 ALTER TABLE `integrante_reporte`
-  MODIFY `id_integrante_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_integrante_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT de la tabla `jurado_reporte`
@@ -860,7 +995,7 @@ ALTER TABLE `jurado_reporte`
 -- AUTO_INCREMENT de la tabla `programa_facultad`
 --
 ALTER TABLE `programa_facultad`
-  MODIFY `id_programa_facultad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_programa_facultad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `resultado_reporte`
@@ -878,7 +1013,13 @@ ALTER TABLE `tipo_cargo_reporte`
 -- AUTO_INCREMENT de la tabla `tipo_consecutivo_reporte`
 --
 ALTER TABLE `tipo_consecutivo_reporte`
-  MODIFY `id_tipo_consecutivo_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_tipo_consecutivo_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_convocatoria_reporte`
+--
+ALTER TABLE `tipo_convocatoria_reporte`
+  MODIFY `id_tipo_convocatoria_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_integrante`
@@ -890,7 +1031,7 @@ ALTER TABLE `tipo_integrante`
 -- AUTO_INCREMENT de la tabla `tipo_reporte`
 --
 ALTER TABLE `tipo_reporte`
-  MODIFY `id_tipo_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tipo_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
@@ -930,6 +1071,7 @@ ALTER TABLE `configuracion_reporte`
   ADD CONSTRAINT `idFacultadFinalConfiguracionReporte` FOREIGN KEY (`id_facultad_final_configuracion_reporte`) REFERENCES `facultad` (`id_facultad`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `idFuncionalidadConfiguracionReporte` FOREIGN KEY (`id_funcionalidad_configuracion_reporte`) REFERENCES `funcionalidad` (`id_funcionalidad`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `idResultadoConfiguracionReporte` FOREIGN KEY (`id_resultado_configuracion_reporte`) REFERENCES `resultado_reporte` (`id_resultado_reporte`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `idTipoConvocatoriaConfiguracionReporte` FOREIGN KEY (`id_tipo_convocatoria_configuracion_reporte`) REFERENCES `tipo_convocatoria_reporte` (`id_tipo_convocatoria_reporte`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `idTipoReporteConfiguracionReporte` FOREIGN KEY (`id_tipo_reporte_configuracion_reporte`) REFERENCES `tipo_reporte` (`id_tipo_reporte`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `idUsuarioConfiguracionReporte` FOREIGN KEY (`id_usuario_configuracion_reporte`) REFERENCES `usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -945,7 +1087,6 @@ ALTER TABLE `consecutivo_reporte`
 -- Filtros para la tabla `estudiante_reporte`
 --
 ALTER TABLE `estudiante_reporte`
-  ADD CONSTRAINT `idCiudadEstudianteReporte` FOREIGN KEY (`id_ciudad_estudiante_reporte`) REFERENCES `ciudad` (`id_ciudad`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `idConfiguracionEstudianteReporte` FOREIGN KEY (`id_configuracion_estudiante_reporte`) REFERENCES `configuracion_reporte` (`id_configuracion_reporte`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
