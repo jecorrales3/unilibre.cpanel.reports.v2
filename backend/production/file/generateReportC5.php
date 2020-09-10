@@ -423,7 +423,7 @@
                 <tr>
                   <th class="text-center" style="width:20%"></th>
                   <th class="text-center" style="width:60%">
-                     <img src="' . $director_signature_report . '" height="200px" width="200px">
+                    <img src="' . $director_signature_report . '" height="200px" width="200px">
                     <br>
                     ' . mb_strtoupper($director_name_report) . ' ' . mb_strtoupper($director_lastname_report) . '
                     <br>
